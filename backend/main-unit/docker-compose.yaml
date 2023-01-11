@@ -29,7 +29,7 @@ services:
     environment:
       TZ: Europe/Brussels
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
       - ./mosquitto/logs:/mosquitto/log
       - ./mosquitto/data:/mosquitto/data
 
