@@ -1,3 +1,4 @@
 venv/
 backend/main-unit/mosquitto/*
 !backend/main-unit/mosquitto/mosquitto.conf
+cmake-build-debug/
