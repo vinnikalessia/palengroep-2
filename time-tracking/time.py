@@ -36,11 +36,11 @@ S = [x[0] + round(x[1] / 60, 3) for x in uren_S]
 # momenteel dummy data
 uren_M = [
     (5, 20),
-    (3, 10),
-    (1, 50),
-    (4, 23),
-    (4, 46),
     (2, 21),
+    (3, 10),
+    (4, 23),
+    (1, 50),
+    (4, 46),
     (7, 23)
 ]
 M = [x[0] + round(x[1] / 60, 3) for x in uren_M]
@@ -50,12 +50,12 @@ M = [x[0] + round(x[1] / 60, 3) for x in uren_M]
 # (uren, minuten) => wordt dan herberekend door code zelf. MINUTEN NIET ZELF HERBEREKENEN!
 # momenteel dummy data
 uren_J = [
-    (5, 20),
-    (3, 10),
-    (1, 50),
-    (4, 23),
-    (4, 46),
     (2, 21),
+    (3, 10),
+    (4, 23),
+    (5, 20),
+    (4, 46),
+    (1, 50),
     (7, 23)
 ]
 J = [x[0] + round(x[1] / 60, 3) for x in uren_J]
@@ -66,47 +66,47 @@ J = [x[0] + round(x[1] / 60, 3) for x in uren_J]
 # momenteel dummy data
 uren_A = [
     (5, 20),
-    (3, 10),
-    (1, 50),
-    (4, 23),
     (4, 46),
+    (3, 10),
+    (4, 23),
     (2, 21),
-    (7, 23)
+    (7, 23),
+    (1, 50)
 ]
 A = [x[0] + round(x[1] / 60, 3) for x in uren_A]
 
 plt.rcParams["figure.figsize"] = [7.00, 3.50]
 
-def time_senne(ax, y, fontsize=12):
+def time_senne(ax, y, fontsize=8):
     ax.plot(x, y, color='lightcoral')
 
     ax.locator_params(nbins=3)
     ax.set_xlabel('datum', fontsize=fontsize)
-    ax.set_ylabel('hours', fontsize=fontsize)
+    ax.set_ylabel('gewerkte uren per dag', fontsize=fontsize)
     ax.set_title('Senne', fontsize=fontsize)
 
-def time_milan(ax, y, fontsize=12):
+def time_milan(ax, y, fontsize=8):
     ax.plot(x, y, color='silver')
 
     ax.locator_params(nbins=3)
     ax.set_xlabel('datum', fontsize=fontsize)
-    ax.set_ylabel('hours', fontsize=fontsize)
+    ax.set_ylabel('gewerkte uren per dag', fontsize=fontsize)
     ax.set_title('Milan', fontsize=fontsize)
 
-def time_jari(ax, y, fontsize=12):
+def time_jari(ax, y, fontsize=8):
     ax.plot(x, y, color='powderblue')
 
     ax.locator_params(nbins=3)
     ax.set_xlabel('datum', fontsize=fontsize)
-    ax.set_ylabel('hours', fontsize=fontsize)
+    ax.set_ylabel('gewerkte uren per dag', fontsize=fontsize)
     ax.set_title('Jari', fontsize=fontsize)
 
-def time_alessia(ax, y, fontsize=12):
+def time_alessia(ax, y, fontsize=8):
     ax.plot(x, y, color='hotpink')
 
     ax.locator_params(nbins=3)
     ax.set_xlabel('datum', fontsize=fontsize)
-    ax.set_ylabel('hours', fontsize=fontsize)
+    ax.set_ylabel('gewerkte uren per dag', fontsize=fontsize)
     ax.set_title('Aléssia', fontsize=fontsize)
 
 def all_times(ax, S, M, J, A, fontsize=12):
@@ -118,11 +118,11 @@ def all_times(ax, S, M, J, A, fontsize=12):
         ax.locator_params(nbins=3)
         ax.set_xlabel('datum', fontsize=fontsize)
         ax.set_ylabel('hours', fontsize=fontsize)
-        ax.set_title('Alle leden', fontsize=fontsize)
+        ax.set_title('Gewerkte ', fontsize=fontsize)
         ax.legend()
 
 def total_time(ax, S, M, J, A, fontsize=12):
-        T = [i + j + k + l for i,j,k,l in zip(S, M, J, A)]
+        T = [i + j + k + l for i, j, k, l in zip(S, M, J, A)]
         ax.plot(x, T, color='black')
         ax.locator_params(nbins=3)
         ax.set_xlabel('datum', fontsize=fontsize)
@@ -136,18 +136,20 @@ avgS = sum(S) / len(x)
 avgM = sum(M) / len(x)
 avgJ = sum(J) / len(x)
 avgA = sum(A) / len(x)
-print(f"\n\tGemiddelde gewerkte uren van Senne: {avgS}\n\tGemiddelde gewerkte uren van Milan: {avgS}\n\tGemiddelde gewerkte uren van Jari: {avgS}\n\tGemiddelde gewerkte uren van Aléssia: {avgS}")
+print(f"\nGEMIDDELDE UREN:")
+print(f"\tGemiddelde gewerkte uren van Senne: {avgS}\n\tGemiddelde gewerkte uren van Milan: {avgS}\n\tGemiddelde gewerkte uren van Jari: {avgS}\n\tGemiddelde gewerkte uren van Aléssia: {avgS}")
 
 ##### totaal per persoon
 totS = sum(S)
 totM = sum(M)
 totJ = sum(J)
 totA = sum(A)
-print(f"\n\tTotaal gewerkte uren van Senne: {totS}\n\tTotaal gewerkte uren van Milan: {totM}\n\tTotaal gewerkte uren van Jari: {totJ}\n\tTotaal gewerkte uren van Aléssia: {totA}")
+print(f"\nTOTAAL UREN:")
+print(f"\tTotaal gewerkte uren van Senne: {totS}\n\tTotaal gewerkte uren van Milan: {totM}\n\tTotaal gewerkte uren van Jari: {totJ}\n\tTotaal gewerkte uren van Aléssia: {totA}")
 
 ##### totaal van alle leden
 totaal = totS + totM + totJ + totA
-print(f"\n\tTotaal gewerkte uren van alle leden: {totaal}\n")
+print(f"\n\tTotaal gewerkte uren voor het project: {totaal}\n")
 
 # gewerkte uren per dag van alle leden apart in 4 grafieken
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2)
