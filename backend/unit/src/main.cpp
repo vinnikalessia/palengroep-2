@@ -1,13 +1,13 @@
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 
-#define SSID "telenet-60138"
-#define PASS "UnRVkkuEmBt0"
-#define MQTT_IP "192.168.0.250"
+#define WIFI_SSID "interactieve-palen-ap"
+#define WIFI_PASS "roottoor"
+#define MQTT_IP "10.42.0.1"
 #define MQTT_PORT 1883
 
-const char *ssid = SSID;
-const char *wifipassword = PASS;
+#define PIN_BUTTON 13
+
 
 uint64_t esp_id;
 String esp_id_str;
@@ -15,6 +15,11 @@ String esp_id_str;
 WiFiClient wifi;
 
 PubSubClient mqttClient(wifi);
+
+void onButtonPressed() {
+    Serial.println("Button pressed");
+    mqttClient.publish("button", "pressed");
+}
 
 void onMQTTMessage(char *topic, byte *message, unsigned int length) {
     Serial.print("Message arrived on topic: ");
@@ -31,7 +36,7 @@ void onMQTTMessage(char *topic, byte *message, unsigned int length) {
 
 void sendMQTTMessage(const String &message) {
 
-    const String& payload = message;
+    const String &payload = message;
     String topic = "unit/" + esp_id_str + "/message";
 
     Serial.print("Publish message: ");
@@ -49,10 +54,11 @@ void sendMQTTAliveMessage() {
 }
 
 void setupWifi() {
-    Serial.print("Connecting to SSID: ");
-    Serial.println(ssid);
+    Serial.print("Connecting to WIFI_SSID: ");
+    Serial.println(WIFI_SSID);
 
-    WiFi.begin(ssid, wifipassword);
+    WiFi.begin(WIFI_SSID, WIFI_PASS);
+    WiFi.setHostname(("ESP32-" + esp_id_str).c_str());
 
     while (WiFi.status() != WL_CONNECTED) {
         Serial.print(".");
@@ -60,7 +66,7 @@ void setupWifi() {
     }
 
     Serial.print("Connected to ");
-    Serial.println(ssid);
+    Serial.println(WIFI_SSID);
 }
 
 void setupMqtt() {
@@ -88,17 +94,21 @@ void reconnect() {
     }
 }
 
-
-void setup() {
-    Serial.begin(9600);
-    setupWifi();
-    setupMqtt();
-
+void setupEspId() {
     esp_id = ESP.getEfuseMac();
     esp_id_str = String(esp_id, HEX);
 
     Serial.print("ESP MAC: ");
     Serial.println(esp_id_str);
+}
+
+void setup() {
+    Serial.begin(9600);
+    setupWifi();
+    setupMqtt();
+    setupEspId();
+
+    pinMode(PIN_BUTTON, INPUT_PULLUP);
 }
 
 void loop() {
@@ -107,7 +117,9 @@ void loop() {
     }
     mqttClient.loop();
 
-    // Publish a message
-    sendMQTTMessage("Ping");
-    delay(2000);
+    if (digitalRead(PIN_BUTTON) == LOW) {
+        // dirty but interrupts are not working due to mqtt
+        onButtonPressed();
+    }
+    delay(100);
 }
