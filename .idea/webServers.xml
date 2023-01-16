@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="488f468c-5acd-4ad4-b03e-cbc822b79a70" name="rpi interactieve palen">
-        <fileTransfer rootFolder="/home/pi/palengroep-2" accessType="SFTP" host="192.168.0.250" port="22" sshConfigId="046ebb45-0ce0-4d5d-bad6-47929bafe71d" sshConfig="pi@192.168.0.250:22 password">
+        <fileTransfer rootFolder="/home/pi/palengroep-2" accessType="SFTP" host="172.30.248.95" port="22" sshConfigId="044b3822-b61d-45ad-a153-feacc2b63949" sshConfig="pi@172.30.248.95:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
