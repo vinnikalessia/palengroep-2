@@ -39,7 +39,7 @@ services:
       context: src/
       dockerfile: Dockerfile
     container_name: backend
-    #    restart: always
+    restart: always
     ports:
       - 3000:3000
     depends_on:
