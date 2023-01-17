@@ -1,21 +1,28 @@
-# basic hello world fastapi app
-
 from fastapi_mqtt.fastmqtt import FastMQTT
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi_mqtt.config import MQTTConfig
-
+from fastapi_socketio import SocketManager
 import uvicorn
-from pydantic import BaseModel
 from starlette.responses import RedirectResponse
 
 from models.setup_model import SetupModel
 
-app = FastAPI()
 mqtt_config = MQTTConfig()
 mqtt_config.host = "mqtt"
-
 mqtt = FastMQTT(config=mqtt_config)
+
+app = FastAPI()
+socket_manager = SocketManager(app, cors_allowed_origins="*")
 mqtt.init_app(app)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @mqtt.on_connect()
