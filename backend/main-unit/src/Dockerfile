@@ -1,11 +1,7 @@
 FROM python:3.7.3-alpine3.9
 
 # update and install dependencies
-RUN apk update && apk add --no-cache \
-    build-base \
-    libffi-dev \
-    openssl-dev \
-    python3-dev
+RUN apk update && apk add --no-cache build-base libffi-dev openssl-dev python3-dev
 
 # Install dependencies
 WORKDIR /app

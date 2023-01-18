@@ -4,16 +4,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_mqtt.config import MQTTConfig
 from fastapi_socketio import SocketManager
 import uvicorn
-from starlette.responses import RedirectResponse
+from starlette.websockets import WebSocket
+from uvicorn.config import LOGGING_CONFIG
 
-from models.setup_model import SetupModel
+from models.leaderboard import LeaderboardResponse
+from models.score import GameScore
+from models.game_status import GameStatusResponse
+from models.setup_game import SetupGamePayload
+from repositories.games import GameRepository
+
+from routers.general import router as global_router
+from services.games import GameService
 
 mqtt_config = MQTTConfig()
 mqtt_config.host = "mqtt"
 mqtt = FastMQTT(config=mqtt_config)
 
 app = FastAPI()
-socket_manager = SocketManager(app, cors_allowed_origins="*")
+LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s [%(name)s] %(levelprefix)s %(message)s"
+sio = SocketManager(app=app, cors_allowed_origins="*")
 mqtt.init_app(app)
 
 app.add_middleware(
@@ -23,6 +32,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(router=global_router)
+
+game_service = GameService(GameRepository())
 
 
 @mqtt.on_connect()
@@ -42,116 +55,44 @@ async def message_to_topic(client, topic, payload, qos, properties):
     print("Received message to specific topic: ", topic, payload.decode(), qos, properties)
 
 
-@app.get("/")
-async def root():
-    # returns a simple hello world message
-    return RedirectResponse(url="/docs")
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message text was: {data}")
 
 
-@app.get("/games")
-async def get_games():
-    return {
-        "games": [
-            {
-                "name": "Red/Blue",
-                "description": "bla bla bla bla bla",
-                "players": "minimum 2",
-                "num_teams": 2,
-            },
-            {
-                "name": "Zen",
-                "description": "bla bla bla bla bla",
-                "players": "minimum 2",
-                "num_teams": 1,
-            },
-            {
-                "name": "Simon Says",
-                "description": "bla bla bla bla bla",
-                "players": "minimum 2",
-                "num_teams": 1,
-            },
-        ]
-    }
+@sio.on("connect")
+async def connect(sid, environ):
+    print("connect ", sid)
+    return
+
+
+@sio.on('disconnect')
+async def disconnect(sid):
+    print('disconnect ', sid)
+    return
 
 
 @app.get("/leaderboard/{game}/{difficulty}")
-async def get_leaderboard(game: str, difficulty: str):
-    return {
-        "leaderboard": {
-            "game": game,
-            "difficulty": difficulty,
-            "daily": [
-                {
-                    "teamName": "Team 1",
-                    "score": 100,
-                },
-                {
-                    "teamName": "Team 1",
-                    "score": 99,
-                },
-                {
-                    "teamName": "Team 1",
-                    "score": 50,
-                },
-                {
-                    "teamName": "Team 1",
-                    "score": 25,
-                }],
-            "alltime": [
-                {
-                    "teamName": "Team 1",
-                    "score": 100,
-                },
-                {
-                    "teamName": "Team 1",
-                    "score": 99,
-                },
-                {
-                    "teamName": "Team 1",
-                    "score": 50,
-                },
-                {
-                    "teamName": "Team 1",
-                    "score": 25,
-                }],
-        }
-    }
+async def get_leaderboard(game: str, difficulty: str) -> LeaderboardResponse:
+    return LeaderboardResponse(leaderboard=game_service.get_leaderboard(game, difficulty))
 
 
 @app.get("/score")
-async def get_score():
-    return {
-        "game": "Red/Blue",
-        "difficulty": "traag",
-        "score": {
-            "team1": 100,
-            "team2": 50,
-        },
-    }
+async def get_score() -> GameScore:
+    return game_service.get_score()
 
 
 @app.post("/setup")
-async def setup(setup_config: SetupModel):
+async def setup(setup_config: SetupGamePayload) -> GameStatusResponse:
     """
     post request which gets game name, 2 teamnames, a duration and a difficulty setting from the body
     :return:
     """
-    game = setup_config.game
-    difficulty = setup_config.difficulty
-    team1_name = setup_config.teamNames[0]
-    team2_name = setup_config.teamNames[1]
-    duration = setup_config.duration
 
-    return {
-        "game": game,
-        "teams": {
-            "team1": team1_name,
-            "team2": team2_name,
-        },
-        "duration": duration,
-        "difficulty": difficulty,
-        "status": "starting",
-    }
+    return game_service.start_game(setup_config)
 
 
 # uvicorn server

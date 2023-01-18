@@ -1,8 +1,10 @@
+from typing import List
+
 from pydantic import BaseModel
 
 
-class SetupModel(BaseModel):
+class SetupGamePayload(BaseModel):
     game: str
     difficulty: str
-    teamNames: list
+    teamNames: List[str]
     duration: int
