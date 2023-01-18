@@ -466,7 +466,16 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 64px;
+    margin-top: 27px;
+}
+
+.c-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 56px;
+    margin-bottom: 27px;
+    margin-top: 40px;
 }
 
 .c-game{
@@ -474,6 +483,117 @@ button{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+/*
+    Game card
+*/
+.c-card{
+    border: #000 solid 1px;
+    border-radius: 68px;
+    height: 357px;
+    width: 688px;
+    margin-bottom: 32px;
+    padding-top: 30px;
+    box-shadow: 0 10px 15px rgba(8, 118, 155, .16);
+}
+
+.c-card__title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.c-card__body{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    margin-top: 27px;
+    padding-left: 43px;
+}
+
+/*
+    beschrijving
+*/
+.c-beschrijving{
+    background-color: none;
+}
+
+.c-beschrijving__title{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 11px;
+}
+
+.c-beschrijving__tekst{
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+/*
+aantal spelers
+*/
+.c-player{
+    background-color: none;
+}
+
+.c-player__title{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 11px;
+}
+
+.c-player__tekst{
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+/*
+leaderboard
+*/
+.c-leaderboard{
+    display: flex;
+}
+
+.c-leaderboard__logo{
+    margin-right: 12px;
+}
+
+.c-leaderboard__title{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/*
+    buttons game choice
+*/
+.c-button__left{
+    background-color: white;
+    border: 1px solid #000;
+    border-radius: 100px;
+    padding: 29px 30px;
+    margin-right: 65px;
+}
+
+.c-button__left:active{
+    background-color: rgb(212, 212, 212);
+}
+
+.c-button__right{
+    background-color: white;
+    border: 1px solid #000;
+    border-radius: 100px;
+    padding: 29px 30px;
+    margin-left: 65px;
+}
+
+.c-button__right:active{
+    background-color: rgb(212, 212, 212);
 }
 
 /*
