@@ -1,16 +1,17 @@
+from asyncio import Queue
+
 from fastapi_mqtt.fastmqtt import FastMQTT
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_mqtt.config import MQTTConfig
 from fastapi_socketio import SocketManager
 import uvicorn
-from starlette.websockets import WebSocket
+from starlette.background import BackgroundTasks
 from uvicorn.config import LOGGING_CONFIG
 
-from models.leaderboard import LeaderboardResponse
-from models.score import GameScore
-from models.game_status import GameStatusResponse
-from models.setup_game import SetupGamePayload
+from misc.game_queue import MQTTQueueItem
+from models.leaderboard_models import LeaderboardResponse
+from models.game_models import GameStatusResponse, GameScore, GameConfigModel, GamesResponse
 from repositories.games import GameRepository
 
 from routers.general import router as global_router
@@ -23,7 +24,6 @@ mqtt = FastMQTT(config=mqtt_config)
 app = FastAPI()
 LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s [%(name)s] %(levelprefix)s %(message)s"
 sio = SocketManager(app=app, cors_allowed_origins="*")
-mqtt.init_app(app)
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,66 +35,74 @@ app.add_middleware(
 
 app.include_router(router=global_router)
 
-game_service = GameService(GameRepository())
+message_queue = Queue()
+
+game_service = GameService(GameRepository(), sio, mqtt, message_queue)
 
 
+# region mqtt
 @mqtt.on_connect()
 def connect(client, flags, rc, properties):
-    mqtt.client.subscribe("/mqtt")  # subscribing mqtt topic
     print("Connected: ", client, flags, rc, properties)
 
 
-@mqtt.on_message()
+@mqtt.subscribe('unit/#')
 async def message(client, topic, payload, qos, properties):
-    print("Received message: ", topic, payload.decode(), qos, properties)
-    return 0
+    # logging.info("Received message to specific topic: ", topic, payload.decode(), qos, properties)
+    # print("Received message to specific topic: ", topic, payload.decode(), qos, properties, flush=True)
+
+    await message_queue.put(MQTTQueueItem(topic, payload.decode()))
 
 
-@mqtt.subscribe("foobar")
-async def message_to_topic(client, topic, payload, qos, properties):
-    print("Received message to specific topic: ", topic, payload.decode(), qos, properties)
+# endregion
 
+# @app.websocket("/ws")
+# def websocket_endpoint(websocket: WebSocket):
+#     await websocket.accept()
+#     while True:
+#         data = await websocket.receive_text()
+#         await websocket.send_text(f"Message text was: {data}")
 
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        await websocket.send_text(f"Message text was: {data}")
-
-
+# region socketio
 @sio.on("connect")
-async def connect(sid, environ):
+def connect(sid, environ):
     print("connect ", sid)
-    return
 
 
 @sio.on('disconnect')
-async def disconnect(sid):
+def disconnect(sid):
     print('disconnect ', sid)
-    return
 
+
+# endregion
 
 @app.get("/leaderboard/{game}/{difficulty}")
-async def get_leaderboard(game: str, difficulty: str) -> LeaderboardResponse:
+def get_leaderboard(game: str, difficulty: str) -> LeaderboardResponse:
     return LeaderboardResponse(leaderboard=game_service.get_leaderboard(game, difficulty))
 
 
 @app.get("/score")
-async def get_score() -> GameScore:
+def get_score() -> GameScore:
     return game_service.get_score()
 
 
 @app.post("/setup")
-async def setup(setup_config: SetupGamePayload) -> GameStatusResponse:
+def setup(setup_config: GameConfigModel, background_tasks: BackgroundTasks) -> GameStatusResponse:
     """
     post request which gets game name, 2 teamnames, a duration and a difficulty setting from the body
     :return:
     """
 
-    return game_service.start_game(setup_config)
+    current_game = game_service.setup_game(setup_config)
+    return current_game
 
 
+@app.get("/games", description="Get all games")
+def get_games() -> GamesResponse:
+    return GamesResponse(games=game_service.get_games())
+
+
+mqtt.init_app(app)
 # uvicorn server
 
 if __name__ == "__main__":

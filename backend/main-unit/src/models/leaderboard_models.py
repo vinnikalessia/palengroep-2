@@ -2,7 +2,10 @@ from typing import List
 
 from pydantic import BaseModel
 
-from models.team_score import TeamScore
+
+class TeamScore(BaseModel):
+    team_name: str
+    score: int
 
 
 class Leaderboard(BaseModel):

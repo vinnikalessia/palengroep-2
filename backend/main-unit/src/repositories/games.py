@@ -1,27 +1,26 @@
 from typing import List
 
-from models.game import Game
-from models.leaderboard import Leaderboard
-from models.team_score import TeamScore
+from models.game_models import GameModel
+from models.leaderboard_models import Leaderboard, TeamScore
 
 
 class GameRepository:
 
-    def get_games(self) -> List[Game]:
+    def get_games(self) -> List[GameModel]:
         return [
-            Game(
+            GameModel(
                 name="Red/Blue",
                 description="bla bla bla bla bla",
                 players="minimum 2",
                 num_teams=2,
             ),
-            Game(
+            GameModel(
                 name="Zen",
                 description="bla bla bla bla bla",
                 players="minimum 2",
                 num_teams=1,
             ),
-            Game(
+            GameModel(
                 name="Simon Says",
                 description="bla bla bla bla bla",
                 players="minimum 2",

@@ -1,4 +1,7 @@
-FROM python:3.7.3-alpine3.9
+FROM python:3.9.16-alpine
+
+
+RUN cat /etc/resolv.conf
 
 # update and install dependencies
 RUN apk update && apk add --no-cache build-base libffi-dev openssl-dev python3-dev
