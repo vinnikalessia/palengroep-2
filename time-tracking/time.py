@@ -12,7 +12,14 @@ plt.rcParams["figure.autolayout"] = True
 # 23, 24, 25, 26, 27, 28, 29,
 # 30, 31
 x = [
-        9, 10, 11, 12, 13, 14, 15
+    date2num(dt.datetime(2022, 11, 9)),
+    date2num(dt.datetime(2022, 11, 10)),
+    date2num(dt.datetime(2022, 11, 11)),
+    date2num(dt.datetime(2022, 11, 12)),
+    date2num(dt.datetime(2022, 11, 13)),
+    date2num(dt.datetime(2022, 11, 14)),
+    date2num(dt.datetime(2022, 11, 15)),
+    date2num(dt.datetime(2022, 11, 16))
 ]
 
 # Senne
@@ -20,13 +27,14 @@ x = [
 # (uren, minuten) => wordt dan herberekend door code zelf. MINUTEN NIET ZELF HERBEREKENEN!
 # momenteel dummy data
 uren_S = [
-    (5, 20),
-    (3, 10),
-    (1, 50),
-    (4, 23),
-    (4, 46),
-    (2, 21),
-    (7, 23)
+    (0, 0),
+    (5, 31),
+    (7, 11),
+    (6, 26),
+    (5, 7),
+    (0, 0),
+    (1, 1),
+    (6, 51)
 ]
 S = [x[0] + round(x[1] / 60, 3) for x in uren_S]
 
@@ -35,13 +43,14 @@ S = [x[0] + round(x[1] / 60, 3) for x in uren_S]
 # (uren, minuten) => wordt dan herberekend door code zelf. MINUTEN NIET ZELF HERBEREKENEN!
 # momenteel dummy data
 uren_M = [
-    (5, 20),
-    (2, 21),
-    (3, 10),
-    (4, 23),
-    (1, 50),
-    (4, 46),
-    (7, 23)
+    (0, 0),
+    (5, 16),
+    (3, 8),
+    (6, 30),
+    (3, 50),
+    (0, 20),
+    (0, 0),
+    (6, 38)
 ]
 M = [x[0] + round(x[1] / 60, 3) for x in uren_M]
 
@@ -50,13 +59,14 @@ M = [x[0] + round(x[1] / 60, 3) for x in uren_M]
 # (uren, minuten) => wordt dan herberekend door code zelf. MINUTEN NIET ZELF HERBEREKENEN!
 # momenteel dummy data
 uren_J = [
-    (2, 21),
-    (3, 10),
-    (4, 23),
-    (5, 20),
-    (4, 46),
-    (1, 50),
-    (7, 23)
+    (3, 0),
+    (6, 41),
+    (8, 30),
+    (5, 14),
+    (3, 9),
+    (0, 0),
+    (0, 0),
+    (7, 38)
 ]
 J = [x[0] + round(x[1] / 60, 3) for x in uren_J]
 
@@ -65,20 +75,21 @@ J = [x[0] + round(x[1] / 60, 3) for x in uren_J]
 # (uren, minuten) => wordt dan herberekend door code zelf. MINUTEN NIET ZELF HERBEREKENEN!
 # momenteel dummy data
 uren_A = [
-    (5, 20),
-    (4, 46),
-    (3, 10),
-    (4, 23),
-    (2, 21),
-    (7, 23),
-    (1, 50)
+    (0, 0),
+    (3, 20),
+    (8, 00),
+    (4, 49),
+    (4, 10),
+    (0, 0),
+    (0, 0),
+    (6, 00)
 ]
 A = [x[0] + round(x[1] / 60, 3) for x in uren_A]
 
 plt.rcParams["figure.figsize"] = [7.00, 3.50]
 
 def time_senne(ax, y, fontsize=8):
-    ax.plot(x, y, color='lightcoral')
+    ax.plot(x, y, color='orangered')
 
     ax.locator_params(nbins=3)
     ax.set_xlabel('datum', fontsize=fontsize)
@@ -86,7 +97,7 @@ def time_senne(ax, y, fontsize=8):
     ax.set_title('Senne', fontsize=fontsize)
 
 def time_milan(ax, y, fontsize=8):
-    ax.plot(x, y, color='silver')
+    ax.plot(x, y, color='blueviolet')
 
     ax.locator_params(nbins=3)
     ax.set_xlabel('datum', fontsize=fontsize)
@@ -94,7 +105,7 @@ def time_milan(ax, y, fontsize=8):
     ax.set_title('Milan', fontsize=fontsize)
 
 def time_jari(ax, y, fontsize=8):
-    ax.plot(x, y, color='powderblue')
+    ax.plot(x, y, color='dodgerblue')
 
     ax.locator_params(nbins=3)
     ax.set_xlabel('datum', fontsize=fontsize)
@@ -110,16 +121,19 @@ def time_alessia(ax, y, fontsize=8):
     ax.set_title('Aléssia', fontsize=fontsize)
 
 def all_times(ax, S, M, J, A, fontsize=12):
-        ax.plot(x, S, color='lightcoral')
-        ax.plot(x, M, color='silver')
-        ax.plot(x, J, color='powderblue')
-        ax.plot(x, A, color='hotpink')
+        ax.plot_date(x, S, "o-", color='orangered', label='Senne')
+        ax.plot_date(x, M, "o-", color='blueviolet', label='Milan')
+        ax.plot_date(x, J, "o-", color='dodgerblue', label='Jari')
+        ax.plot_date(x, A, "o-", color='hotpink', label='Aléssia')
+
+        ax.xaxis.set_major_formatter(DateFormatter('%d/%m/%Y'))
+        ax.tick_params(rotation=45)
         
         ax.locator_params(nbins=3)
-        ax.set_xlabel('datum', fontsize=fontsize)
-        ax.set_ylabel('hours', fontsize=fontsize)
-        ax.set_title('Gewerkte ', fontsize=fontsize)
-        ax.legend()
+        ax.set_xlabel('Datum', fontsize=fontsize)
+        ax.set_ylabel('Hours', fontsize=fontsize)
+        ax.set_title('Gewerkte uren per persoon', fontsize=fontsize)
+        ax.legend(loc="upper left")
 
 def total_time(ax, S, M, J, A, fontsize=12):
         T = [i + j + k + l for i, j, k, l in zip(S, M, J, A)]
