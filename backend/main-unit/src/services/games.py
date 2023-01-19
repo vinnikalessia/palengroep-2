@@ -37,7 +37,7 @@ class GameProcess(threading.Thread):
             if item.category == 'general':
                 if item.payload == 'stop':
                     self.game.current_time = self.game.duration
-                    self.mqtt_client.publish('/main-unit/game', "stopping game")
+                    self.mqtt_client.publish('main-unit/game', "stopping game")
                     break
             elif item.category == 'mqtt':
                 async_print("Received mqtt message: ", item.payload)
@@ -47,7 +47,7 @@ class GameProcess(threading.Thread):
                 self.game.handle_socket_message(item.payload)
 
             else:
-                self.mqtt_client.publish("/main-unit/log", f"received message {item}")
+                self.mqtt_client.publish("main-unit/log", f"received message {item}")
                 async_print(item)
 
             self.message_queue.task_done()
@@ -58,10 +58,10 @@ class GameProcess(threading.Thread):
         while self.game.running:
             self.check_message_queue()
             self.game.step()
-            self.mqtt_client.publish("/main-unit/game", str(self.game))
+            self.mqtt_client.publish("main-unit/game", str(self.game))
             time.sleep(0.01)
 
-        self.mqtt_client.publish('/main-unit/game', "game finished")
+        self.mqtt_client.publish('main-unit/game', "game finished")
         async_print("game ended")
 
 
