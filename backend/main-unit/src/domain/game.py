@@ -11,6 +11,7 @@ class Game:
         self.game_name = game_name
         self.current_time = time.time()
         self.paused = False
+        self.stopped = False
         self.elapsed_time = 0
         async_print("Game created")
         async_print(self)
@@ -47,6 +48,8 @@ class Game:
         if not self.paused:
             current_time = time.time()
             self.elapsed_time += current_time - self.current_time
+        if self.stopped:
+            self.elapsed_time = self.duration
         self.current_time = time.time()
 
     def handle_mqtt_message(self, message):
