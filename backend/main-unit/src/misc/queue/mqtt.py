@@ -1,4 +1,4 @@
-from misc.queue.items.item import QueueItem
+from misc.queue.item import QueueItem
 
 
 class MQTTQueueItem(QueueItem):

@@ -12,9 +12,9 @@ from services.game_service import GameService
 
 LOGGING_CONFIG["formatters"]["default"]["fmt"] = "%(asctime)s [%(name)s] %(levelprefix)s %(message)s"
 
-message_queue = Queue()
+client_queue = Queue() # queue for messages from client to game thread
 
-game_service = GameService(GameRepository(), message_queue)
+game_service = GameService(GameRepository(), client_queue)
 
 rest_controller = RestController(game_service)
 app = rest_controller.setup_endpoints()
@@ -22,7 +22,7 @@ app = rest_controller.setup_endpoints()
 socketio_controller = SocketIOController(app, game_service)
 sio = socketio_controller.setup_endpoints()
 
-mqtt_controller = MQTTController(game_service, message_queue)
+mqtt_controller = MQTTController(game_service, client_queue)
 mqtt = mqtt_controller.setup_endpoints()
 
 game_service.set_socket_manager(socketio_controller.sio)

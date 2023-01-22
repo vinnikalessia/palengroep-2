@@ -37,7 +37,7 @@ class SocketIOController:
             self.sio.emit('game_resumed')
 
         @self.sio.on('stop_game')
-        def stop_game(sid):
+        async def stop_game(sid):
             print('stop_game ', sid)
             self.game_service.stop_game()
             self.sio.emit('game_stopped')

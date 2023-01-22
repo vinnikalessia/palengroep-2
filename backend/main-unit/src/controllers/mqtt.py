@@ -1,6 +1,6 @@
 from fastapi_mqtt import MQTTConfig, FastMQTT
 
-from misc.queue.items.mqtt import MQTTQueueItem
+from misc.queue.mqtt import MQTTQueueItem
 
 
 def extract_esp_id_from_topic(topic: str):

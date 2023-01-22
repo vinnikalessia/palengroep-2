@@ -1,5 +1,5 @@
 from queue import Queue
 
-from misc.queue.items.item import QueueItem
+from misc.queue.item import QueueItem
 
-GameMessageQueue = Queue[QueueItem]
+MessageQueue = Queue[QueueItem]
