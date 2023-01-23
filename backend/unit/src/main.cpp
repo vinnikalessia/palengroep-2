@@ -1,10 +1,13 @@
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
+#include <Adafruit_NeoPixel.h>
 
 #define SSID "interactieve-palen-ap"
 #define PASS "roottoor"
 #define MQTT_IP "10.42.0.1"
 #define MQTT_PORT 1883
+#define PIN_NEO_PIXEL  4   // Arduino pin that connects to NeoPixel
+#define NUM_PIXELS     10  // The number of LEDs (pixels) on NeoPixel
 
 const char *ssid = SSID;
 const char *wifipassword = PASS;
@@ -13,6 +16,8 @@ uint64_t esp_id;
 String esp_id_str;
 
 WiFiClient wifi;
+
+Adafruit_NeoPixel NeoPixel(NUM_PIXELS, PIN_NEO_PIXEL, NEO_GRB + NEO_KHZ800);
 
 PubSubClient mqttClient(wifi);
 
@@ -112,9 +117,20 @@ void reconnect() {
     }
 }
 
+void NeoPixelLeds(int red, int green, int blue){
+  // turn on all pixels to red at the same time for two seconds
+      for (int pixel = 0; pixel < NUM_PIXELS; pixel++) { // for each pixel
+        if((pixel % 2) == 0){
+          NeoPixel.setPixelColor(pixel, NeoPixel.Color(red, green, blue)); // it only takes effect if pixels.show() is called
+        }
+      }
+      NeoPixel.show(); // send the updated pixel colors to the NeoPixel hardware.
+}
+
 
 void setup() {
     Serial.begin(9600);
+    NeoPixel.begin();
     setupWifi();
     setupMqtt();
 
@@ -131,6 +147,16 @@ void loop() {
         reconnect();
     }
     mqttClient.loop();
+
+    NeoPixel.clear(); // set all pixel colors to 'off'. It only takes effect if pixels.show() is called
+
+    if(btnPrevState == 0){
+        NeoPixelLeds(255,0,0);
+    }
+    else{
+        NeoPixel.clear();
+        NeoPixel.show();
+    }
 
     // Publish a message
 //    sendMQTTMessage("Ping");
