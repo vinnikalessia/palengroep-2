@@ -408,12 +408,16 @@ Scoreboard.html
 /*
     Tijdens het spel
 */
-.c-game-playing{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.c-top{
+    background-color: #44C8F5;
 }
+
+.c-during-game{
+    background-color: hotpink;
+    width: 100px;
+    height: 100px;
+}
+
 
 /*
     spelnaam in leaderboardkeuze.html
@@ -666,112 +670,6 @@ Scoreboard.html
 }
 
 /*
-    Top => during_game.html
-*/
-.c-top{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: var(--global-color-black) solid 1px;
-    border-radius: 8px;
-    font-weight: 600;
-    height: 35px;
-    width: 273px;
-    background-color: var(--global-color-white);
-    margin-bottom: -12px;
-}
-
-/*
-    Midden => during_game.html
-*/
-.c-mid{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 2fr 1fr 1fr;
-    width: 760px;
-    height: 433px;
-}
-
-.c-mid-item__1{
-    display: flex;
-    justify-content: center;
-
-    grid-column: span 2;
-    grid-row: 1;
-}
-
-.c-mid-item__2{
-    display: flex;
-    justify-content: center;
-    
-    grid-column: span 2;
-    grid-row: 1;
-}
-
-.c-mid-item__3{
-    display: flex;
-    justify-content: center;
-    
-    grid-column: span 2;
-    grid-row: 2;
-}
-
-.c-mid-item__4{
-    display: flex;
-    justify-content: center;
-    
-    grid-column: span 2;
-    grid-row: 2;
-}
-
-.c-mid-item__5{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    grid-column: span 4;
-    grid-row: 3;
-}
-
-.c-mid-item__6{
-    display: flex;
-    justify-content: center;
-    grid-column: span 4;
-    grid-row: 4;
-}
-
-/*
-    de 2 teams en hun score in background => during_game.html
-*/
-.c-scores{
-    display: flex;
-    justify-content: center;
-}
-
-.c-background{
-    position: relative;
-    display: flex;
-}
-
-.c-background__left{
-    position: absolute;
-    background-color: var(--global-color-redteam);
-    width: 380px;
-    height: 433px;
-    border-radius: 15px 0 0 15px;
-    z-index: -2;
-}
-
-.c-background__right{
-    position: absolute;
-    background-color: var(--global-color-blueteam);
-    width: 380px;
-    height: 433px;
-    left: 380px;
-    border-radius: 0 15px 15px 0;
-    z-index: -2;
-}
-
-/*
     game description => instellingen.html
 */
 .c-game__description{
@@ -1005,29 +903,9 @@ input:checked+.slider:before {
     left: 180px;
 }
 
-
-/*
-    teamnamen
-*/
-.c-teamname{
-    margin-top: 64px;
-    font-weight: 400;
-    font-size: 23px;
-    text-decoration: underline 1px;
-}
-
 /*
     logo teamproject
 */
-.c-logo__teamproject{
-    position: absolute;
-    height: 170px;
-    width: 170px;
-    left: 295px;
-    top: 100px;
-    z-index: -1;
-}
-
 .c-logo{
     font-size: 18px;
     line-height: 1rem;
@@ -1116,12 +994,6 @@ input:checked+.slider:before {
 /*
     Scores
 */
-.c-score{
-    justify-content: center;
-    font-weight: 700;
-    font-size: 116px;
-}
-
 .c-button__score {
     display: flex;
     align-items: flex-start;
