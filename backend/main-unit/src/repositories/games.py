@@ -47,4 +47,4 @@ class GameRepository:
         )
 
     def get_score(self):
-        return
+        return 9
