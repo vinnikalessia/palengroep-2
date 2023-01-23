@@ -10,8 +10,9 @@
     --global-color-redteam: #FBC6C6;
     --global-color-blueteam: #C5EEFC;
 
-    --global-color-text: #4D4D4D;
-    --global-border-color: #D5D5D5;
+    --global-color-text: #463C80;
+    --global-color-buttontext: var(--global-color-white);
+    --global-border-color: white;
     --global-color-textinput: #C9C3C3;
 
     --global-background-color-slider: #D8F4FD;
@@ -30,24 +31,33 @@
 #GENERIC
 \*------------------------------------*/
 /*
-    Generic: Page
-    ---
+Generic: Page
+---
     Global page styles + universal box-sizing:
-*/
-html {
-    font-size: var(--global-font-size-1rem);
-    line-height: 1.5;
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: var(--global-color-white);
-    color: var(--global-color-text);
+    */
+    html {
+        font-size: var(--global-font-size-1rem);
+        line-height: 1.5;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: var(--global-color-white);
+        color: var(--global-color-text);
 }
 
 body{
     margin: 0;
+    overflow: hidden;
+}
+
+video{
+    width: 100%;
+    height: 620px;
+    object-fit: fill;
+    position: absolute;
+    z-index: -10;
 }
 
 *,
@@ -337,7 +347,7 @@ button{
 /**************/
 
 /*
-    Scoreboard.html
+Scoreboard.html
 */
 .c-tekst__score{
     margin-bottom: 50px;
@@ -346,8 +356,7 @@ button{
 .c-scoreboard {
     color: var(--global-color-text);
     font-size: 36px;
-    font-weight: 600;
-    display: block;
+    font-weight: 400;
     text-align: center;
     margin-bottom: 15px;
 }
@@ -355,9 +364,17 @@ button{
 .c-proficiat {
     color: var(--global-color-text);
     font-size: 56px;
-    font-weight:600;
+    font-weight: 600;
     display: block;
     text-align: center;
+}
+
+.c-points{
+    color: var(--global-color-text);
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 /*
@@ -550,12 +567,14 @@ button{
     border-width: 1px;
     border-style: solid;
     border-color: var(--global-border-color);
+    border-width: 2px;
     border-radius: 61px;
-    color: var(--global-color-text);
+    color: var(--global-color-buttontext);
     font-weight: 600;
     text-align: center;
     margin: auto;
-    box-shadow: 0 10px 15px rgba(8, 118, 155, .16)
+    background-color: #977BB8;
+    box-shadow: inset -20px 0px 6px rgba(0, 0, 0, 16%);
 }
 
 .c-button__start{
