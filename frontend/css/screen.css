@@ -408,16 +408,56 @@ Scoreboard.html
 /*
     Tijdens het spel
 */
+
+.c-test{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .c-top{
-    background-color: #44C8F5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .c-during-game{
-    background-color: hotpink;
-    width: 100px;
-    height: 100px;
+    display: flex;
 }
 
+.c-teamcard{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 428px;
+    margin: 32px 32px;
+    background-color: rgba(134, 230, 242, .8);
+    width: 428px;
+    height: 452px;
+    border-radius: 8px;
+}
+
+.c-teamname{
+    align-items: flex-start;
+    text-transform: uppercase;
+    font-size: 41px;
+    margin-top: 40px;
+}
+
+.c-svg__chest{
+    width: 155px;
+    height: 155px;
+    margin-top: 30px;
+}
+
+.c-current-score{
+    align-items: center;
+    font-size: 41px;
+    margin-top: 30px;
+}
 
 /*
     spelnaam in leaderboardkeuze.html
@@ -947,14 +987,14 @@ input:checked+.slider:before {
     justify-content: start;
     align-items: center;
 
-    background-color: var(--global-color-white);
+    background-color: #E03F75;
     width: 100px;
     height: 35px;
     
     margin-top: 12px;
     margin-bottom: 8px;
     
-    border: var(--global-color-black) solid 1px;
+    border: var(--global-color-white) solid 2px;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 400;
@@ -967,18 +1007,18 @@ input:checked+.slider:before {
 }
 
 /*
-    button stop
+button stop
 */
 .c-stop{
     display: flex;
     justify-content: start;
     align-items: center;
     
-    background-color: var(--global-color-white);
+    background-color: #E03F75;
     width: 100px;
     height: 35px;
     
-    border: var(--global-color-black) solid 1px;
+    border: var(--global-color-white) solid 2px;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 400;
@@ -992,7 +1032,7 @@ input:checked+.slider:before {
 }
 
 /*
-    Scores
+Scores
 */
 .c-button__score {
     display: flex;
