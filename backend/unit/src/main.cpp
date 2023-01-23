@@ -1,9 +1,9 @@
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 
-#define SSID "telenet-60138"
-#define PASS "UnRVkkuEmBt0"
-#define MQTT_IP "192.168.0.250"
+#define SSID "interactieve-palen-ap"
+#define PASS "roottoor"
+#define MQTT_IP "10.42.0.1"
 #define MQTT_PORT 1883
 
 const char *ssid = SSID;
@@ -16,7 +16,31 @@ WiFiClient wifi;
 
 PubSubClient mqttClient(wifi);
 
+void sendMQTTMessage(const String &topic, const String &message) {
+
+    const String &payload = message;
+//    String topic = "unit/" + esp_id_str + "/message";
+
+    Serial.print("Publish message: ");
+    Serial.println(payload);
+    mqttClient.publish(topic.c_str(), payload.c_str());
+}
+
+void sendMQTTMessage(const String &message) {
+    String topic = "unit/" + esp_id_str + "/message";
+
+    sendMQTTMessage(topic, message);
+}
+
+void sendMQTTAliveMessage() {
+    String topic = "unit/" + esp_id_str + "/alive";
+
+    sendMQTTMessage(topic, esp_id_str);
+}
+
 void onMQTTMessage(char *topic, byte *message, unsigned int length) {
+    String str_topic = String(topic);
+
     Serial.print("Message arrived on topic: ");
     Serial.print(topic);
     Serial.print(". Message: ");
@@ -27,25 +51,16 @@ void onMQTTMessage(char *topic, byte *message, unsigned int length) {
         messageTemp += (char) message[i];
     }
     Serial.println();
-}
 
-void sendMQTTMessage(const String &message) {
-
-    const String& payload = message;
-    String topic = "unit/" + esp_id_str + "/message";
-
-    Serial.print("Publish message: ");
-    Serial.println(payload);
-    mqttClient.publish(topic.c_str(), payload.c_str());
-}
-
-void sendMQTTAliveMessage() {
-    String payload = "Im alive!!!!";
-    String topic = "unit/" + esp_id_str + "/alive";
-
-    Serial.print("Publish message: ");
-    Serial.println(payload);
-    mqttClient.publish(topic.c_str(), payload.c_str());
+    if (str_topic == "notification/general") {
+        if (messageTemp == "GAME_START_NOTIFICATION") {
+            sendMQTTAliveMessage();
+            Serial.println("send alive message");
+        }
+    } else if (str_topic.startsWith("command/")) {
+        String text = "received command: " + messageTemp;
+        Serial.println(text.c_str());
+    }
 }
 
 void setupWifi() {
@@ -63,9 +78,19 @@ void setupWifi() {
     Serial.println(ssid);
 }
 
+void subscribeToMQTT() {
+    mqttClient.subscribe("notification/+");
+    mqttClient.subscribe("configure/+");
+
+    String my_command = "command/" + esp_id_str + "/#";
+    mqttClient.subscribe(my_command.c_str());
+    mqttClient.subscribe("command/all/light");
+}
+
 void setupMqtt() {
     mqttClient.setServer(MQTT_IP, MQTT_PORT);
     mqttClient.setCallback(onMQTTMessage);
+    subscribeToMQTT();
 }
 
 void reconnect() {
@@ -75,9 +100,8 @@ void reconnect() {
         // Attempt to connect
         if (mqttClient.connect("ESP32Client")) {
             Serial.println("connected");
-            // Subscribe
-            mqttClient.subscribe("esp32/output");
-            sendMQTTAliveMessage();
+
+            subscribeToMQTT();
         } else {
             Serial.print("failed, rc=");
             Serial.print(mqttClient.state());
@@ -99,6 +123,7 @@ void setup() {
 
     Serial.print("ESP MAC: ");
     Serial.println(esp_id_str);
+    delay(1000);
 }
 
 void loop() {
@@ -108,6 +133,6 @@ void loop() {
     mqttClient.loop();
 
     // Publish a message
-    sendMQTTMessage("Ping");
-    delay(2000);
+//    sendMQTTMessage("Ping");
+//    delay(1000);
 }
