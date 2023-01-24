@@ -325,10 +325,11 @@ button{
     Header met logo en huidige tijd
 */
 .c-header{
-    background-color: var(--global-color-blue);
     height: 52px;
     display: flex;
+    justify-content: end;
     align-items: center;
+    padding-top: 30px;
 }
 
 .c-svg{
@@ -338,13 +339,24 @@ button{
 }
 
 .c-time{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    margin-top: 30px;
+    margin-right: 32px;
     font-size: 20px;
     font-weight: bold;
     text-align: right;
-    padding-right: 3%;
-    color: var(--global-color-black);
+    width: 71px;
+    height: 71px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--global-color-white);
+    border-radius: 100%;
+    background: radial-gradient(circle, #e17c31 0%, #b24c00 100%);
+    box-shadow: -10px -5px 15px rgb(216, 121, 48) inset;
+    color: white;
 }
-/**************/
 
 /*
 Scoreboard.html
@@ -409,7 +421,7 @@ Scoreboard.html
     Tijdens het spel
 */
 
-.c-test{
+.c-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -423,6 +435,15 @@ Scoreboard.html
     width: 100%;
 }
 
+.c-game-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 35px;
+    margin-bottom: 20px;
+}
+
 .c-during-game{
     display: flex;
 }
@@ -433,7 +454,7 @@ Scoreboard.html
     justify-content: space-evenly;
     align-items: center;
     width: 428px;
-    margin: 32px 32px;
+    margin: 0 32px;
     background-color: rgba(134, 230, 242, .8);
     height: 452px;
     border-radius: 8px;
@@ -446,23 +467,44 @@ Scoreboard.html
     margin-top: 40px;
 }
 
+.c-current-score{
+    position: relative;
+    /* align-items: center; */
+    font-size: 41px;
+    z-index: 4;
+    color: white;
+}
+
 .c-svg__chest{
+    position: absolute;
+    width: 155px;
+    /* height: 315px; */
+}
+
+.c-svg__score{
+    position: absolute;
+    margin-top: -30px;
+}
+
+/* .c-svg__chest{
     width: 155px;
     height: 155px;
     margin-top: 30px;
 }
 
-.c-current-score{
-    align-items: center;
-    font-size: 41px;
-    margin-top: 30px;
-}
+.c-svg__bubbles{
+    position: absolute;
+    fill: whitesmoke;
+    background-color: whitesmoke;
+} */
+
 
 /*
     cards in alle pagina's
 */
 .c-mid{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     width: 100%;
 }
@@ -480,6 +522,11 @@ Scoreboard.html
     background-color:  rgba(134, 230, 242, .8); 
 }
 
+.c-chosengame{
+    display: flex;
+    justify-content: center;
+}
+
 .c-contentcard{
     display: flex;
     flex-direction: column;
@@ -487,7 +534,7 @@ Scoreboard.html
     align-items: center;
     background-color: rgba(134, 230, 242, .8);
     border-radius: 8px;
-    margin: 32px;
+    margin: 0 32px;
     width: 964px;
     height: 430px;
 }
@@ -525,23 +572,44 @@ Scoreboard.html
 /*
     spelnaam in leaderboardkeuze.html
 */
+.c-leaderboard__games{
+    display: flex;
+    justify-content: center;
+}
+
 .c-gamename{
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--global-border-color);
     border-radius: 8px;
-    width: 273px;
+    width: 200px;
     height: 35px;
     text-align: center;
-    position: absolute;
-    top: 125px;
-    left: 375px;
-    opacity: 1;
-    background-color: var(--global-color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(134, 230, 242, .8);
+}
+
+.c-gamename__option{
+    border-radius: 8px;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(107, 179, 188, 0.8);
+}
+
+.c-gamename__option input[type="radio"]:checked + label{
+    border-radius: 8px;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    background-color: rgba(134, 230, 242, .8);
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 
 /*
     Game card in game_choice.html
@@ -680,7 +748,7 @@ Scoreboard.html
     font-weight: 600;
     text-align: center;
     margin: auto;
-    background-color: #977BB8;
+    background-color: #7F2FDD;
     box-shadow: inset -20px 0px 6px rgba(0, 0, 0, 16%);
 }
 
@@ -737,11 +805,13 @@ Scoreboard.html
     display: grid;
     grid-template-columns: auto auto auto;
     padding: 0.625rem;
+    font-size: 23px;
+    font-weight: 400;
 }
 
 .c-grid__item{
     padding: max(0.625rem, 0.625rem);
-    font-size: 23px;
+    font-size: 21px;
     text-align: center;
     max-width: 21.875rem;
 }
@@ -1002,7 +1072,13 @@ input:checked+.slider:before {
     margin-left: 48px;
 }
 
-
+.c-back{
+    display: flex;
+    align-items: center;
+    color: #463C80;
+    font-size: 18px;
+    font-weight: 600;
+}
 
 /*
     button start
@@ -1012,12 +1088,9 @@ input:checked+.slider:before {
     justify-content: start;
     align-items: center;
 
-    background-color: #E03F75;
+    background-color: #7F2FDD;
     width: 100px;
     height: 35px;
-    
-    margin-top: 12px;
-    margin-bottom: 8px;
     
     border: var(--global-color-white) solid 2px;
     border-radius: 8px;
@@ -1039,7 +1112,7 @@ button stop
     justify-content: start;
     align-items: center;
     
-    background-color: #E03F75;
+    background-color: #7F2FDD;
     width: 100px;
     height: 35px;
     
@@ -1075,6 +1148,13 @@ Scores
 
 .c-button__score-content{
     margin-left: 90px;
+}
+
+.c-svg__leaderboard{
+    width: 40px;
+    height: 32px;
+    margin-top: 8px;
+    margin-left: 2px;
 }
 
 /*
