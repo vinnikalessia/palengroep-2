@@ -30,8 +30,8 @@ services:
       TZ: Europe/Brussels
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
-      - ./mosquitto/logs:/mosquitto/log
-      - ./mosquitto/data:/mosquitto/data
+      - mosquitto-logs:/mosquitto/log
+      - mosquitto-data:/mosquitto/data
 
 
   backend:
@@ -39,7 +39,7 @@ services:
       context: src/
       dockerfile: Dockerfile
     container_name: backend
-    #    restart: always
+    restart: always
     ports:
       - 3000:3000
     depends_on:
@@ -50,4 +50,6 @@ services:
 volumes:
   db-data:
   db-config:
+  mosquitto-logs:
+  mosquitto-data:
 

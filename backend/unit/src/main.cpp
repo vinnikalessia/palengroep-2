@@ -1,118 +1,77 @@
-#include <WiFiClientSecure.h>
-#include <PubSubClient.h>
+#include <Adafruit_NeoPixel.h>
 
-#define WIFI_SSID "interactieve-palen-ap"
-#define WIFI_PASS "roottoor"
-#define MQTT_IP "10.42.0.1"
-#define MQTT_PORT 1883
+#include "mqtt.h"
+#include "neopixel.h"
 
-#define PIN_BUTTON 13
+#define ESP_ID          String(ESP.getEfuseMac(), HEX)
+
+#define WIFI_SSID       "interactieve-palen-ap"
+#define WIFI_PASS       "roottoor"
+#define MQTT_IP         "10.42.0.1"
+#define MQTT_PORT       1883
+
+#define PIN_NEO_PIXEL   4
+#define NUM_PIXELS      10
+
+#define PIN_BUTTON      15
 
 
-uint64_t esp_id;
-String esp_id_str;
+void handleMQTTMessage(const String &topic, const String &message);
 
-WiFiClient wifi;
+MQTTService mqttService(WIFI_SSID, WIFI_PASS, MQTT_IP, MQTT_PORT, handleMQTTMessage);
+NeoPixel NeoPixel(NUM_PIXELS, PIN_NEO_PIXEL);
 
-PubSubClient mqttClient(wifi);
 
-//#region MQTT
+void splitCommandStringToRGB(const String &rgb, int &r, int &g, int &b) {
+    // receives in format "on 255 255 255"
+    int firstSpace = rgb.indexOf(' ');
+    int secondSpace = rgb.indexOf(' ', firstSpace + 1);
+    int thirdSpace = rgb.indexOf(' ', secondSpace + 1);
 
-void reconnectMQTT() {
-    // Loop until we're reconnected
-    while (!mqttClient.connected()) {
-        Serial.print("Attempting MQTT connection...");
-        // Attempt to connect
-        if (mqttClient.connect("ESP32Client")) {
-            Serial.println("connected");
-            // Subscribe
-            mqttClient.subscribe("unit/output");
-//            sendMQTTAliveMessage();
-        } else {
-            Serial.print("failed, rc=");
-            Serial.print(mqttClient.state());
-            Serial.println(" try again in 5 seconds");
-            // Wait 5 seconds before retrying
-            delay(5000);
+
+    // this works because of pointer-fuckery and passing by reference
+    r = rgb.substring(firstSpace + 1, secondSpace).toInt();
+    g = rgb.substring(secondSpace + 1, thirdSpace).toInt();
+    b = rgb.substring(thirdSpace + 1).toInt();
+}
+//#endregion
+
+void handleCommandMessage(const String &topic, const String &command) {
+    if (topic.endsWith("/light")) {
+        if (command.startsWith("off")) {
+            NeoPixel.turnOff();
+            mqttService.logMQTT("set light to off");
+        } else if (command.startsWith("on")) {
+            int r, g, b;
+            splitCommandStringToRGB(command, r, g, b);
+            NeoPixel.turnOn(r, g, b);
+            mqttService.logMQTT("set light to on with rgb: " + String(r) + " " + String(g) + " " + String(b));
         }
     }
 }
-
-void onMQTTMessage(char *topic, byte *message, unsigned int length) {
-    Serial.print("Message arrived on topic: ");
-    Serial.print(topic);
-    Serial.print(". Message: ");
-    String messageTemp;
-
-    for (int i = 0; i < length; i++) {
-        Serial.print((char) message[i]);
-        messageTemp += (char) message[i];
-    }
-    Serial.println();
-}
-
-void sendMQTT(const String &topic, const String &payload) {
-    if (!mqttClient.connected()) {
-        reconnectMQTT();
-    }
-
-    String fullTopic = "unit/" + esp_id_str + "/" + topic;
-
-    Serial.println("Sending MQTT message \"" + payload + "\" to topic \"" + fullTopic + "\"");
-
-    mqttClient.publish(fullTopic.c_str(), payload.c_str());
-
-    Serial.println("done");
-}
-
-void sendMQTTMessage(const String &message) {
-    sendMQTT("message", message);
-}
-
-void sendMQTTAliveMessage() {
-    sendMQTT("alive", "true");
-}
-
-
-void setupMqtt() {
-    mqttClient.setServer(MQTT_IP, MQTT_PORT);
-    mqttClient.setCallback(onMQTTMessage);
-}
 //#endregion
 
-//#region WiFi
-void setupWifi() {
-    Serial.print("Connecting to WIFI_SSID: ");
-    Serial.println(WIFI_SSID);
-
-    WiFi.begin(WIFI_SSID, WIFI_PASS);
-    WiFi.setHostname(("ESP32-" + esp_id_str).c_str());
-
-    while (WiFi.status() != WL_CONNECTED) {
-        Serial.print(".");
-        delay(1000);
+void handleMQTTMessage(const String &topic, const String &message) {
+    if (topic == "notification/general") {
+        if (message == "GAME_START_NOTIFICATION") {
+            mqttService.sendMQTTAliveMessage();
+        }
+    } else if (topic.startsWith("command/")) {
+        String text = "received command: " + message;
+        Serial.println(text.c_str());
+        handleCommandMessage(topic, message);
     }
-
-    Serial.print("Connected to ");
-    Serial.println(WIFI_SSID);
-}
-//#endregion
-
-void setupEspId() {
-    esp_id = ESP.getEfuseMac();
-    esp_id_str = String(esp_id, HEX);
-
-    Serial.print("ESP MAC: ");
-    Serial.println(esp_id_str);
 }
 
 void setup() {
     Serial.begin(9600);
-    setupWifi();
-    setupMqtt();
-    setupEspId();
+    Serial.print("ESP MAC: ");
+    Serial.println(ESP_ID);
 
+    mqttService.setup();
     pinMode(PIN_BUTTON, INPUT_PULLUP);
+
+    delay(1000);
 }
 
 void onButtonPressed() {
@@ -123,10 +82,7 @@ void onButtonPressed() {
 int lastButtonState = HIGH;
 
 void loop() {
-    if (!mqttClient.connected()) {
-        reconnectMQTT();
-    }
-    mqttClient.loop();
+    mqttService.loop();
 
     int status = digitalRead(PIN_BUTTON);
 
@@ -135,5 +91,4 @@ void loop() {
         onButtonPressed();
     }
     lastButtonState = status;
-    delay(100);
 }

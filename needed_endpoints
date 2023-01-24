@@ -1,0 +1,10 @@
+get leaderboard (param game, param moeilijk/makkelijk)
+get games
+get score
+
+post setupgame (teamnames (team red, blue), duration, makkelijk/moeilijk)
+
+socketio
+    => GET current score, game status
+    => POST pause
+    => POST stop (scores tellen niet mee)
