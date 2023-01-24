@@ -4,7 +4,7 @@ from misc.queue.item import QueueItem
 class MQTTQueueItem(QueueItem):
     def __init__(self, topic: str, payload: any):
         self.topic = topic
-        super().__init__("mqtt", {"topic": topic, "payload": payload})
+        super().__init__("mqtt", payload)
 
     def __str__(self):
         return f"{self.category} - {self.topic} - {self.payload}"

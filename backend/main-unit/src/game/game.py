@@ -97,6 +97,12 @@ class Game:
             current_time = time.time()
             self.elapsed_time += current_time - self.current_time
 
+            if self.elapsed_time >= self.duration:
+                self.game_status = GameStatus.FINISHED
+                self.elapsed_time = self.duration
+                async_print("Game finished")
+                self.send_mqtt_message("command/all/light", "off")
+
         if self.game_status == GameStatus.STARTING:
             self.elapsed_time = self.duration
         self.current_time = time.time()

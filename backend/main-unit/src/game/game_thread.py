@@ -92,6 +92,7 @@ class GameThread(threading.Thread):
 
             if item.category == 'mqtt':
                 assert isinstance(item, MQTTQueueItem)
+                print(item)
                 self.mqtt_client.publish(item.topic, item.payload)
             elif item.category == 'socket':
                 assert isinstance(item, SocketQueueItem)
@@ -136,3 +137,4 @@ class GameThread(threading.Thread):
 
         self._log_mqtt("game finished")
         async_print("game ended")
+        del self.game

@@ -1,10 +1,10 @@
 from typing import List
 
-from game.game import Game
 from game.game_thread import GameThread
 from misc.queue import MessageQueue
 from misc.queue.item import QueueItem
 from misc.queue.pole_action import PoleActionQueueItem
+from misc.tools import async_print
 from models.game_models import GameModel, GameStatusResponse, GameConfigModel
 from models.leaderboard_models import LeaderboardResponse
 from repositories.games import GameRepository
@@ -46,7 +46,11 @@ class GameService:
                                   difficulty=game_setup.difficulty, status="starting")
 
     def start_game(self):
-        self.client_queue.put_nowait(QueueItem("general", "start"))
+        async_print("starting game")
+        if self.game_process is not None and self.game_process.is_alive():
+            self.client_queue.put_nowait(QueueItem("general", "start"))
+        else:
+            async_print("no game prepared")
 
     def stop_game(self):
         self.game_process.stop()
@@ -58,6 +62,12 @@ class GameService:
 
     def resume_game(self):
         self.client_queue.put_nowait(QueueItem("general", "resume"))
+
+    def handle_pole_alive(self, pole_id: str):
+        if self.game_process is not None:
+            self.game_process.add_alive_esp32(pole_id)
+
+        async_print("pole alive: " + pole_id)
 
     def handle_pole_action(self, pole_id: str, action: str):
         self.client_queue.put_nowait(PoleActionQueueItem(pole_id, action))
