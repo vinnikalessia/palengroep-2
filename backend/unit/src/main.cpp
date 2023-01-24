@@ -16,6 +16,8 @@
 #define PIN_BUTTON      15
 
 
+bool lastButtonState = HIGH;
+
 void handleMQTTMessage(const String &topic, const String &message);
 
 MQTTService mqttService(WIFI_SSID, WIFI_PASS, MQTT_IP, MQTT_PORT, handleMQTTMessage);
@@ -34,7 +36,6 @@ void splitCommandStringToRGB(const String &rgb, int &r, int &g, int &b) {
     g = rgb.substring(secondSpace + 1, thirdSpace).toInt();
     b = rgb.substring(thirdSpace + 1).toInt();
 }
-//#endregion
 
 void handleCommandMessage(const String &topic, const String &command) {
     if (topic.endsWith("/light")) {
@@ -49,7 +50,6 @@ void handleCommandMessage(const String &topic, const String &command) {
         }
     }
 }
-//#endregion
 
 void handleMQTTMessage(const String &topic, const String &message) {
     if (topic == "notification/general") {
@@ -76,10 +76,9 @@ void setup() {
 
 void onButtonPressed() {
     Serial.println("Button pressed");
-    sendMQTT("button", "pressed");
+    mqttService.sendMQTTMessage("action", "button_pressed");
 }
 
-int lastButtonState = HIGH;
 
 void loop() {
     mqttService.loop();
