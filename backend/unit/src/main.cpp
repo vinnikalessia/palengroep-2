@@ -83,11 +83,12 @@ void onButtonPressed() {
 void loop() {
     mqttService.loop();
 
-    int status = digitalRead(PIN_BUTTON);
+    /*int status = digitalRead(PIN_BUTTON);
 
     if (status == LOW && lastButtonState == HIGH) {
         // dirty but interrupts are not working due to mqtt
         onButtonPressed();
     }
     lastButtonState = status;
+    delay(100);*/
 }
