@@ -15,7 +15,6 @@
 
 #define PIN_BUTTON      15
 
-
 bool lastButtonState = HIGH;
 
 void handleMQTTMessage(const String &topic, const String &message);
@@ -82,7 +81,7 @@ void onButtonPressed() {
 
 void loop() {
     mqttService.loop();
-
+    Serial.println("loop");
     /*int status = digitalRead(PIN_BUTTON);
 
     if (status == LOW && lastButtonState == HIGH) {

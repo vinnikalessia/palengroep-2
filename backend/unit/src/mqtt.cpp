@@ -1,4 +1,3 @@
-#include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 
 #include "mqtt.h"
@@ -9,18 +8,16 @@ MQTTService::MQTTService(const char *apSSID,
                          const char *apPASS,
                          const char *mqttIP,
                          int mqttPort,
-                         const std::function<void(String, String)> &handleMQTTMessage) {
+                         const std::function<void(String, String)> &handleMessage) {
     wifi_ssid = apSSID;
     wifi_pass = apPASS;
     mqtt_ip = mqttIP;
     mqtt_port = mqttPort;
 
-    this->handleMQTTMessage = handleMQTTMessage;
+    handleMQTTMessage = handleMessage;
 
 
-    mqttClient = PubSubClient(wifi);
-
-
+//    mqttClient = PubSubClient(wifi);
 }
 
 void MQTTService::setup() {
@@ -32,6 +29,7 @@ void MQTTService::setup() {
 
 void MQTTService::loop() {
     if (!mqttClient.connected()) {
+        Serial.println("loop1");
         reconnect();
     }
     mqttClient.loop();
@@ -47,6 +45,7 @@ void MQTTService::reconnect() {
             Serial.println("connected");
 
             subscribeToTopics();
+            Serial.println("Subscribed to topics");
         } else {
             Serial.print("failed, rc=");
             Serial.print(mqttClient.state());
@@ -57,7 +56,7 @@ void MQTTService::reconnect() {
     }
 }
 
-void MQTTService::setupWifi() {
+void MQTTService::setupWifi() const {
     Serial.print("Connecting to SSID: ");
     Serial.println(wifi_ssid);
 
@@ -115,7 +114,7 @@ void MQTTService::sendMQTTAliveMessage() {
     sendMQTTMessage(topic, ESP_ID);
 }
 
-void MQTTService::onMQTTMessage(char *topic, byte *message, unsigned int length) {
+void MQTTService::onMQTTMessage(char *topic, byte *message, unsigned int length) const {
     String str_topic = String(topic);
 
     Serial.print("Message arrived on topic: ");

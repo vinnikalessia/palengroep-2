@@ -5,9 +5,10 @@
 #include <PubSubClient.h>
 
 class MQTTService {
-private:
+public:
+
     WiFiClient wifi;
-    PubSubClient mqttClient;
+    PubSubClient mqttClient = PubSubClient(wifi);
 
     std::function<void(String, String)> handleMQTTMessage;
     const char *wifi_ssid;
@@ -15,7 +16,7 @@ private:
     const char *mqtt_ip;
     int mqtt_port;
 
-    void setupWifi();
+    void setupWifi() const;
 
     void setupMqtt();
 
@@ -23,9 +24,9 @@ private:
 
     void reconnect();
 
-    void onMQTTMessage(char *topic, byte *message, unsigned int length);
+    void onMQTTMessage(char *topic, byte *message, unsigned int length) const;
 
-public:
+
     MQTTService(const char *wifi_ssid,
                 const char *wifi_pass,
                 const char *mqtt_ip,
