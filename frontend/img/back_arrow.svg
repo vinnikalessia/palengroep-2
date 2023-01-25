@@ -1,5 +1,5 @@
 <svg id="ic_arrow_back" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
     <rect id="rectangle" width="22" height="22" fill="none"/>
-    <path id="path" d="M22.656,12.162H8.431L14.96,5.632,13.328,4,4,13.328l9.328,9.328,1.632-1.632L8.431,14.494H22.656V12.162Z" transform="translate(-2.304 -2.304)" fill-rule="evenodd" fill="#463C80" opacity="1"/>
+    <path id="path" d="M22.656,12.162H8.431L14.96,5.632,13.328,4,4,13.328l9.328,9.328,1.632-1.632L8.431,14.494H22.656V12.162Z" transform="translate(-2.304 -2.304)" fill-rule="evenodd" fill="#1A1151" opacity="1"/>
   </svg>
   

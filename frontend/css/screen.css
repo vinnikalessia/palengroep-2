@@ -464,6 +464,7 @@ Scoreboard.html
     text-transform: uppercase;
     font-size: 41px;
     margin-top: 40px;
+    color: #392D78;
 }
 
 /* https://programmersportal.com/how-to-overlap-images-using-css/ */
@@ -574,13 +575,14 @@ Scoreboard.html
     font-size: 23px;
     font-weight: 600;
     margin-bottom: 0;
+    color: #3B2E86;
 }
 
 .c-underline{
     margin: auto;
     width: 200px;
     height: 2px;
-    background-color: #463C80;
+    background-color: #7F2FDD;
 }
 
 /*
@@ -602,7 +604,7 @@ Scoreboard.html
     background-color: rgba(134, 230, 242, .8);
 }
 
-.c-gamename__option{
+/* .c-gamename__option{
     border-radius: 8px;
     width: 200px;
     height: 35px;
@@ -611,10 +613,78 @@ Scoreboard.html
     align-items: center;
     justify-content: center;
     background-color: rgba(107, 179, 188, 0.8);
+} */
+
+.c-gamename__option--zen{
+    border-radius: 8px 0 0 0;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(107, 179, 188, 0.8);
+    color: #1A1151;
 }
 
-.c-gamename__option input[type="radio"]:checked + label{
+.c-gamename__option--rb{
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(107, 179, 188, 0.8);
+    color: #1A1151;
+}
+
+.c-gamename__option--ss{
+    border-radius: 0 8px 0 0;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(107, 179, 188, 0.8);
+    color: #1A1151;
+}
+
+/* .c-gamename__option input[type="radio"]:checked + label{
     border-radius: 8px;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    background-color: rgba(134, 230, 242, .8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+.c-gamename__option--zen input[type="radio"]:checked + label{
+    border-radius: 8px 8px 0 0;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    background-color: rgba(134, 230, 242, .8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.c-gamename__option--rb input[type="radio"]:checked + label{
+    border-radius: 8px 8px 0 0;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    background-color: rgba(134, 230, 242, .8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.c-gamename__option--ss input[type="radio"]:checked + label{
+    border-radius: 8px 8px 0 0;
     width: 200px;
     height: 35px;
     text-align: center;
@@ -821,6 +891,7 @@ Scoreboard.html
     padding: 0.625rem;
     font-size: 23px;
     font-weight: 400;
+    color: #261E53;
 }
 
 .c-grid__item{
@@ -1089,7 +1160,7 @@ input:checked+.slider:before {
 .c-back{
     display: flex;
     align-items: center;
-    color: #463C80;
+    color: #1A1151;
     font-size: 18px;
     font-weight: 600;
 }
