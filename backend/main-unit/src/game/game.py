@@ -31,14 +31,14 @@ class Game:
 
     def __init__(self,
                  command_queue: MessageQueue,
-                 duration: int = 60,
-                 difficulty: str = "traag",
-                 game_name: str = "zen"):
+                 game_config: GameConfigModel,
+                 ):
 
-        self.game_name = game_name
+        self.game_name = game_config.game
 
-        self.duration = duration  # in seconds
-        self.difficulty = difficulty
+        self.duration = game_config.duration
+        self.difficulty = game_config.difficulty
+        self.team_names = game_config.teamNames
 
         self.current_time = time.time()
         self.game_status = GameStatus.STARTING
@@ -52,17 +52,16 @@ class Game:
         async_print(self)
 
     @classmethod
-    def from_config(cls, game_config: GameConfigModel, command_queue):
+    def from_config(cls, game_config: GameConfigModel, command_queue) -> "Game":
         if game_config.game == "zen":
             from game.games.zen import ZenGame
             async_print("Creating ZenGame")
-            return ZenGame(command_queue, game_config.duration, game_config.difficulty, game_config.game)
-        elif game_config.game == 'red/blue':
-            # from game.games.red_blue import RedBlueGame
-            # return RedBlueGame(game_config.duration, game_config.difficulty, game_config.game)
-            pass
+            return ZenGame(command_queue, game_config)
+        elif game_config.game == 'Red/Blue':
+            from game.games.redblue import RedBlueGame
+            return RedBlueGame(command_queue, game_config)
         else:
-            return cls(command_queue, game_config.duration, game_config.difficulty, game_config.game)
+            return cls(command_queue, game_config)
 
     @property
     def paused(self):
@@ -80,8 +79,14 @@ class Game:
     def running(self):
         return not self.paused and not self.finished
 
+    def mqtt_log(self, message):
+        self.send_mqtt_message("main-unit/log", message)
+
     def add_available_pole(self, pole_id):
         self.available_poles.append(pole_id)
+
+    def send_mqtt_message(self, topic, message):
+        self.__command_queue.put(MQTTQueueItem(topic, message))
 
     def get_status(self):
         return {
@@ -101,7 +106,7 @@ class Game:
             if self.elapsed_time >= self.duration:
                 self.game_status = GameStatus.FINISHED
                 self.elapsed_time = self.duration
-                async_print("Game finished, points:", self.get_scores())
+                # async_print("Game finished, points:", self.get_scores())
                 self.send_mqtt_message("command/all/light", "off")
                 self.send_mqtt_message("notification/general", "Game finished")
 
@@ -111,14 +116,12 @@ class Game:
 
         self.step()
 
-    def send_mqtt_message(self, topic, message):
-        self.__command_queue.put(MQTTQueueItem(topic, message))
-
     def send_socket_message(self, message):
         self.__command_queue.put(SocketQueueItem(message))
 
     def handle_mqtt_message(self, message: MQTTQueueItem):
         async_print("mqtt message", message)
+        self.mqtt_log("handling mqtt message: " + str(message))
 
         if re.match(r"unit/[A-Za-z0-9]+/action", message.topic):
             pole_id = int(message.topic.split("/")[1])

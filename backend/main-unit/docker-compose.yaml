@@ -14,7 +14,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-      MONGO_INITDB_DATABASE: datastore
+      MONGO_INITDB_DATABASE: interactieve-palen
 
 
 
@@ -45,6 +45,9 @@ services:
     depends_on:
       - database
       - mqtt
+    environment:
+      MONGO_USERNAME: root
+      MONGO_PASSWORD: root
 
 
 volumes:

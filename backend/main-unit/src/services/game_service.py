@@ -7,7 +7,7 @@ from misc.queue.pole_action import PoleActionQueueItem
 from misc.tools import async_print
 from models.game_models import GameModel, GameStatusResponse, GameConfigModel
 from models.leaderboard_models import LeaderboardResponse
-from repositories.games import GameRepository
+from repositories.game_repository import GameRepository
 
 
 class GameService:
