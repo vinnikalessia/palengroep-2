@@ -15,29 +15,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="/script/datahandler.js"></script>
     <script src="/script/app.js"></script>
+    <title>Scoreboard na een spel</title>
   </head>
-
+  
   <body>
+    <video autoplay loop muted>
+      <source src="./img/WaterLook02.mp4" type="video/mp4">
+    </video>
     <div class="c-header">
-      <div class="c-svg u-1-of-6">
-        <a href="index.html">
-          <img src="./img/logo.svg" alt="Sport & Innovatie Campus" />
-        </a>
-      </div>
-      <div class="c-time u-5-of-6">11:24</div>
+      <div class="c-time">11:24</div>
     </div>
-    <selection class="o-row o-row--lg o-row--start">
+    <div class="c-violetfish">
+      <img src="./img/lange_paarse_vis.svg" alt="">
+    </div>
+    <div class="c-greenfish">
+      <img src="./img/groene_ruitvis.svg" alt="">
+    </div>
+    <selection class="o-row">
       <div class="o-container">
         <div class="c-tekst__score">
-          <div class="c-scoreboard">Je behaalde een<br />score van ... punten</div>
           <div class="c-proficiat">
-            <p>Proficiat!</p>
+            <div>Proficiat!</div>
           </div>
-        </div>
+          <div class="c-scoreboard">Je behaalde een<br>score van <span class="c-points">30</span> punten</div>
         <a href="leaderboard.html">
           <div class="c-button c-button__score">
             <button class="o-button-reset c-button__score-content">
-              <img class="c-button__leaderboard-logo" src="./img/leaderboard.svg" alt="leaderboard" />
+              <img class="c-svg__leaderboard" src="./img/leaderboard_icon.svg" alt="https://www.freepik.com/free-vector/gold-cups-awards-flat-illustrations-set-collection-golden-trophies-medals-winners-isolated-white_20827758.htm#query=trophee&position=0&from_view=search&track=sph" />
               Leaderboard
             </button>
           </div>
