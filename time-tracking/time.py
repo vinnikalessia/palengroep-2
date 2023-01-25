@@ -163,39 +163,12 @@ A = [x[0] + round(x[1] / 60, 3) for x in uren_A]
 
 plt.rcParams["figure.figsize"] = [7.00, 3.50]
 
-def time_senne(ax, y, fontsize=12):
-    ax.plot_date(x, y, "o-", color='orangered', label='Senne')
+def worked_hours(ax, y, name, color, fontsize=12):
+    ax.plot_date(x, y, "o-", color=color, label=name)
 
     ax.set_xlabel('datum', fontsize=fontsize)
     ax.set_ylabel('gewerkte uren per dag', fontsize=fontsize)
-    ax.set_title('Senne', fontsize=fontsize)
-    ax.xaxis.set_major_formatter(DateFormatter('%d/%m/%Y'))
-    ax.tick_params(rotation=45)
-
-def time_milan(ax, y, fontsize=12):
-    ax.plot_date(x, y, "o-", color='blueviolet', label='Milan')
-
-    ax.set_xlabel('datum', fontsize=fontsize)
-    ax.set_ylabel('gewerkte uren per dag', fontsize=fontsize)
-    ax.set_title('Milan', fontsize=fontsize)
-    ax.xaxis.set_major_formatter(DateFormatter('%d/%m/%Y'))
-    ax.tick_params(rotation=45)
-
-def time_jari(ax, y, fontsize=12):
-    ax.plot_date(x, y, "o-", color='dodgerblue', label='Jari')
-
-    ax.set_xlabel('datum', fontsize=fontsize)
-    ax.set_ylabel('gewerkte uren per dag', fontsize=fontsize)
-    ax.set_title('Jari', fontsize=fontsize)
-    ax.xaxis.set_major_formatter(DateFormatter('%d/%m/%Y'))
-    ax.tick_params(rotation=45)
-
-def time_alessia(ax, y, fontsize=12):
-    ax.plot_date(x, y, "o-", color='hotpink', label='Aléssia')
-
-    ax.set_xlabel('datum', fontsize=fontsize)
-    ax.set_ylabel('gewerkte uren per dag', fontsize=fontsize)
-    ax.set_title('Aléssia', fontsize=fontsize)
+    ax.set_title(name, fontsize=fontsize)
     ax.xaxis.set_major_formatter(DateFormatter('%d/%m/%Y'))
     ax.tick_params(rotation=45)
 
@@ -277,10 +250,10 @@ while teller == 1:
         keuze_2 = input(f"Welke grafieken wil je zien?\n1. Alle leden samen\n2. Per lid\n\t")
         if(keuze_2 == "1"):
             fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2)
-            time_senne(ax1, S)
-            time_milan(ax2, M)
-            time_jari(ax3, J)
-            time_alessia(ax4, A)
+            worked_hours(ax1, S, "Senne", "orangered")
+            worked_hours(ax2, M, "Milan", "blueviolet")
+            worked_hours(ax3, J, "Jari", "dodgerblue")
+            worked_hours(ax4, A, "Alésssia", "hotpink")
             plt.show()
 
             fig, ax = plt.subplots()
@@ -296,7 +269,7 @@ while teller == 1:
                 keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t->")
                 if(keuze_4 == "1"):
                     fig, ax = plt.subplots()
-                    time_senne(ax, S)
+                    worked_hours(ax, S, "Senne", "orangered")
                     plt.show()
                 elif(keuze_4 == "2"):
                     fig, ax = plt.subplots()
@@ -314,7 +287,7 @@ while teller == 1:
                 keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t->")
                 if(keuze_4 == "1"):
                     fig, ax = plt.subplots()
-                    time_milan(ax, M)
+                    worked_hours(ax, M, "Milan", "violetblue")
                     plt.show()
                 elif(keuze_4 == "2"):
                     fig, ax = plt.subplots()
@@ -332,7 +305,7 @@ while teller == 1:
                 keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t->")
                 if(keuze_4 == "1"):
                     fig, ax = plt.subplots()
-                    time_jari(ax, J)
+                    worked_hours(ax, J, "Jari", "dodgerblue")
                     plt.show()
                 elif(keuze_4 == "2"):
                     fig, ax = plt.subplots()
@@ -350,7 +323,7 @@ while teller == 1:
                 keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t->")
                 if(keuze_4 == "1"):
                     fig, ax = plt.subplots()
-                    time_alessia(ax, A)
+                    worked_hours(ax, A, "Aléssia", "hotpink")
                     plt.show()
                 elif(keuze_4 == "2"):
                     fig, ax = plt.subplots()
