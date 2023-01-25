@@ -8,9 +8,11 @@ from game.game import Game, GameStatus
 from misc.queue import MessageQueue
 from misc.queue.item import QueueItem
 from misc.queue.mqtt import MQTTQueueItem
+from misc.queue.pole_action import PoleActionQueueItem
 from misc.queue.socketio import SocketQueueItem
 from misc.tools import async_print
-from models.game_models import GameConfigModel
+from models.game_models import GameConfigModel, GameScore
+from repositories.game_repository import GameRepository
 
 
 class GameThread(threading.Thread):
@@ -19,6 +21,7 @@ class GameThread(threading.Thread):
                  socket_manager, mqtt_client,
                  client_queue: MessageQueue):
         self.client_queue = client_queue
+        self.game_repository = GameRepository()
         self.server_queue = Queue()
 
         self.socket_manager = socket_manager
@@ -62,6 +65,7 @@ class GameThread(threading.Thread):
         while not self.client_queue.empty():
 
             item = self.client_queue.get_nowait()
+            self._log_mqtt("received message " + str(item))
 
             if item.category == 'general':
                 async_print("Received general message: ", item.payload)
@@ -75,6 +79,11 @@ class GameThread(threading.Thread):
                     self.add_alive_esp32(item.payload)
                 else:
                     self.game.handle_mqtt_message(item)
+
+            elif item.category == 'pole':
+                async_print("Received pole message: ", item.payload)
+                if isinstance(item, PoleActionQueueItem):
+                    self.game.handle_button_press(item.pole_id)
 
             elif item.category == 'socket':
                 async_print("Received socket message: ", item.payload)
@@ -92,6 +101,7 @@ class GameThread(threading.Thread):
 
             if item.category == 'mqtt':
                 assert isinstance(item, MQTTQueueItem)
+                print(item)
                 self.mqtt_client.publish(item.topic, item.payload)
             elif item.category == 'socket':
                 assert isinstance(item, SocketQueueItem)
@@ -116,23 +126,41 @@ class GameThread(threading.Thread):
 
         self.game.prepare()
 
+    def get_score(self) -> GameScore:
+        scores = {}
+        for team, score in self.game.get_scores():
+            scores[team] = score
+        return GameScore(game=self.game.game_name, difficulty=self.game.difficulty, scores=scores)
+
+    def save_game(self):
+        async_print("saving game")
+
+        for team, score in self.game.get_scores():
+            async_print(f"team {team} scored {score} points")
+            self.game_repository.save_score(self.game_config.game, self.game_config.difficulty, team, score)
+
+        async_print("game saved")
+
     def run(self):
         self.clear_client_queue()
 
         self.prepare_game()
         self._log_mqtt('ready to start game')
 
-        self.socket_manager.emit('game_ready', "yess")
+        self.socket_manager.emit('game', "game ready")
 
         while self.game.starting:
             self.check_client_queue()
             time.sleep(0.01)
 
-        while self.game.running:
+        while self.game.running or self.game.paused:
             self.check_client_queue()
             self.game.thread_step()
             self.check_server_queue()
             time.sleep(0.01)
 
+        self.save_game()
         self._log_mqtt("game finished")
         async_print("game ended")
+
+
