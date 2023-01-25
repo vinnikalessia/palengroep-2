@@ -10,8 +10,9 @@
     --global-color-redteam: #FBC6C6;
     --global-color-blueteam: #C5EEFC;
 
-    --global-color-text: #4D4D4D;
-    --global-border-color: #D5D5D5;
+    --global-color-text: #463C80;
+    --global-color-buttontext: var(--global-color-white);
+    --global-border-color: white;
     --global-color-textinput: #C9C3C3;
 
     --global-background-color-slider: #D8F4FD;
@@ -30,24 +31,33 @@
 #GENERIC
 \*------------------------------------*/
 /*
-    Generic: Page
-    ---
+Generic: Page
+---
     Global page styles + universal box-sizing:
-*/
-html {
-    font-size: var(--global-font-size-1rem);
-    line-height: 1.5;
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: var(--global-color-white);
-    color: var(--global-color-text);
+    */
+    html {
+        font-size: var(--global-font-size-1rem);
+        line-height: 1.5;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: var(--global-color-white);
+        color: var(--global-color-text);
 }
 
 body{
     margin: 0;
+    overflow: hidden;
+}
+
+video{
+    width: 100%;
+    height: 620px;
+    object-fit: fill;
+    position: absolute;
+    z-index: -10;
 }
 
 *,
@@ -315,10 +325,11 @@ button{
     Header met logo en huidige tijd
 */
 .c-header{
-    background-color: var(--global-color-blue);
     height: 52px;
     display: flex;
+    justify-content: end;
     align-items: center;
+    padding-top: 30px;
 }
 
 .c-svg{
@@ -328,36 +339,68 @@ button{
 }
 
 .c-time{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    margin-top: 30px;
+    margin-right: 32px;
     font-size: 20px;
     font-weight: bold;
     text-align: right;
-    padding-right: 3%;
-    color: var(--global-color-black);
+    width: 71px;
+    height: 71px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--global-color-white);
+    border-radius: 100%;
+    background-color: #D33B6C;
+    color: white;
 }
-/**************/
 
 /*
-    Scoreboard.html
+    fish
+*/
+.c-violetfish{
+    position: fixed;
+    left: 114px;
+    top: 132px;
+}
+
+.c-greenfish{
+    position: fixed;
+    right: 45px;
+    top: 190px;
+}
+
+/*
+Scoreboard.html
 */
 .c-tekst__score{
-    margin-bottom: 50px;
+    margin-bottom: 80px;
 }
 
 .c-scoreboard {
-    color: var(--global-color-text);
+    color: #504490;
     font-size: 36px;
-    font-weight: 600;
-    display: block;
+    font-weight: 400;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 80px;
 }
 
 .c-proficiat {
-    color: var(--global-color-text);
+    color: #463C80;
     font-size: 56px;
-    font-weight:600;
+    font-weight: 600;
     display: block;
     text-align: center;
+}
+
+.c-points{
+    color: #504490;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 /*
@@ -391,33 +434,272 @@ button{
 /*
     Tijdens het spel
 */
-.c-game-playing{
+
+.c-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+.c-top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.c-game-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 35px;
+    margin-bottom: 30px;
+}
+
+.c-during-game{
+    display: flex;
+}
+
+.c-teamcard{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 428px;
+    margin: 0 32px;
+    background-color: rgba(134, 230, 242, .8);
+    height: 452px;
+    border-radius: 8px;
+}
+
+.c-teamname{
+    align-items: flex-start;
+    text-transform: uppercase;
+    font-size: 41px;
+    margin-top: 40px;
+    color: #392D78;
+}
+
+/* https://programmersportal.com/how-to-overlap-images-using-css/ */
+.c-current-score{
+    position: relative;
+    font-size: 41px;
+    z-index: 4;
+    color: white;
+    width: 300px;
+    height: 300px;
+}
+
 /*
-    spelnaam in leaderboardkeuze.html
+    red chest
 */
-.c-gamename{
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--global-border-color);
+.c-svg__redscore{
+    position: absolute;
+    margin-top: -30px;
+    z-index: 2;
+    left: 133px;
+    top: 45px;
+}
+
+.c-svg__redchest{
+    position: absolute;
+    width: 155px;
+    z-index: 1;
+    left: 40px;
+    top: -2px;
+}
+
+/*
+    blue chest
+*/
+.c-svg__bluescore{
+    position: absolute;
+    margin-top: -30px;
+    z-index: 2;
+    left: 133px;
+    top: 48px;
+}
+
+.c-svg__bluechest{
+    position: absolute;
+    width: 155px;
+    z-index: 1;
+    left: 97px;
+}
+
+/*
+    cards in alle pagina's
+*/
+.c-mid{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.c-game{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
     border-radius: 8px;
     width: 273px;
     height: 35px;
     text-align: center;
     position: absolute;
-    top: 125px;
-    left: 375px;
-    opacity: 1;
-    background-color: var(--global-color-white);
+    background-color:  rgba(134, 230, 242, .8); 
+}
+
+.c-chosengame{
+    display: flex;
+    justify-content: center;
+}
+
+.c-contentcard{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(134, 230, 242, .8);
+    border-radius: 8px;
+    margin: 0 32px;
+    width: 964px;
+    height: 430px;
+}
+
+.c-content{
+    position: absolute;
+    top: 142px;
+    left: 132px;;
+}
+
+.c-layout{
+    display: flex;
+    width: 760px;
+    height: 402px;
+    border-radius: 15px;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+    padding-top: 24px;
+}
+
+.c-leaderboard__text{
+    display: flex;
+    justify-content: space-between;
+    font-size: 23px;
+    font-weight: 600;
+    margin-bottom: 0;
+    color: #3B2E86;
+}
+
+.c-best-scores{
+    color: #3B2E86;
+    font-weight: 400;
+}
+
+.c-date{
+    color: #3B2E86;
+    font-weight: 600;
+}
+
+.c-underline{
+    margin: auto;
+    width: 271px;
+    height: 2px;
+    background-color: #7F2FDD;
+}
+
+/*
+    spelnaam in leaderboardkeuze.html
+*/
+.c-leaderboard__games{
+    display: flex;
+    justify-content: center;
+}
+
+.c-gamename{
+    border-radius: 8px;
+    width: 139px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(134, 230, 242, .8);
+    color: #1A1151;
+}
+
+.c-gamename__option--zen{
+    border-radius: 8px 0 0 0;
+    width: 139px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(107, 179, 188, 0.8);
+    color: #1A1151;
+}
+
+.c-gamename__option--rb{
+    width: 139px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(107, 179, 188, 0.8);
+    color: #1A1151;
+}
+
+.c-gamename__option--ss{
+    border-radius: 0 8px 0 0;
+    width: 139px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(107, 179, 188, 0.8);
+    color: #1A1151;
+}
+
+.c-gamename__option--zen input[type="radio"]:checked + label{
+    border-radius: 8px 8px 0 0;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    background-color: rgba(134, 230, 242, .8);
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+.c-gamename__option--rb input[type="radio"]:checked + label{
+    border-radius: 8px 8px 0 0;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    background-color: rgba(134, 230, 242, .8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.c-gamename__option--ss input[type="radio"]:checked + label{
+    border-radius: 8px 8px 0 0;
+    width: 200px;
+    height: 35px;
+    text-align: center;
+    background-color: rgba(134, 230, 242, .8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /*
     Game card in game_choice.html
@@ -550,12 +832,14 @@ button{
     border-width: 1px;
     border-style: solid;
     border-color: var(--global-border-color);
+    border-width: 2px;
     border-radius: 61px;
-    color: var(--global-color-text);
+    color: var(--global-color-buttontext);
     font-weight: 600;
     text-align: center;
     margin: auto;
-    box-shadow: 0 10px 15px rgba(8, 118, 155, .16)
+    background-color: #7F2FDD;
+    box-shadow: inset -20px 0px 6px rgba(0, 0, 0, 16%);
 }
 
 .c-button__start{
@@ -611,12 +895,14 @@ button{
     display: grid;
     grid-template-columns: auto auto auto;
     padding: 0.625rem;
+    font-size: 23px;
+    font-weight: 500;
+    color: #261E53;
 }
 
 .c-grid__item{
-    background-color: var(--global-color-white);
     padding: max(0.625rem, 0.625rem);
-    font-size: 23px;
+    font-size: 21px;
     text-align: center;
     max-width: 21.875rem;
 }
@@ -644,112 +930,6 @@ button{
 .c-svg__replaygame{
     margin-top: 6px;
     margin-left: 6px;
-}
-
-/*
-    Top => during_game.html
-*/
-.c-top{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: var(--global-color-black) solid 1px;
-    border-radius: 8px;
-    font-weight: 600;
-    height: 35px;
-    width: 273px;
-    background-color: var(--global-color-white);
-    margin-bottom: -12px;
-}
-
-/*
-    Midden => during_game.html
-*/
-.c-mid{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 2fr 1fr 1fr;
-    width: 760px;
-    height: 433px;
-}
-
-.c-mid-item__1{
-    display: flex;
-    justify-content: center;
-
-    grid-column: span 2;
-    grid-row: 1;
-}
-
-.c-mid-item__2{
-    display: flex;
-    justify-content: center;
-    
-    grid-column: span 2;
-    grid-row: 1;
-}
-
-.c-mid-item__3{
-    display: flex;
-    justify-content: center;
-    
-    grid-column: span 2;
-    grid-row: 2;
-}
-
-.c-mid-item__4{
-    display: flex;
-    justify-content: center;
-    
-    grid-column: span 2;
-    grid-row: 2;
-}
-
-.c-mid-item__5{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    grid-column: span 4;
-    grid-row: 3;
-}
-
-.c-mid-item__6{
-    display: flex;
-    justify-content: center;
-    grid-column: span 4;
-    grid-row: 4;
-}
-
-/*
-    de 2 teams en hun score in background => during_game.html
-*/
-.c-scores{
-    display: flex;
-    justify-content: center;
-}
-
-.c-background{
-    position: relative;
-    display: flex;
-}
-
-.c-background__left{
-    position: absolute;
-    background-color: var(--global-color-redteam);
-    width: 380px;
-    height: 433px;
-    border-radius: 15px 0 0 15px;
-    z-index: -2;
-}
-
-.c-background__right{
-    position: absolute;
-    background-color: var(--global-color-blueteam);
-    width: 380px;
-    height: 433px;
-    left: 380px;
-    border-radius: 0 15px 15px 0;
-    z-index: -2;
 }
 
 /*
@@ -789,26 +969,7 @@ button{
     margin-left: 16px;
 }
 
-/*
-    back arrow => during_game.html
-*/
-.c-game{
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--global-border-color);
-    border-radius: 8px;
-    width: 273px;
-    height: 35px;
-    text-align: center;
-    position: absolute;
-    top: 125px;
-    left: 375px;
-    opacity: 1;
-    background-color: var(--global-color-white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 
 /*
@@ -986,29 +1147,9 @@ input:checked+.slider:before {
     left: 180px;
 }
 
-
-/*
-    teamnamen
-*/
-.c-teamname{
-    margin-top: 64px;
-    font-weight: 400;
-    font-size: 23px;
-    text-decoration: underline 1px;
-}
-
 /*
     logo teamproject
 */
-.c-logo__teamproject{
-    position: absolute;
-    height: 170px;
-    width: 170px;
-    left: 295px;
-    top: 100px;
-    z-index: -1;
-}
-
 .c-logo{
     font-size: 18px;
     line-height: 1rem;
@@ -1022,24 +1163,12 @@ input:checked+.slider:before {
     margin-left: 48px;
 }
 
-.c-content{
-    position: absolute;
-    top: 142px;
-    left: 132px;
-}
-
-.c-layout{
+.c-back{
     display: flex;
-    width: 760px;
-    height: 402px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--global-border-color);
-    border-radius: 15px;
-    text-align: center;
     align-items: center;
-    justify-items: center;
-    padding-top: 24px;
+    color: #1A1151;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 /*
@@ -1047,20 +1176,18 @@ input:checked+.slider:before {
 */
 .c-pauze{
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
 
-    background-color: var(--global-color-white);
-    width: 100px;
-    height: 35px;
+    background-color: #7F2FDD;
+    width: 182px;
+    height: 34px;
     
-    margin-top: 12px;
-    margin-bottom: 8px;
-    
-    border: var(--global-color-black) solid 1px;
-    border-radius: 8px;
+    border: var(--global-color-white) solid 2px;
+    border-radius: 61px;
     font-size: 14px;
     font-weight: 400;
+    margin-right: 32px;
 }
 
 .c-pauze__img{
@@ -1070,19 +1197,19 @@ input:checked+.slider:before {
 }
 
 /*
-    button stop
+button stop
 */
 .c-stop{
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     
-    background-color: var(--global-color-white);
-    width: 100px;
-    height: 35px;
+    background-color: #7F2FDD;
+    width: 182px;
+    height: 34px;
     
-    border: var(--global-color-black) solid 1px;
-    border-radius: 8px;
+    border: var(--global-color-white) solid 2px;
+    border-radius: 61px;
     font-size: 14px;
     font-weight: 400;
 }
@@ -1095,14 +1222,8 @@ input:checked+.slider:before {
 }
 
 /*
-    Scores
+Scores
 */
-.c-score{
-    justify-content: center;
-    font-weight: 700;
-    font-size: 116px;
-}
-
 .c-button__score {
     display: flex;
     align-items: flex-start;
@@ -1119,6 +1240,13 @@ input:checked+.slider:before {
 
 .c-button__score-content{
     margin-left: 90px;
+}
+
+.c-svg__leaderboard{
+    width: 40px;
+    height: 32px;
+    margin-top: 8px;
+    margin-left: 2px;
 }
 
 /*
