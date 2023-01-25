@@ -227,55 +227,15 @@ avgS = sum(S) / len(x)
 avgM = sum(M) / len(x)
 avgJ = sum(J) / len(x)
 avgA = sum(A) / len(x)
-# print(f"\nGEMIDDELDE UREN:")
-# print(f"\tGemiddelde gewerkte uren van Senne: {avgS}\n\tGemiddelde gewerkte uren van Milan: {avgM}\n\tGemiddelde gewerkte uren van Jari: {avgJ}\n\tGemiddelde gewerkte uren van Aléssia: {avgA}")
 
 ##### totaal per persoon
 totS = sum(S)
 totM = sum(M)
 totJ = sum(J)
 totA = sum(A)
-# print(f"\nTOTAAL UREN:")
-# print(f"\tTotaal gewerkte uren van Senne: {totS}\n\tTotaal gewerkte uren van Milan: {totM}\n\tTotaal gewerkte uren van Jari: {totJ}\n\tTotaal gewerkte uren van Aléssia: {totA}")
 
 ##### totaal van alle leden
 totaal = totS + totM + totJ + totA
-# print(f"\n\tTotaal gewerkte uren voor het project: {totaal}\n")
-
-# gewerkte uren per dag van alle leden apart in 4 grafieken
-# fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2)
-# time_senne(ax1, S)
-# time_milan(ax2, M)
-# time_jari(ax3, J)
-# time_alessia(ax4, A)
-# plt.show()
-
-# gewerkte uren per dag van alle leden apart in 1 grafiek
-# fig, ax = plt.subplots()
-# all_times(ax, S, M, J, A)
-# plt.show()
-
-# gewerkte uren van alle leden te samen in 1 grafiek
-# fig, ax = plt.subplots()
-# total_time(ax, S, M, J, A)
-# plt.show()
-
-# chart van elk lid met gewerkte uren over alle weken
-# fig, ax = plt.subplots()
-# time_senne(ax, S)
-# plt.show()
-
-# fig, ax = plt.subplots()
-# time_milan(ax, M)
-# plt.show()
-
-# fig, ax = plt.subplots()
-# time_jari(ax, J)
-# plt.show()
-
-# fig, ax = plt.subplots()
-# time_alessia(ax, A)
-# plt.show()
 
 # chart van alle leden met gewerkte uren over per week
 week1_S = [(0, 0), (5, 31), (7, 11), (6, 26), (5, 7), (0, 0), (1, 1)]
@@ -312,7 +272,7 @@ y_week3_A = [x[0] + round(x[1] / 60, 3) for x in week3_A]
 teller = 1
 
 while teller == 1:
-    keuze_1 = input(f"Wat wil je zien?\n1. Grafiek\n2. Cijfers\n3. Quit\n\t")
+    keuze_1 = input(f"Wat wil je zien?\n1. Grafiek\n2. Cijfers\n3. Quit\n\t->")
     if(keuze_1 == "1"):
         keuze_2 = input(f"Welke grafieken wil je zien?\n1. Alle leden samen\n2. Per lid\n\t")
         if(keuze_2 == "1"):
@@ -331,97 +291,97 @@ while teller == 1:
             total_time(ax, S, M, J, A)
             plt.show()
         elif(keuze_2 == "2"):
-            keuze_3 = input(f"Van welke lid wil je een grafiek zien?\n1. Senne\n2. Milan\n3. Jari\n4. Aléssia\n\t")
+            keuze_3 = input(f"Van welke lid wil je een grafiek zien?\n1. Senne\n2. Milan\n3. Jari\n4. Aléssia\n\t->")
             if(keuze_3 == "1"):
-                keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t")
+                keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t->")
                 if(keuze_4 == "1"):
                     fig, ax = plt.subplots()
                     time_senne(ax, S)
                     plt.show()
                 elif(keuze_4 == "2"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week1, y_week1_S, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week1, y_week1_S, 'o-', color='orangered')
                     plt.show()
                 elif(keuze_4 == "3"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week2, y_week2_S, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week2, y_week2_S, 'o-', color='orangered')
                     plt.show()
                 elif(keuze_4 == "4"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week3, y_week3_S, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week3, y_week3_S, 'o-', color='orangered')
                     plt.show()
             elif(keuze_3 == "2"):
-                keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t")
+                keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t->")
                 if(keuze_4 == "1"):
                     fig, ax = plt.subplots()
                     time_milan(ax, M)
                     plt.show()
                 elif(keuze_4 == "2"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week1, y_week1_M, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week1, y_week1_M, 'o-', color='blueviolet')
                     plt.show()
                 elif(keuze_4 == "3"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week2, y_week2_M, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week2, y_week2_M, 'o-', color='blueviolet')
                     plt.show()
                 elif(keuze_4 == "4"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week3, y_week3_M, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week3, y_week3_M, 'o-', color='blueviolet')
                     plt.show()
             elif(keuze_3 == "3"):
-                keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t")
+                keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t->")
                 if(keuze_4 == "1"):
                     fig, ax = plt.subplots()
                     time_jari(ax, J)
                     plt.show()
                 elif(keuze_4 == "2"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week1, y_week1_J, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week1, y_week1_J, 'o-', color='dodgerblue')
                     plt.show()
                 elif(keuze_4 == "3"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week2, y_week2_J, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week2, y_week2_J, 'o-', color='dodgerblue')
                     plt.show()
                 elif(keuze_4 == "4"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week3, y_week3_J, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week3, y_week3_J, 'o-', color='dodgerblue')
                     plt.show()
             elif(keuze_3 == "4"):
-                keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t")
+                keuze_4 = input(f"Van de voorbije maand of van een specifieke week?\n1. Maand\n2. Week 1\n3. Week 2\n4. Week 3\n\t->")
                 if(keuze_4 == "1"):
                     fig, ax = plt.subplots()
                     time_alessia(ax, A)
                     plt.show()
                 elif(keuze_4 == "2"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week1, y_week1_A, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week1, y_week1_A, 'o-', color='hotpink')
                     plt.show()
                 elif(keuze_4 == "3"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week2, y_week2_A, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week2, y_week2_A, 'o-', color='hotpink')
                     plt.show()
                 elif(keuze_4 == "4"):
                     fig, ax = plt.subplots()
-                    ax.plot_date(x_week3, y_week3_A, 'o-', color='lightcoral', label='1')
+                    ax.plot_date(x_week3, y_week3_A, 'o-', color='hotpink')
                     plt.show()
             else:
                 print("Ongeldige invoer, probeer opnieuw.")
         else:
             print("Ongeldige invoer, probeer opnieuw.")
     elif(keuze_1 == "2"):
-        keuze_2 = input(f"Wat wil je van cijfers zien?\n1. Gemiddelde uren\n2. Totaal gewerkte uren\n3. Gewerkte uren voor het project\n\t")
+        keuze_2 = input(f"Wat wil je van cijfers zien?\n1. Gemiddelde uren\n2. Totaal gewerkte uren\n3. Gewerkte uren voor het project\n\t->")
         if(keuze_2 == "1"):
-            print(f"\nGEMIDDELDE UREN:")
+            print(f"\nGemiddelde uren:")
             print(f"\tGemiddelde gewerkte uren van Senne: {avgS}\n\tGemiddelde gewerkte uren van Milan: {avgM}\n\tGemiddelde gewerkte uren van Jari: {avgJ}\n\tGemiddelde gewerkte uren van Aléssia: {avgA}")
         elif(keuze_2 == "2"):
-            print(f"\nTOTAAL UREN:")
+            print(f"\nTotaal uren:")
             print(f"\tTotaal gewerkte uren van Senne: {totS}\n\tTotaal gewerkte uren van Milan: {totM}\n\tTotaal gewerkte uren van Jari: {totJ}\n\tTotaal gewerkte uren van Aléssia: {totA}")
         elif(keuze_2 == "3"):
-            print(f"\nTOTAAL UREN VOOR HET PROJECT:")
+            print(f"\nTotaal uren voor het project:")
             print(f"\n\tTotaal gewerkte uren voor het project: {totaal}\n")
         else:
             print(f"Ongeldige invoer, probeer opnieuw.")
-    elif(keuze_1 == "3"):
+    elif(keuze_1 == "3" or keuze_1.capitalize() == "Q"):
         teller = 0
     else:
         print(f"Ongeldige invoer, probeer opnieuw.")
