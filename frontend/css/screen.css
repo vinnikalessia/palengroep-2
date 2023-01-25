@@ -572,15 +572,27 @@ Scoreboard.html
 }
 
 .c-leaderboard__text{
+    display: flex;
+    justify-content: space-between;
     font-size: 23px;
     font-weight: 600;
     margin-bottom: 0;
     color: #3B2E86;
 }
 
+.c-best-scores{
+    color: #3B2E86;
+    font-weight: 400;
+}
+
+.c-date{
+    color: #3B2E86;
+    font-weight: 600;
+}
+
 .c-underline{
     margin: auto;
-    width: 200px;
+    width: 271px;
     height: 2px;
     background-color: #7F2FDD;
 }
@@ -595,29 +607,19 @@ Scoreboard.html
 
 .c-gamename{
     border-radius: 8px;
-    width: 200px;
+    width: 139px;
     height: 35px;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgba(134, 230, 242, .8);
+    color: #1A1151;
 }
-
-/* .c-gamename__option{
-    border-radius: 8px;
-    width: 200px;
-    height: 35px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(107, 179, 188, 0.8);
-} */
 
 .c-gamename__option--zen{
     border-radius: 8px 0 0 0;
-    width: 200px;
+    width: 139px;
     height: 35px;
     text-align: center;
     display: flex;
@@ -628,7 +630,7 @@ Scoreboard.html
 }
 
 .c-gamename__option--rb{
-    width: 200px;
+    width: 139px;
     height: 35px;
     text-align: center;
     display: flex;
@@ -640,7 +642,7 @@ Scoreboard.html
 
 .c-gamename__option--ss{
     border-radius: 0 8px 0 0;
-    width: 200px;
+    width: 139px;
     height: 35px;
     text-align: center;
     display: flex;
@@ -649,17 +651,6 @@ Scoreboard.html
     background-color: rgba(107, 179, 188, 0.8);
     color: #1A1151;
 }
-
-/* .c-gamename__option input[type="radio"]:checked + label{
-    border-radius: 8px;
-    width: 200px;
-    height: 35px;
-    text-align: center;
-    background-color: rgba(134, 230, 242, .8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
 
 .c-gamename__option--zen input[type="radio"]:checked + label{
     border-radius: 8px 8px 0 0;
@@ -890,7 +881,7 @@ Scoreboard.html
     grid-template-columns: auto auto auto;
     padding: 0.625rem;
     font-size: 23px;
-    font-weight: 400;
+    font-weight: 500;
     color: #261E53;
 }
 
