@@ -761,7 +761,7 @@ Scoreboard.html
     color: var(--global-color-buttontext);
     font-weight: 600;
     text-align: center;
-    /* margin: auto; */
+    margin: auto;
     background-color: #7F2FDD;
     box-shadow: inset -20px 0px 6px rgba(0, 0, 0, 16%);
 }
