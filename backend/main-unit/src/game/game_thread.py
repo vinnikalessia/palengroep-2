@@ -11,7 +11,7 @@ from misc.queue.mqtt import MQTTQueueItem
 from misc.queue.pole_action import PoleActionQueueItem
 from misc.queue.socketio import SocketQueueItem
 from misc.tools import async_print
-from models.game_models import GameConfigModel
+from models.game_models import GameConfigModel, GameScore
 from repositories.game_repository import GameRepository
 
 
@@ -125,6 +125,12 @@ class GameThread(threading.Thread):
         self.mqtt_client.publish('configure/all/on_press', self.game.on_button_press_config.value)
 
         self.game.prepare()
+
+    def get_score(self) -> GameScore:
+        scores = {}
+        for team, score in self.game.get_scores():
+            scores[team] = score
+        return GameScore(game=self.game.game_name, difficulty=self.game.difficulty, scores=scores)
 
     def save_game(self):
         async_print("saving game")

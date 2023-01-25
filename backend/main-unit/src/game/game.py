@@ -57,7 +57,7 @@ class Game:
             from game.games.zen import ZenGame
             async_print("Creating ZenGame")
             return ZenGame(command_queue, game_config)
-        elif game_config.game == 'Red/Blue':
+        elif game_config.game == 'redblue':
             from game.games.redblue import RedBlueGame
             return RedBlueGame(command_queue, game_config)
         else:

@@ -34,7 +34,7 @@ class GameService:
         return self.game_repository.get_leaderboard(game, difficulty)
 
     def get_score(self):
-        return self.game_repository.get_score()
+        return self.game_process.get_score()
 
     def setup_game(self, game_setup: GameConfigModel) -> GameStatusResponse:
         self.game_process = GameThread(game_config=game_setup,
