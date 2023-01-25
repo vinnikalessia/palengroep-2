@@ -353,8 +353,7 @@ button{
     border-style: solid;
     border-color: var(--global-color-white);
     border-radius: 100%;
-    background: radial-gradient(circle, #e17c31 0%, #b24c00 100%);
-    box-shadow: -10px -5px 15px rgb(216, 121, 48) inset;
+    background-color: #D33B6C;
     color: white;
 }
 
@@ -439,9 +438,9 @@ Scoreboard.html
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 300px;
     height: 35px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .c-during-game{
@@ -493,6 +492,7 @@ Scoreboard.html
     width: 155px;
     z-index: 1;
     left: 40px;
+    top: -2px;
 }
 
 /*
@@ -503,28 +503,15 @@ Scoreboard.html
     margin-top: -30px;
     z-index: 2;
     left: 133px;
-    top: 45px;
+    top: 48px;
 }
 
 .c-svg__bluechest{
     position: absolute;
     width: 155px;
     z-index: 1;
-    left: 75px;
+    left: 97px;
 }
-
-/* .c-svg__chest{
-    width: 155px;
-    height: 155px;
-    margin-top: 30px;
-}
-
-.c-svg__bubbles{
-    position: absolute;
-    fill: whitesmoke;
-    background-color: whitesmoke;
-} */
-
 
 /*
     cards in alle pagina's
@@ -774,7 +761,7 @@ Scoreboard.html
     color: var(--global-color-buttontext);
     font-weight: 600;
     text-align: center;
-    margin: auto;
+    /* margin: auto; */
     background-color: #7F2FDD;
     box-shadow: inset -20px 0px 6px rgba(0, 0, 0, 16%);
 }
@@ -1112,17 +1099,18 @@ input:checked+.slider:before {
 */
 .c-pauze{
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
 
     background-color: #7F2FDD;
-    width: 100px;
-    height: 35px;
+    width: 182px;
+    height: 34px;
     
     border: var(--global-color-white) solid 2px;
-    border-radius: 8px;
+    border-radius: 61px;
     font-size: 14px;
     font-weight: 400;
+    margin-right: 32px;
 }
 
 .c-pauze__img{
@@ -1136,15 +1124,15 @@ button stop
 */
 .c-stop{
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     
     background-color: #7F2FDD;
-    width: 100px;
-    height: 35px;
+    width: 182px;
+    height: 34px;
     
     border: var(--global-color-white) solid 2px;
-    border-radius: 8px;
+    border-radius: 61px;
     font-size: 14px;
     font-weight: 400;
 }
