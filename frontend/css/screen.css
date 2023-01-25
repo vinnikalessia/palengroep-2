@@ -358,10 +358,25 @@ button{
 }
 
 /*
+    fish
+*/
+.c-violetfish{
+    position: fixed;
+    left: 114px;
+    top: 132px;
+}
+
+.c-greenfish{
+    position: fixed;
+    right: 45px;
+    top: 190px;
+}
+
+/*
 Scoreboard.html
 */
 .c-tekst__score{
-    margin-bottom: 50px;
+    margin-bottom: 80px;
 }
 
 .c-scoreboard {
@@ -369,7 +384,7 @@ Scoreboard.html
     font-size: 36px;
     font-weight: 400;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 80px;
 }
 
 .c-proficiat {
@@ -382,8 +397,8 @@ Scoreboard.html
 
 .c-points{
     color: #504490;
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 32px;
+    font-weight: 700;
     text-align: center;
     margin-bottom: 15px;
 }
