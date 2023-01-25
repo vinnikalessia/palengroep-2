@@ -365,7 +365,7 @@ Scoreboard.html
 }
 
 .c-scoreboard {
-    color: var(--global-color-text);
+    color: #504490;
     font-size: 36px;
     font-weight: 400;
     text-align: center;
@@ -373,7 +373,7 @@ Scoreboard.html
 }
 
 .c-proficiat {
-    color: var(--global-color-text);
+    color: #463C80;
     font-size: 56px;
     font-weight: 600;
     display: block;
@@ -381,7 +381,7 @@ Scoreboard.html
 }
 
 .c-points{
-    color: var(--global-color-text);
+    color: #504490;
     font-size: 28px;
     font-weight: 600;
     text-align: center;
