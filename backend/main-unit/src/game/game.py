@@ -55,6 +55,7 @@ class Game:
     def from_config(cls, game_config: GameConfigModel, command_queue):
         if game_config.game == "zen":
             from game.games.zen import ZenGame
+            async_print("Creating ZenGame")
             return ZenGame(command_queue, game_config.duration, game_config.difficulty, game_config.game)
         elif game_config.game == 'red/blue':
             # from game.games.red_blue import RedBlueGame
@@ -100,11 +101,12 @@ class Game:
             if self.elapsed_time >= self.duration:
                 self.game_status = GameStatus.FINISHED
                 self.elapsed_time = self.duration
-                async_print("Game finished")
+                async_print("Game finished, points:", self.get_scores())
                 self.send_mqtt_message("command/all/light", "off")
+                self.send_mqtt_message("notification/general", "Game finished")
 
         if self.game_status == GameStatus.STARTING:
-            self.elapsed_time = self.duration
+            self.elapsed_time = 0
         self.current_time = time.time()
 
         self.step()

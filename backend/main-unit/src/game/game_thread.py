@@ -123,7 +123,7 @@ class GameThread(threading.Thread):
         self.prepare_game()
         self._log_mqtt('ready to start game')
 
-        self.socket_manager.emit('game_ready', "yess")
+        self.socket_manager.emit('game', "game ready")
 
         while self.game.starting:
             self.check_client_queue()

@@ -1,50 +1,54 @@
+from datetime import datetime
 from typing import List
+
+from pymongo import MongoClient
 
 from models.game_models import GameModel
 from models.leaderboard_models import Leaderboard, TeamScore
 
+MONGO_URI = "mongodb://database:27017"
+MONGO_DB = "datastore"
+
 
 class GameRepository:
 
+    def __init__(self):
+        self.client = MongoClient(MONGO_URI)
+        self.db = self.client[MONGO_DB]
+
     def get_games(self) -> List[GameModel]:
-        return [
-            GameModel(
-                name="Red/Blue",
-                description="bla bla bla bla bla",
-                players="minimum 2",
-                num_teams=2,
-            ),
-            GameModel(
-                name="Zen",
-                description="bla bla bla bla bla",
-                players="minimum 2",
-                num_teams=1,
-            ),
-            GameModel(
-                name="Simon Says",
-                description="bla bla bla bla bla",
-                players="minimum 2",
-                num_teams=1,
-            ),
-        ]
+        games = self.db.games.find()
+        return [GameModel(**game) for game in games]
 
     def get_leaderboard(self, game: str, difficulty: str):
-        return Leaderboard(
-            game=game,
-            difficulty=difficulty,
-            daily=[
-                TeamScore(team_name="Team 1", score=100),
-                TeamScore(team_name="Team 1", score=99),
-                TeamScore(team_name="Team 1", score=50),
-                TeamScore(team_name="Team 1", score=25),
-            ],
-            alltime=[
-                TeamScore(team_name="Team 1", score=100),
-                TeamScore(team_name="Team 1", score=99),
-                TeamScore(team_name="Team 1", score=50),
-                TeamScore(team_name="Team 1", score=25),
-            ]
-        )
+        scores_for_game = self.db.scores.find({"game": game, "difficulty": difficulty})
 
-    def get_score(self):
-        return 9
+        daily = []
+        alltime = []
+
+        today = datetime.today()
+
+        for score in scores_for_game:
+            alltime.append(TeamScore(team_name=score["team_name"], score=score["score"]))
+
+            score_date = score["date"]
+
+            if score_date.year == today.year and score_date.month == today.month and score_date.day == today.day:
+                daily.append(TeamScore(team_name=score["team_name"], score=score["score"]))
+
+        daily = sorted(daily, key=lambda x: x.score, reverse=True)
+        alltime = sorted(alltime, key=lambda x: x.score, reverse=True)
+
+        # limit to top 10
+        daily = daily[:10]
+        alltime = alltime[:10]
+
+        return Leaderboard(game=game, difficulty=difficulty, daily=daily, alltime=alltime)
+
+    def save_score(self, game: str, difficulty: str, team_name: str, score: int):
+        self.db.scores.insert_one({"game": game,
+                                   "difficulty": difficulty,
+                                   "team_name": team_name,
+                                   "score": score,
+                                   "date": datetime.now()
+                                   })
