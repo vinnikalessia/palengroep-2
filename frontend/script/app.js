@@ -81,14 +81,26 @@ const init = function (total) {
   htmlLeaderboardOoit = document.querySelector('.js-ooit');
   countdownTimer = document.querySelector('.js-countdownTimer');
 
-  if (document.querySelector('.js-leaderboard')) {
-    getData(endpoint + `leaderboard/${chosenGame.id}`).then(showLeaderboard);
+  if (document.querySelector('.js-index')) {
+    timeBubble();
+  }
+  if (document.querySelector('.js-gameChoice')) {
+    timeBubble();
+  }
+  if (document.querySelector('.js-settings')) {
     timeBubble();
   }
   if (document.querySelector('.js-countdown')) {
     showCountdown();
   }
-  if (document.querySelector('.js-index')) {
+  if (document.querySelector('.js-duringGame')) {
+    timeBubble();
+  }
+  if (document.querySelector('.js-scoreboard')) {
+    timeBubble();
+  }
+  if (document.querySelector('.js-leaderboard')) {
+    getData(endpoint + `leaderboard/${chosenGame.id}`).then(showLeaderboard);
     timeBubble();
   }
 };
