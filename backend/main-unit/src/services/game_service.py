@@ -13,7 +13,7 @@ from repositories.game_repository import GameRepository
 class GameService:
     def __init__(self, game_repository: GameRepository, client_queue: MessageQueue):
         self.game_repository = game_repository
-        self.game_process = None
+        self.game_process: GameThread = None
         self.socket_manager = None
         self.mqtt_client = None
 
@@ -30,8 +30,8 @@ class GameService:
     def get_games(self) -> List[GameModel]:
         return self.game_repository.get_games()
 
-    def get_leaderboard(self, game: str, difficulty: str) -> LeaderboardResponse:
-        return self.game_repository.get_leaderboard(game, difficulty)
+    def get_leaderboard(self, game: str) -> LeaderboardResponse:
+        return self.game_repository.get_leaderboard(game)
 
     def get_score(self):
         return self.game_process.get_score()
@@ -53,15 +53,22 @@ class GameService:
             async_print("no game prepared")
 
     def stop_game(self):
-        self.game_process.stop()
-        # self.game_process.join()
-        self.game_process = None
+        if self.game_process is not None and self.game_process.is_alive():
+            self.client_queue.put_nowait(QueueItem("general", "stop"))
+        else:
+            async_print("no game prepared")
 
     def pause_game(self):
-        self.client_queue.put_nowait(QueueItem("general", "pause"))
+        if self.game_process is not None and self.game_process.is_alive():
+            self.client_queue.put_nowait(QueueItem("general", "pause"))
+        else:
+            async_print("no game running")
 
     def resume_game(self):
-        self.client_queue.put_nowait(QueueItem("general", "resume"))
+        if self.game_process is not None and self.game_process.is_alive():
+            self.client_queue.put_nowait(QueueItem("general", "resume"))
+        else:
+            async_print("no game running")
 
     def handle_pole_alive(self, pole_id: str):
         if self.game_process is not None:

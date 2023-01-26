@@ -28,6 +28,11 @@ class RedBlueGame(Game):
         for team in self.team_names:
             self.team_colors[team] = colors.pop()
 
+    def on_pause(self):
+        self.team_pole = {tn: None for tn in self.team_names}
+        self.last_pole = None
+        super().on_pause()
+
     def handle_button_press(self, pole_id):
         self.mqtt_log("Pole " + str(pole_id) + " has been pressed")
         for team_name in self.team_names:
