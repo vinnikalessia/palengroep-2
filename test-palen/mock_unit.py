@@ -10,7 +10,7 @@ font_default = dict(font="Helvetica 18")
 font_smaller = dict(font="Helvetica 14")
 widget_options = dict(**padding)
 
-mqtt_ip = "0.0.0.0"
+mqtt_ip = "34.241.254.21"
 
 
 class Runner:
