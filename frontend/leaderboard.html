@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,105 +14,115 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="./script/datahandler.js"></script>
     <script src="./script/app.js"></script>
-  </head>
+    <title>Leaderboard na een spel</title>
+</head>
 
-  <body>
+<body class="js-leaderboard">
+    <video autoplay loop muted>
+        <source src="./img/WaterLook02.mp4" type="video/mp4">
+    </video>
     <div class="c-header">
-      <div class="c-svg u-1-of-6">
-        <a href="index.html">
-            <img src="./img/logo.svg" alt="Sport & Innovatie Campus" />
-          </a>
-      </div>
-      <div class="c-time u-5-of-6">11:24</div>
+        <div class="c-time js-time">11:24</div>
     </div>
     <div class="c-logo">
         <a href="scoreboard.html">
-            <img src="./img/pijl_links.svg" alt="terug" />
-            Terug
-        </a>
-      </div>
-        <div class="c-content">
-            <div class="o-container c-layout">
-                <div class="u-1-of-3">
-                    Beste scores</br>vandaag
-                    <div class="c-line">
-                        <hr>
-                    </div>
-                    <div class="c-grid__container js-vandaag">
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                    </div>
-                </div>
-                <div class="u-1-of-3">
-                    <div class="c-svg__logo">
-                        <img src="./img/logo_teamproject.svg" alt="onze logo">
-                    </div>
-                    <a href="game_choice.html">
-                        <div class="c-button c-button__leaderboard">
-                            <button class="o-button-reset c-button__leaderboard-content" type="submit">
-                                <div class="c-newgame">
-                                    <img src="./img/add_small.svg" alt="new game">
-                                    Nieuw spel
-                                </div>
-                            </button>
-                        </div>
-                    </a>
-                    <a href="countdown.html">
-                        <div class="c-button c-button__leaderboard">
-                            <button class="o-button-reset c-button__leaderboard-content" type="submit">
-                                <div class="c-newgame">
-                                    <img class="c-button__replay" src="./img/replay_small.svg" alt="replay game">
-                                    <p class="c-text__replay">Herstart spel</p>
-                                </div>
-                            </button>
-                        </div>
-                    </a>
-                </div>
-                <div class="u-1-of-3">
-                    Beste scores</br>ooit
-                    <div class="c-line">
-                        <hr>
-                    </div>
-                    <div class="c-grid__container js-ooit">
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                        <div class="c-grid__item">test1</div>
-                        <div class="c-grid__item">test2</div>
-                        <div class="c-grid__item">test3</div>
-                    </div>
-                </div>
+            <div class="c-back">
+                <img src="./img/back_arrow.svg" alt="terug" />
+                Terug
             </div>
-        </div>
-        <div class="c-game">
-            <div class="c-game__text">
+        </a>
+    </div>
+    <div class="c-mid">
+        <div class="c-chosengame">
+            <div class="c-gamename js-chosenGame" id="redblue">
                 Red / Blue
             </div>
         </div>
+        <div class="c-contentcard">
+            <div class="c-content">
+                <div class="o-container c-layout">
+                    <div class="u-2-of-5">
+                        <div class="c-leaderboard__text">
+                            <div class="c-best-scores">Beste scores</div>
+                            <div class="c-date">vandaag</div>
+                        </div>
+                        <div class="c-underline">
+                        </div>
+                        <div class="c-grid__container js-vandaag">
+                            <div class="c-grid__item">1</div>
+                            <div class="c-grid__item">De Joskes</div>
+                            <div class="c-grid__item">30</div>
+                            <div class="c-grid__item">2</div>
+                            <div class="c-grid__item">De Gilberkes</div>
+                            <div class="c-grid__item">28</div>
+                            <div class="c-grid__item">3</div>
+                            <div class="c-grid__item">Howest</div>
+                            <div class="c-grid__item">25</div>
+                            <div class="c-grid__item">4</div>
+                            <div class="c-grid__item">Kortrijk</div>
+                            <div class="c-grid__item">20</div>
+                            <div class="c-grid__item">5</div>
+                            <div class="c-grid__item">Belgie</div>
+                            <div class="c-grid__item">18</div>
+                        </div>
+                    </div>
+                    <div class="u-1-of-3">
+                        <div class="c-svg__logo">
+                            <img src="./img/trophee.svg"
+                                alt="https://www.freepik.com/free-vector/gold-cups-awards-flat-illustrations-set-collection-golden-trophies-medals-winners-isolated-white_20827758.htm#query=trophee&position=0&from_view=search&track=sph">
+                        </div>
+                        <a href="game_choice.html">
+                            <div class="c-button c-button__leaderboard">
+                                <button class="o-button-reset c-button__leaderboard-content" type="submit">
+                                    <div class="c-newgame">
+                                        <img src="./img/add_small.svg" alt="new game">
+                                        Nieuw spel
+                                    </div>
+                                </button>
+                            </div>
+                        </a>
+                        <a href="countdown.html">
+                            <div class="c-button c-button__leaderboard">
+                                <button class="o-button-reset c-button__leaderboard-content" type="submit">
+                                    <div class="c-newgame">
+                                        <img class="c-button__replay" src="./img/replay_small.svg" alt="replay game">
+                                        <p class="c-text__replay">Herstart spel</p>
+                                    </div>
+                                </button>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="u-2-of-5">
+                        <div class="c-leaderboard__text">
+                            <div class="c-best-scores">Beste scores</div>
+                            <div class="c-date">ooit</div>
+                        </div>
+                        <div class="c-underline">
+                        </div>
+                        <div class="c-grid__container js-ooit">
+                            <div class="c-grid__item">1</div>
+                            <div class="c-grid__item">De Joskes</div>
+                            <div class="c-grid__item">30</div>
+                            <div class="c-grid__item">2</div>
+                            <div class="c-grid__item">De Gilberkes</div>
+                            <div class="c-grid__item">28</div>
+                            <div class="c-grid__item">3</div>
+                            <div class="c-grid__item">Howest</div>
+                            <div class="c-grid__item">25</div>
+                            <div class="c-grid__item">4</div>
+                            <div class="c-grid__item">Kortrijk</div>
+                            <div class="c-grid__item">20</div>
+                            <div class="c-grid__item">5</div>
+                            <div class="c-grid__item">Belgie</div>
+                            <div class="c-grid__item">18</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </body>
+    </div>
+</body>
+
 </html>
