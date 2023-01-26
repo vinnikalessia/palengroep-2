@@ -807,8 +807,8 @@ Scoreboard.html
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(254, 254, 254, 0.75);
-    position: absolute;
+    background-color: #7F2FDD;
+    position: fixed;
     top: 343px;
     left: 40px;
 }
@@ -823,10 +823,10 @@ Scoreboard.html
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(254, 254, 254, 0.75);
-    position: absolute;
+    background-color: #7F2FDD;
+    position: fixed;
     top: 343px;
-    left: 950px;
+    left: 924px;
 }
 
 /*
@@ -1281,7 +1281,7 @@ Scores
 
 .c-map{
     position: absolute;
-    top: 170px;
+    top: 130px;
     left: 120px;
 }
 
@@ -1291,7 +1291,8 @@ Scores
     left: 69px;
 }
 
-.c-title {
+.c-title{
+    color: #3B2E86;
     font-size: 56px;
     font-weight: bold;
     display: flex;
@@ -1299,20 +1300,26 @@ Scores
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 110px;
+    top: 48px;
     left: 340px;
 }
 
 .c-keuze {
-    position: absolute;
-    top: 290px;
-    left: 300px;
+    position: fixed;
+    top: 300px;
+    left: 290px;
     color: #3F3F3F;
 }
 
 .c-gametitle {
     font-size: 28px;
     font-weight: 600;
+}
+
+.c-underline__gamename{
+    width: 110px;
+    background: #8F84BC;
+    margin: 0;
 }
 
 .c-gametussentitel {
@@ -1327,12 +1334,21 @@ Scores
 }
 
 .c-leaderboard__button {
-    position: absolute;
-    top: 293px;
+    position: fixed;
+    top: 300px;
     left: 644px;
     font-size: 15px;
     font-weight: 300;
     color: #3F3F3F;
+}
+
+.c-leaderboard-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.c-leaderboard-icon__svg{
+    margin-right: 6px;
 }
 
 .c-svg__arrow {
