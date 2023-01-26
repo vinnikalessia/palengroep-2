@@ -1,54 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/screen.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>During game</title>
-  </head>
-  <body>
-    <video autoplay loop muted>
-      <source src="./img/WaterLook02.mp4" type="video/mp4" />
-    </video>
-    <div class="c-header">
-      <div class="c-time">11:24</div>
-    </div>
-    <div class="c-body">
-      <div class="c-container">
-        <div class="c-top">
-          <div class="c-game-buttons">
-            <button class="c-button c-pauze">
-              <img class="c-pauze__img" src="./img/pauze.svg" alt="pauzeer het spel" />
-              pauze
-            </button>
-            <button class="c-button c-stop">
-              <img class="c-stop__img" src="./img/stop.svg" alt="stop het spel" />
-              stop
-            </button>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/screen.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="./script/app.js"></script>
+  <title>During game</title>
+</head>
+
+<body class="js-duringGame">
+  <video autoplay loop muted>
+    <source src="./img/WaterLook02.mp4" type="video/mp4" />
+  </video>
+  <div class="c-header">
+    <div class="c-time js-time">11:24</div>
+  </div>
+  <div class="c-body">
+    <div class="c-container">
+      <div class="c-top">
+        <div class="c-game-buttons">
+          <button class="c-button c-pauze">
+            <img class="c-pauze__img" src="./img/pauze.svg" alt="pauzeer het spel" />
+            pauze
+          </button>
+          <button class="c-button c-stop">
+            <img class="c-stop__img" src="./img/stop.svg" alt="stop het spel" />
+            stop
+          </button>
+        </div>
+      </div>
+      <div class="c-during-game">
+        <div class="c-teamcard">
+          <div class="c-teamname">De Joskes</div>
+          <div class="c-current-score">
+            <div class="c-svg__redscore">3</div>
+            <img class="c-svg__redchest" src="./img/red_chest_with_bubbels.svg" alt="red">
           </div>
         </div>
-        <div class="c-during-game">
-          <div class="c-teamcard">
-            <div class="c-teamname">De Joskes</div>
-            <div class="c-current-score">
-              <div class="c-svg__redscore">3</div>
-              <img class="c-svg__redchest" src="./img/red_chest_with_bubbels.svg" alt="red">
-            </div>
-          </div>
-          <div class="c-teamcard">
-            <div class="c-teamname">De Gilberkes</div>
-            <div class="c-current-score">
-              <div class="c-svg__bluescore">0</div>
-              <img class="c-svg__bluechest" src="./img/blue_chest_with_bubbel.svg" alt="blue">
-            </div>
-            </div>
+        <div class="c-teamcard">
+          <div class="c-teamname">De Gilberkes</div>
+          <div class="c-current-score">
+            <div class="c-svg__bluescore">0</div>
+            <img class="c-svg__bluechest" src="./img/blue_chest_with_bubbel.svg" alt="blue">
           </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+  </div>
+</body>
+
 </html>
