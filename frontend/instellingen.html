@@ -10,66 +10,79 @@
     <link rel="stylesheet" href="css/screen.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E" />
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <script src="./script/datahandler.js"></script>
-    <script src="./script/app.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="/script/datahandler.js"></script>
+    <script src="/script/app.js"></script>
   </head>
 
   <body>
-    <div class="c-header">
-      <div class="c-svg u-1-of-6">
-        <a href="index.html">
-          <img src="./img/logo.svg" alt="Sport & Innovatie Campus" />
-        </a>
+    <video autoplay loop muted>
+      <source src="./img/WaterLook02.mp4" type="video/mp4">
+    </video>
+    <div class="c-header2">
+      <div class="c-time2">
+        11:24
       </div>
-      <div class="c-time u-5-of-6">11:24</div>
     </div>
-    <div class="c-logo">
-      <a href="game_choice.html">
-        <img src="./img/pijl_links.svg" alt="terug" />
-        Terug
-      </a>
-    </div>
-    <selection class="o-row o-row--lg o-row--instellingen">
-      <div class="o-container">
+    <img src="./img/StandingCart@4x.png" alt="kaart2" width="308px" height="457px" class="c-map2">
+    <selection class="o-row o-row--lg o-row--index">
+        <div class="o-container u-max-width-xs">
         <div class="c-game__description">
-          <div class="c-game__description-title">Red / Blue</div>
-          <div class="c-game__description-subtitle">Beschrijving:</div>
-          <div class="c-game__description-text">het rode en het blauwe team strijden tegen elkaar. Het team dat in 30 seconden het meeste aantal punten heeft, wint het spel.</div>
-          <div class="c-game__description-subtitle">Aantal spelers:</div>
-          <div class="c-game__description-text">Minstens 2 spelers</div>
+            <div class="c-game__description-title">
+                Red / Blue
+            </div>
+            <div class="c-game__description-tussentitel">
+                Beschrijving:
+            </div>
+            <div class="c-game__description-text">
+                het rode en het blauwe team strijden tegen elkaar. Het team dat in 30 seconden het meeste aantal punten heeft, wint het spel.
+            </div>
+            <div class="c-game__description-tussentitel">
+                Aantal spelers:
+            </div>
+            <div class="c-game__description-text">
+                Minstens 2 spelers
+            </div>
         </div>
-        <div class="c-verticalline"></div>
-        <div class="c-difficulty">
-          Moeilijkheidsgraad:
-          <label class="c-toggleswitch__difficulty">
-            <input type="checkbox" />
-            <span class="slider round"></span>
-            <div class="c-text__slow">Traag</div>
-            <div class="c-text__fast">Snel</div>
-          </label>
+        <div class="c-settings__background">
+            <div class="c-difficulty">
+            Moeilijkheidsgraad: 
+            <label class="c-toggleswitch__difficulty">
+                <input type="checkbox">
+                <span class="slider round"></span>
+                <div class="c-text__slow">Traag</div>
+                <div class="c-text__fast">Snel</div>
+            </label>
+            </div>
+            <div class="c-slider__input">
+                <?xml version="1.0" encoding="UTF-8"?>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="c-svg__tijdsduur">
+                <g id="surface1">
+                    <path style=" stroke:none;fill-rule:nonzero;fill:#463C80;fill-opacity:1;" d="M 9 2.5 L 9 1 L 15 1 L 15 2.5 Z M 11.25 13.675781 L 12.75 13.675781 L 12.75 7.925781 L 11.25 7.925781 Z M 12 21.976562 C 10.765625 21.976562 9.605469 21.738281 8.511719 21.261719 C 7.421875 20.789062 6.464844 20.140625 5.648438 19.324219 C 4.832031 18.507812 4.1875 17.554688 3.710938 16.460938 C 3.238281 15.371094 3 14.207031 3 12.976562 C 3 11.742188 3.238281 10.578125 3.710938 9.488281 C 4.1875 8.394531 4.832031 7.441406 5.648438 6.625 C 6.464844 5.808594 7.421875 5.164062 8.511719 4.6875 C 9.605469 4.210938 10.765625 3.976562 12 3.976562 C 13.117188 3.976562 14.167969 4.164062 15.148438 4.539062 C 16.132812 4.914062 17.007812 5.433594 17.773438 6.101562 L 19.050781 4.824219 L 20.101562 5.875 L 18.824219 7.148438 C 19.425781 7.816406 19.9375 8.625 20.363281 9.574219 C 20.789062 10.523438 21 11.660156 21 12.976562 C 21 14.207031 20.761719 15.371094 20.289062 16.460938 C 19.8125 17.554688 19.167969 18.507812 18.351562 19.324219 C 17.535156 20.140625 16.578125 20.789062 15.488281 21.261719 C 14.394531 21.738281 13.234375 21.976562 12 21.976562 Z M 12 20.476562 C 14.082031 20.476562 15.855469 19.746094 17.3125 18.289062 C 18.769531 16.828125 19.5 15.058594 19.5 12.976562 C 19.5 10.890625 18.769531 9.121094 17.3125 7.664062 C 15.855469 6.203125 14.082031 5.476562 12 5.476562 C 9.917969 5.476562 8.144531 6.203125 6.6875 7.664062 C 5.230469 9.121094 4.5 10.890625 4.5 12.976562 C 4.5 15.058594 5.230469 16.828125 6.6875 18.289062 C 8.144531 19.746094 9.917969 20.476562 12 20.476562 Z M 12 13 Z M 12 13 "/>
+                </g>
+                </svg>
+                Tijdsduur: 
+                <input type="range" min="30" max="60" value="45" step="5" class="c-slider">
+                <p class="c-tijdsduur__text">45s</p>
+            </div>
+            <div class="c-teamrood">
+            Team 1: 
+            <input type="text" id="fname" name="fname" class="c-textinput">
+            </div>
+            <div class="c-teamblauw">
+            Team 2: 
+            <input type="text" id="fname" name="fname" class="c-textinput">
+            </div>
+            <a href="countdown.html">
+              <div class="c-button c-button__start c-button__instellingen">
+                  <button class="o-button-reset" type="submit">
+                  Start
+                  </button>
+              </div>
+            </a>
         </div>
-        <div class="c-slider__input">
-          <img class="c-svg__tijdsduur" src="./img/timer.svg" alt="tijdsduur" />
-          Tijdsduur:
-          <input type="range" min="30" max="60" value="45" step="5" class="c-slider" />
-          <p class="c-tijdsduur__text">45s</p>
-        </div>
-        <div class="c-teamrood">
-          Team rood naam:
-          <input type="text" id="fname" name="fname" class="c-textinput" />
-        </div>
-        <div class="c-teamblauw">
-          Team blauw naam:
-          <input type="text" id="fname" name="fname" class="c-textinput" />
-        </div>
-        <a href="countdown.html">
-          <div class="c-button c-button__start c-button__instellingen">
-            <button class="o-button-reset" type="submit">Start</button>
-          </div>
-        </a>
       </div>
     </selection>
   </body>
