@@ -88,6 +88,9 @@ const init = function (total) {
   if (document.querySelector('.js-countdown')) {
     showCountdown();
   }
+  if (document.querySelector('.js-index')) {
+    timeBubble();
+  }
 };
 
 document.addEventListener('DOMContentLoaded', async function () {
