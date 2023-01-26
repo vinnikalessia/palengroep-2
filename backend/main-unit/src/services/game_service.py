@@ -30,8 +30,8 @@ class GameService:
     def get_games(self) -> List[GameModel]:
         return self.game_repository.get_games()
 
-    def get_leaderboard(self, game: str, difficulty: str) -> LeaderboardResponse:
-        return self.game_repository.get_leaderboard(game, difficulty)
+    def get_leaderboard(self, game: str) -> LeaderboardResponse:
+        return self.game_repository.get_leaderboard(game)
 
     def get_score(self):
         return self.game_process.get_score()
