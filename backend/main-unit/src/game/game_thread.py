@@ -27,6 +27,8 @@ class GameThread(threading.Thread):
         self.socket_manager = socket_manager
         self.mqtt_client: FastMQTT = mqtt_client
 
+        self.stopped = False
+
         self.game_config = game_config
         self.game = Game.from_config(game_config=self.game_config, command_queue=self.server_queue)
 
@@ -50,9 +52,12 @@ class GameThread(threading.Thread):
         if payload == 'stop':
             self.game.current_time = self.game.duration
             self.game.stopped = True
+            self.stopped = True
             self._log_mqtt("stopping game")
+            self.game.on_stop()
         elif payload == 'pause':
             self.game.game_status = GameStatus.PAUSED
+            self.game.on_pause()
             self._log_mqtt("pausing game")
         elif payload == 'resume':
             self.game.game_status = GameStatus.RUNNING
@@ -113,7 +118,7 @@ class GameThread(threading.Thread):
 
     def wait_for_esp32s(self):
         self._log_mqtt("waiting for esp32s to connect")
-        time.sleep(2)
+        time.sleep(1)
         self.check_client_queue()
 
     def prepare_game(self):
@@ -141,6 +146,9 @@ class GameThread(threading.Thread):
 
         async_print("game saved")
 
+    def turn_off_lights(self):
+        self.mqtt_client.publish('command/all/light', 'off')
+
     def run(self):
         self.clear_client_queue()
 
@@ -153,14 +161,18 @@ class GameThread(threading.Thread):
             self.check_client_queue()
             time.sleep(0.01)
 
-        while self.game.running or self.game.paused:
+        while not self.stopped and (self.game.running or self.game.paused):
             self.check_client_queue()
             self.game.thread_step()
             self.check_server_queue()
             time.sleep(0.01)
 
-        self.save_game()
+        if not self.stopped:
+            self.save_game()
+        else:
+            self._log_mqtt("game stopped, not saving")
         self._log_mqtt("game finished")
+
+        self.turn_off_lights()
+
         async_print("game ended")
-
-

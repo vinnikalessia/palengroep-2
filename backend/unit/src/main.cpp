@@ -1,6 +1,6 @@
 #include <Adafruit_NeoPixel.h>
 
-#include "mqtt.h"
+#include "mqtt.cpp"
 #include "neopixel.h"
 
 #define ESP_ID          String(ESP.getEfuseMac(), HEX)
