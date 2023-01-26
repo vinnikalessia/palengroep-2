@@ -3,7 +3,9 @@ let localTime,
   selectedGame,
   htmlLeaderboardVandaag,
   htmlLeaderboardOoit,
-  previousGame;
+  previousGame,
+  countdownTimer,
+  countdown = 3;
 const endpoint = 'http://34.241.254.21:3000/';
 
 const timeBubble = function () {
@@ -44,6 +46,17 @@ const showLeaderboard = function (data) {
   listenToChosenGame();
 };
 
+const showCountdown = function () {
+  if (countdown != 0) {
+    countdownTimer.innerHTML = countdown;
+  } else {
+    window.location.replace('http://127.0.0.1:5501/frontend/during_game.html');
+    countdown = 3;
+  }
+  countdown -= 1;
+  setTimeout(showCountdown, 1000);
+};
+
 const listenToChosenGame = function () {
   for (let game of selectedGame) {
     game.addEventListener('change', function () {
@@ -66,12 +79,15 @@ const init = function (total) {
   selectedGame = document.querySelectorAll('.js-selectedGame');
   htmlLeaderboardVandaag = document.querySelector('.js-vandaag');
   htmlLeaderboardOoit = document.querySelector('.js-ooit');
+  countdownTimer = document.querySelector('.js-countdownTimer');
 
   if (document.querySelector('.js-leaderboard')) {
     getData(endpoint + `leaderboard/${chosenGame.id}`).then(showLeaderboard);
+    timeBubble();
   }
-
-  timeBubble();
+  if (document.querySelector('.js-countdown')) {
+    showCountdown();
+  }
 };
 
 document.addEventListener('DOMContentLoaded', async function () {
