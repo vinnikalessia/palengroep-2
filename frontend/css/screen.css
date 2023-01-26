@@ -324,10 +324,18 @@ button{
 /*
     Header met logo en huidige tijd
 */
-.c-header{
+.c-header--sm{
     height: 52px;
     display: flex;
     justify-content: end;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.c-header--md{
+    height: 52px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     padding-top: 30px;
 }
@@ -856,7 +864,7 @@ Scoreboard.html
 }
 
 .c-button__index {
-    margin-top: 300px;
+    margin-top: 250px;
 }
 
 .c-button__leaderboard{
@@ -1253,63 +1261,25 @@ Scores
     color: var(--global-color-text);
 }
 
-.c-header2 {
-    position: absolute;
-    top: 1px;
-    height: 120px;
-    width: 1024px;
-    display: flex;
-    align-items: center;
-}
-
-.c-svg2 {
-    text-align: left;
-    padding-left: 3%;
-    padding-top: 0.5%;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-}
-
-.c-time2 {
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    text-align: right;
-    align-items: center;
-    justify-content: center;
-    width: 71px;
-    height: 71px;
-    border-width: 1.5px;
-    border-style: solid;
-    border-color: var(--global-color-white);
-    border-radius: 100%;
-    background-color: #D33B6C;
-    box-shadow: -10px -5px 15px rgb(211, 59, 108) inset;
-    position: absolute;
-    top: 40px;
-    left: 970px;
-}
-
-.c-vis1 {
-    position: absolute;
+.c-vis1{
+    position: fixed;
     top: 200px;
     left: 150px;
 }
 
-.c-vis2 {
-    position: absolute;
+.c-vis2{
+    position: fixed;
     top: 180px;
     left: 840px;
 }
 
-.c-zeester {
-    position: absolute;
-    top: 570px;
+.c-zeester{
+    position: fixed;
+    top: 510px;
     left: 280px;
 }
 
-.c-map {
+.c-map{
     position: absolute;
     top: 170px;
     left: 120px;
