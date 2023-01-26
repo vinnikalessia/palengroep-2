@@ -629,7 +629,7 @@ Scoreboard.html
 }
 
 .c-gamename{
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     width: 139px;
     height: 35px;
     text-align: center;
