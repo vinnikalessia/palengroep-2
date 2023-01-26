@@ -955,17 +955,17 @@ Scoreboard.html
 /*
     game description => instellingen.html
 */
-.c-game__description {
+.c-game__description{
     width: 207px;
     height: 400px;
     color: #4D4D4D;
     position: absolute;
-    top: 247px;
+    top: 190px;
     left: 95px;
 
 }
 
-.c-game__description-title {
+.c-game__description-title{
     font-size: 28px;
     font-weight: 600;
     text-align: center;
@@ -980,6 +980,7 @@ Scoreboard.html
 }
 
 .c-game__description-text {
+    width: 207px;
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 16px;
@@ -1099,6 +1100,8 @@ input:checked+.slider:before {
     slider input => instellingen.html
 */
 .c-slider__input{
+    display: flex;
+    align-items: center;
     position: absolute;
     top: 130px;
     left: 15px;
@@ -1110,10 +1113,14 @@ input:checked+.slider:before {
     gap: 8px;
 }
 
+
 .c-slider{
-    color: var(--global-background-color-slider);
-    width: 250px;
-    height: 30px;
+    position: relative;
+    display: inline-block;
+    width: 224px;
+    height: 28px;
+    background-color: var(--global-background-color-slider);
+    transition: .4s;
 }
 
 /*
@@ -1285,7 +1292,7 @@ Scores
     left: 120px;
 }
 
-.c-map2 {
+.c-map2{
     position: absolute;
     top: 100px;
     left: 69px;
