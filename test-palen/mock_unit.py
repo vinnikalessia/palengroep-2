@@ -1,6 +1,6 @@
 import tkinter as tk
 import uuid
-
+import argparse
 from paho.mqtt.client import Client
 
 padding = dict(padx=10, pady=10)
@@ -10,7 +10,12 @@ font_default = dict(font="Helvetica 18")
 font_smaller = dict(font="Helvetica 14")
 widget_options = dict(**padding)
 
-mqtt_ip = "34.241.254.21"
+parser = argparse.ArgumentParser()
+parser.add_argument("--ip", type=str, default="10.42.0.1", help="IP address of the MQTT broker")
+
+args = parser.parse_args()
+
+mqtt_ip = args.ip
 
 
 class Runner:
