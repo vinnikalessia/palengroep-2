@@ -789,39 +789,36 @@ Scoreboard.html
 /*
     switchen tussen verschillende games buttons => game_choice.html
 */
-.c-button__left{
-    background-color: var(--global-color-white);
-    border: 1px solid var(--global-border-color);
-    border-radius: 100px;
-    padding: 29px 30px;
-    margin-right: 65px;
-}
-
-.c-button__left:active{
-    background-color: rgb(212, 212, 212);
-}
-
-.c-button__right{
-    background-color: var(--global-color-white);
-    border: 1px solid var(--global-border-color);
-    border-radius: 100px;
-    padding: 29px 30px;
-    margin-left: 65px;
-}
-
-.c-button__right:active{
-    background-color: rgb(212, 212, 212);
-}
-
-/*
-    button om spel te starten in instellingen.html
-*/
-.c-button__instellingen{
-    width: 433px;
-    height: 56px;
+.c-buttonleft {
+    width: 60px;
+    height: 59px;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: #fff;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(254, 254, 254, 0.75);
     position: absolute;
-    left: 475px;
-    top: 320px;
+    top: 343px;
+    left: 40px;
+}
+
+.c-buttonright {
+    width: 60px;
+    height: 59px;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: #fff;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(254, 254, 254, 0.75);
+    position: absolute;
+    top: 343px;
+    left: 950px;
 }
 
 /*
@@ -842,9 +839,24 @@ Scoreboard.html
     box-shadow: inset -20px 0px 6px rgba(0, 0, 0, 16%);
 }
 
+/*
+    button om spel te starten in instellingen.html
+*/
+.c-button__instellingen {
+    width: 433px;
+    height: 56px;
+    position: absolute;
+    left: 15px;
+    top: 320px;
+}
+
 .c-button__start{
     font-size: 36px;
-    margin-top: 75px;
+    margin-top: 50px;
+}
+
+.c-button__index {
+    margin-top: 300px;
 }
 
 .c-button__leaderboard{
@@ -935,19 +947,17 @@ Scoreboard.html
 /*
     game description => instellingen.html
 */
-.c-game__description{
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--global-border-color);
-    border-radius: 32px;
-    box-shadow: 0 10px 15px rgba(8, 118, 155, .16);
-    width: 288px;
+.c-game__description {
+    width: 207px;
     height: 400px;
-    font-size: 16px;
-    color: var(--global-color-text);
+    color: #4D4D4D;
+    position: absolute;
+    top: 247px;
+    left: 95px;
+
 }
 
-.c-game__description-title{
+.c-game__description-title {
     font-size: 28px;
     font-weight: 600;
     text-align: center;
@@ -955,35 +965,17 @@ Scoreboard.html
     margin-bottom: 16px;
 }
 
-.c-game__description-subtitle {
+.c-game__description-tussentitel {
     font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 16px;
+    font-weight: 600;
     margin-left: 16px;
 }
 
 .c-game__description-text {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     margin-bottom: 16px;
     margin-left: 16px;
-}
-
-
-
-
-/*
-    devider => instellingen.html
-*/
-.c-verticalline{
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--global-border-color);
-    height: 450px;
-    width: 1px;
-    position: absolute;
-    top: 25px;
-    left: 400px;
 }
 
 /*
@@ -992,7 +984,7 @@ Scoreboard.html
 .c-difficulty{
     position: absolute;
     top: 60px;
-    left: 497px;
+    left: 20px;
     font-size: 18px;
     color: var(--global-color-text);
     font-weight: 400;
@@ -1014,7 +1006,7 @@ Scoreboard.html
     height: 0;
 }
 
-.c-toggleswitch__difficulty{
+.slider{
     border-width: 1px;
     border-style: solid;
     border-color: var(--global-border-color);
@@ -1101,7 +1093,7 @@ input:checked+.slider:before {
 .c-slider__input{
     position: absolute;
     top: 130px;
-    left: 497px;
+    left: 15px;
     font-size: 18px;
     color: var(--global-color-text);
     font-weight: 400;
@@ -1112,7 +1104,7 @@ input:checked+.slider:before {
 
 .c-slider{
     color: var(--global-background-color-slider);
-    width: 300px;
+    width: 250px;
     height: 30px;
 }
 
@@ -1124,7 +1116,7 @@ input:checked+.slider:before {
     font-weight: 400;
     font-size: 18px;
     position: absolute;
-    left: 497px;
+    left: 20px;
     top: 220px;
 }
 
@@ -1133,18 +1125,20 @@ input:checked+.slider:before {
     font-weight: 400;
     font-size: 18px;
     position: absolute;
-    left: 497px;
+    left: 20px;
     top: 310px;
 }
 
 .c-textinput{
-    border-radius: 21px;
-    border-color: var(--global-color-textinput);
+    border: none;
+    border-bottom: 1px solid #434988;
+    width: 330px;
     display: flex;
     justify-items: center;
     position: absolute;
     top: 2px;
-    left: 180px;
+    left: 80px;
+    background-color: transparent;
 }
 
 /*
@@ -1257,6 +1251,188 @@ Scores
     font-size: 10rem;
     margin-top: 5.625rem;
     color: var(--global-color-text);
+}
+
+.c-header2 {
+    position: absolute;
+    top: 1px;
+    height: 120px;
+    width: 1024px;
+    display: flex;
+    align-items: center;
+}
+
+.c-svg2 {
+    text-align: left;
+    padding-left: 3%;
+    padding-top: 0.5%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.c-time2 {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    text-align: right;
+    align-items: center;
+    justify-content: center;
+    width: 71px;
+    height: 71px;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: var(--global-color-white);
+    border-radius: 100%;
+    background-color: #D33B6C;
+    box-shadow: -10px -5px 15px rgb(211, 59, 108) inset;
+    position: absolute;
+    top: 40px;
+    left: 970px;
+}
+
+.c-vis1 {
+    position: absolute;
+    top: 200px;
+    left: 150px;
+}
+
+.c-vis2 {
+    position: absolute;
+    top: 180px;
+    left: 840px;
+}
+
+.c-zeester {
+    position: absolute;
+    top: 570px;
+    left: 280px;
+}
+
+.c-map {
+    position: absolute;
+    top: 170px;
+    left: 120px;
+}
+
+.c-map2 {
+    position: absolute;
+    top: 100px;
+    left: 69px;
+}
+
+.c-title {
+    font-size: 56px;
+    font-weight: bold;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 110px;
+    left: 340px;
+}
+
+.c-keuze {
+    position: absolute;
+    top: 290px;
+    left: 300px;
+    color: #3F3F3F;
+}
+
+.c-gametitle {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.c-gametussentitel {
+    padding-top: 20px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.c-gametekst {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.c-leaderboard__button {
+    position: absolute;
+    top: 293px;
+    left: 644px;
+    font-size: 15px;
+    font-weight: 300;
+    color: #3F3F3F;
+}
+
+.c-svg__arrow {
+    display: flex;
+    align-items: center;
+}
+
+.c-settings__background {
+    width: 494px;
+    height: 463px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 8px;
+    border-color: rgb(134, 230, 242, 0.8);
+    background-color: rgb(134, 230, 242, 0.8);
+    position: absolute;
+    top: 140px;
+    left: 445px;
+}
+
+.c-vis3 {
+    position: absolute;
+    top: 86px;
+    left: 54px;
+}
+
+.c-countdown {
+    position: absolute;
+    width: 703px;
+    height: 463px;
+    background-color: rgb(134, 230, 242, 0.8);
+    border-radius: 8px;
+    top: 144px;
+    left: 225px;
+}
+
+.c-countdown__title {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    font-size: 56px;
+    font-weight: 600;
+    color: #45397B;
+    margin-top: 45px;
+}
+
+.c-countdown__timer {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    font-size: 160px;
+    font-weight: 400;
+    color: #45397B;
+    margin-top: 45px;
+}
+
+.c-vis4 {
+    width: 92px;
+    height: 71px;
+    position: absolute;
+    top: 503px;
+    left: 165px;
+}
+
+.c-vis5 {
+    width: 100px;
+    height: 58px;
+    position: absolute;
+    top: 71px;
+    left: 893px;
 }
 
 /*------------------------------------*\

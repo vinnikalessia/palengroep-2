@@ -1,22 +1,151 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="msapplication-TileColor" content="#cce7ff" />
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Countdown</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="msapplication-TileColor" content="#cce7ff">
-    <meta name="theme-color" content="#44c8f5">
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/screen.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="/script/datahandler.js"></script>
+    <script src="/script/app.js"></script>
+  </head>
 
-    <link rel="stylesheet" href="css/screen.css">
-</head>
+  <body>
+    <video autoplay loop muted>
+      <source src="./img/WaterLook02.mp4" type="video/mp4">
+    </video>
+    <selection class="o-row o-row--lg o-row--index">
+      <div class="o-container u-max-width-xs">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90" height="36" viewBox="0 0 90 36" class="c-vis3">
+        <defs>
+            <pattern id="pattern" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 127 50">
+            <image width="127" height="50" xlink:href="data:image/png;base64,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"/>
+            </pattern>
+        </defs>
+        <rect id="WhiteFish" width="90" height="36" fill="url(#pattern)"/>
+        </svg>
+      </div>
+      <div class="c-countdown">
+        <div class="c-countdown__title">
+            Het spel begint in
+        </div>
+        <div class="c-countdown__timer">
+            3
+        </div>
+      </div>
+    </selection>
+    <div>
+        <?xml version="1.0" encoding="UTF-8"?>
+        <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125.54 97.13" class="c-vis4">
+        <defs>
+            <style>
+            .cls-1__vis4 {
+                fill: #fff;
+            }
 
-<body>
-    <h1>Het spel begint in:</h1>
-    <a href="during_game.html">
-        <p class="getal">1</p>
-    </a>
-</body>
+            .cls-2__vis4 {
+                fill: #b897f0;
+            }
 
+            .cls-3__vis4 {
+                fill: #f9e710;
+            }
+
+            .cls-4__vis4 {
+                fill: #6530bd;
+            }
+
+            .cls-5__vis4 {
+                fill: #f5b810;
+            }
+
+            .cls-6__vis4 {
+                fill: #f2c700;
+            }
+            </style>
+        </defs>
+        <g id="Layer_1-2" data-name="Layer 1">
+            <g>
+            <path class="cls-4__vis4" d="m25.44,46.52s-11.98-11.81-4.04-26.68c4.8-8.97,43.94-43.71,76.54,7.5l-22.08,16.52-50.42,2.66Z"/>
+            <path class="cls-4__vis4" d="m26.2,59.61s-13.23,26-1.45,30.68c11.78,4.68,39.5,3.23,53.91-2.38l-52.46-28.3Z"/>
+            <path class="cls-4__vis4" d="m81.9,87.53s-1.46,4.92-7.94,9.6c0,0,14.05-5.36,18.18-12.58l-10.25,2.98Z"/>
+            <path class="cls-4__vis4" d="m93.33,85.27s-1.03,5.88-4.61,9.18c0,0,8.33-5.92,10.35-12.3l-3.59-1.06-2.15,4.19Z"/>
+            <path class="cls-3__vis4" d="m35,72.62s-27.67-24.35,7.9-45.5c35.57-21.15,64.33-5.58,64.43,15.25.04,8.3,13.11,9.83,16.95,11.75,0,0,4.11,1.62-2.57,4.8-13.11,6.26-11.24,11.72-18.66,19.78-12.22,13.26-45.52,15.39-68.06-6.08Z"/>
+            <path class="cls-3__vis4" d="m24.82,50.1L2.89,31.71s-6.5,29.61,0,44.81l23.31-16.91-1.38-9.51Z"/>
+            <path class="cls-5__vis4" d="m8.83,72.21c-3.44-17.19.54-35.07.54-35.07h0l-6.48-5.43s-6.5,29.61,0,44.81l5.94-4.31h0Z"/>
+            <g>
+                <path class="cls-1__vis4" d="m101.75,43.45c0,4.66-3.78,8.43-8.43,8.43s-8.43-3.77-8.43-8.43,3.77-8.42,8.43-8.42,8.43,3.77,8.43,8.42Z"/>
+                <path d="m97.94,43.45c0,2.55-2.07,4.62-4.61,4.62s-4.61-2.07-4.61-4.62,2.07-4.61,4.61-4.61,4.61,2.07,4.61,4.61Z"/>
+            </g>
+            <path class="cls-6__vis4" d="m125.52,55.44l-100.61-1c1.34,10.49,10.08,18.19,10.08,18.19,22.54,21.47,55.84,19.34,68.06,6.08,7.42-8.06,5.55-13.52,18.66-19.78,3.18-1.52,3.91-2.68,3.8-3.48Z"/>
+            <g>
+                <path class="cls-4__vis4" d="m78.66,25.81s-14.77,30.68.8,53.72c0,0-4.99-34.82-.8-53.72Z"/>
+                <path class="cls-4__vis4" d="m60.88,25.81s-14.77,30.68.8,53.72c0,0-4.99-34.82-.8-53.72Z"/>
+                <path class="cls-2__vis4" d="m41.27,36.73s-8.76,18.2.48,31.88c0,0-2.96-20.66-.48-31.88Z"/>
+            </g>
+            </g>
+        </g>
+        </svg>
+    </div>
+    <div>
+        <?xml version="1.0" encoding="UTF-8"?>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 119.77 68.34" class="c-vis5">
+        <defs>
+            <style>
+            .cls-1 {
+                fill: #fff;
+            }
+
+            .cls-2 {
+                fill: #c69ed9;
+            }
+
+            .cls-3, .cls-4 {
+                fill: #a65fc7;
+            }
+
+            .cls-5 {
+                isolation: isolate;
+            }
+
+            .cls-4 {
+                mix-blend-mode: multiply;
+                opacity: .5;
+            }
+
+            .cls-6 {
+                fill: #71548a;
+            }
+            </style>
+        </defs>
+        <g class="cls-5">
+            <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
+                <g>
+                <path class="cls-6" d="m8.09,27.17S32.26-12.14,68.04,3.81c3.69,1.64,11.18,8.65,3.69,15.72l-63.64,7.64Z"/>
+                <path class="cls-6" d="m91.72,32.9s10.61,4.15,26.71-6.88c0,0-6.86,8.62-8.8,11.39l10.14,9.03s-14.8-7.49-28.05-4.04c-13.25,3.45,0-9.5,0-9.5Z"/>
+                <path class="cls-2" d="m33.46,61s30.41,21.16,56.8-8.36c0,0-5.73-3.68-11.96-3.33l-44.84,11.69Z"/>
+                <path class="cls-3" d="m.04,39.35c.2-.48.31-.58.61-1.18,3.75-7.51,31.65-56.49,96.75-.59,0,0-47.81,50.7-93.51,6.85-1.37-1.31-4.24-4.13-3.85-5.08Z"/>
+                <path class="cls-6" d="m57.86,60.65c-.06-17.99-5.93-32.02-5.93-32.02,2.89,11.12,1.48,28.5,1.04,32.99,1.66-.26,3.29-.58,4.89-.97Z"/>
+                <path class="cls-6" d="m66.24,58.06c1.33-.51,2.62-1.05,3.89-1.61.39-14.03-5.97-26.95-5.97-26.95,3.69,9.03,2.37,25.53,2.09,28.56Z"/>
+                <path class="cls-6" d="m81.69,50.16c-1-10.33-4.89-19.41-4.89-19.41,1.72,5.27,2.03,15.08,2.04,21.17.98-.58,1.94-1.17,2.85-1.76Z"/>
+                <g>
+                    <path class="cls-1" d="m21.29,28.63c0,2.67-2.16,4.83-4.83,4.83s-4.83-2.16-4.83-4.83,2.16-4.83,4.83-4.83,4.83,2.16,4.83,4.83Z"/>
+                    <path d="m19.1,28.63c0,1.46-1.18,2.64-2.65,2.64s-2.64-1.18-2.64-2.64,1.18-2.64,2.64-2.64,2.65,1.18,2.65,2.64Z"/>
+                </g>
+                <path class="cls-4" d="m3.88,44.43c-1.37-1.31-4.24-4.13-3.85-5.08l97.36-1.77S49.58,88.28,3.88,44.43Z"/>
+                </g>
+            </g>
+            </g>
+        </g>
+        </svg>
+    </div>
+  </body>
 </html>
