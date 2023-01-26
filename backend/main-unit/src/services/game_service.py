@@ -37,6 +37,10 @@ class GameService:
         return self.game_process.get_score()
 
     def setup_game(self, game_setup: GameConfigModel) -> GameStatusResponse:
+        if self.game_process is not None and self.game_process.is_alive():
+            self.game_process.stop()
+        self.game_process = None
+
         self.game_process = GameThread(game_config=game_setup,
                                        socket_manager=self.socket_manager,
                                        mqtt_client=self.mqtt_client,
