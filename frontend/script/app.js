@@ -4,10 +4,14 @@ let localTime,
   gameChoiseArrows,
   htmlLeaderboardVandaag,
   htmlLeaderboardOoit,
+  htmlGameUrl,
+  htmlGameChoiceMapUrl,
   htmlGameTitle,
   htmlGameDescription,
   htmlGamePlayers,
-  htmlGameUrl,
+  htmlSettingsButton,
+  htmlSlider,
+  htmlSliderValue,
   previousGame,
   countdownTimer,
   currentGame,
@@ -65,22 +69,47 @@ const showGameChoice = function (gameData) {
     for (let game of gameData.games) {
       if (game.name == currentGame) {
         let html = '';
+        let htmlMap = '';
+        htmlMap += `<a href="instellingen.html?id=${currentGame}">
+        <img class="c-map" src="./img/kaart_horizontaal.png"
+          alt="https://www.freepik.com/free-vector/cartoon-parchment-rolls-blank-scrolls-paper-banners_13100350.htm"
+          width="814px" height="400px">
+        <div class="c-keuze">
+          <hr class="c-underline__gamename">
+          <div class="c-gametitle js-gameTitle">${game.name}</div>
+          <div class="c-gametussentitel">Beschrijving:</div>
+          <div class="c-gametekst js-gameBeschrijving">${game.description}</div>
+          <div class="c-gametussentitel">Aantal spelers:</div>
+          <div class="c-gametekst js-gameSpelers">${game.players}</div>
+        </div>
+      </a>`;
+
         html += `<a class="c-leaderboard-icon js-test" href="leaderboardkeuze.html?id=${currentGame}">
         <img class="c-leaderboard-icon__svg" src="./img/trophee_icon.svg"
           alt="https://www.freepik.com/free-vector/gold-cups-awards-flat-illustrations-set-collection-golden-trophies-medals-winners-isolated-white_20827758.htm">
         Leaderboard
       </a>`;
 
+        htmlGameChoiceMapUrl.innerHTML = htmlMap;
         htmlGameUrl.innerHTML = html;
-        htmlGameTitle.innerHTML = game.name;
-        htmlGameDescription.innerHTML = game.description;
-        htmlGamePlayers.innerHTML = game.players;
       }
     }
   } catch (ex) {
     console.info(ex);
   }
-  listenToArrows();
+};
+
+const showSettingsPage = function (gameData) {
+  let urlParams = new URLSearchParams(window.location.search);
+  let currentGame = urlParams.get('id');
+  for (let game of gameData.games) {
+    if (game.name == currentGame) {
+      htmlGameTitle.innerHTML = game.name;
+      htmlGameDescription.innerHTML = game.description;
+      htmlGamePlayers.innerHTML = game.players;
+    }
+  }
+  listenToSettingsButtonPage();
 };
 
 const showCountdown = function () {
@@ -96,6 +125,36 @@ const showCountdown = function () {
 // #endregion
 
 // #region ***  Callback-No Visualisation - callback___  ***********
+const callbackSendData = function (
+  gameName,
+  difficultyState,
+  teamName1,
+  teamName2,
+  setDuration
+) {
+  var myHeaders = new Headers();
+  myHeaders.append('accept', 'application/json');
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    game: gameName,
+    difficulty: difficultyState,
+    teamNames: [teamName1, teamName2],
+    duration: setDuration,
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch('http://34.241.254.21:3000/game/setup', requestOptions)
+    .then((response) => response.json())
+    .then((result) => console.log(result))
+    .catch((error) => console.log('error', error));
+};
 
 // #endregion
 
@@ -128,11 +187,13 @@ const listenToArrows = function () {
           if (currentGame != PrevCurrentGame) {
             getData(endpoint + `games`).then(showGameChoice);
           }
+          console.log(currentGame);
         } else {
           currentGame = games[games.indexOf(currentGame) - 1];
           if (currentGame != PrevCurrentGame) {
             getData(endpoint + `games`).then(showGameChoice);
           }
+          console.log(currentGame);
         }
       } else if (game.id == 'right') {
         if (games.indexOf(currentGame) == games.length - 1) {
@@ -140,16 +201,51 @@ const listenToArrows = function () {
           if (currentGame != PrevCurrentGame) {
             getData(endpoint + `games`).then(showGameChoice);
           }
+          console.log(currentGame);
         } else {
           currentGame = games[games.indexOf(currentGame) + 1];
           if (currentGame != PrevCurrentGame) {
             getData(endpoint + `games`).then(showGameChoice);
           }
+          console.log(currentGame);
         }
       }
       PrevCurrentGame = currentGame;
     });
   }
+};
+
+const listenToSettingsButtonPage = function () {
+  htmlSettingsButton.addEventListener('click', function () {
+    let difficultyState;
+    let gameName = document.querySelector('.js-gameTitle').innerHTML;
+    let difficultyLevel = document.querySelector(
+      '.js-difficultyCheckbox'
+    ).checked;
+    let teamName1 = document.querySelector('.js-team1Name').value;
+    let teamName2 = document.querySelector('.js-team2Name').value;
+    let setDuration = htmlSlider.value;
+
+    if (difficultyLevel == true) {
+      difficultyState = 'Snel';
+    } else {
+      difficultyState = 'Traag';
+    }
+
+    callbackSendData(
+      gameName,
+      difficultyState,
+      teamName1,
+      teamName2,
+      setDuration
+    );
+  });
+};
+
+const listenToSlider = function () {
+  htmlSlider.oninput = function () {
+    htmlSliderValue.innerHTML = `${this.value}s`;
+  };
 };
 // #endregion
 
@@ -158,15 +254,19 @@ const init = function (total) {
   selectedGame = document.querySelectorAll('.js-selectedGame');
   htmlLeaderboardVandaag = document.querySelector('.js-vandaag');
   htmlLeaderboardOoit = document.querySelector('.js-ooit');
-  htmlGameTitle = document.querySelector('.js-gameTitle');
-  htmlGameDescription = document.querySelector('.js-gameBeschrijving');
-  htmlGamePlayers = document.querySelector('.js-gameSpelers');
   countdownTimer = document.querySelector('.js-countdownTimer');
   gameChoiseArrows = document.querySelectorAll('.js-buttonGameChoise');
   htmlGameUrl = document.querySelector('.js-gameUrl');
   gameRedBlue = document.querySelector('.js-redblue');
   gameZen = document.querySelector('.js-zen');
   gameSimonSays = document.querySelector('.js-simonsays');
+  htmlGameChoiceMapUrl = document.querySelector('.js-gameChoiceMap');
+  htmlGameTitle = document.querySelector('.js-gameTitle');
+  htmlGameDescription = document.querySelector('.js-gameDescription');
+  htmlGamePlayers = document.querySelector('.js-gamePlayers');
+  htmlSettingsButton = document.querySelector('.js-settingsButton');
+  htmlSlider = document.querySelector('.js-slider');
+  htmlSliderValue = document.querySelector('.js-sliderValue');
 
   if (document.querySelector('.js-index')) {
     timeBubble();
@@ -174,9 +274,12 @@ const init = function (total) {
   if (document.querySelector('.js-gameChoice')) {
     currentGame = 'redblue';
     getData(endpoint + `games`).then(showGameChoice);
+    listenToArrows();
     timeBubble();
   }
   if (document.querySelector('.js-settings')) {
+    getData(endpoint + `games`).then(showSettingsPage);
+    listenToSlider();
     timeBubble();
   }
   if (document.querySelector('.js-countdown')) {
