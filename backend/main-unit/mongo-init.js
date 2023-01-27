@@ -9,22 +9,22 @@ db.games.insertMany([
     {
         name: "redblue",
         display_name: "Red vs Blue",
-        description: "Je speelt het spel met 2 teams. Tik zoveel mogelijk de paal van jouw team aan.",
-        players: "2 teams",
+        description: "Het rode en het blauwe team strijden tegen elkaar. Het team dat het meest aantal punten heeft, wint het spel.",
+        players: "Minstens 2 spelers",
         num_teams: 2
     },
     {
         name: "zen",
         display_name: "Zen",
-        description: "Tik zo snel mogelijk de oplichtende paal aan",
-        players: "1",
+        description: "Probeer het oplichtende paaltje zo snel mogelijk uit te tikken.",
+        players: "Maximaal 1 speler",
         num_teams: 1
     },
     {
         name: "simonsays",
         display_name: "Simon Says",
-        description: "De palen geven een bepaalde volgorde aan. Volg deze volgorde en tik de palen aan.",
-        players: "1",
+        description: "Herhaal de getoonde volgorde zo lang mogelijk.",
+        players: "Maximaal 1 speler",
         num_teams: 1
     }
 ])
