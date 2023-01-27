@@ -1,12 +1,18 @@
 let localTime,
   chosenGame,
   selectedGame,
+  gameChoiseArrows,
   htmlLeaderboardVandaag,
   htmlLeaderboardOoit,
+  htmlGameTitle,
+  htmlGameDescription,
+  htmlGamePlayers,
   previousGame,
   countdownTimer,
+  currentGame,
   countdown = 3;
 const endpoint = 'http://34.241.254.21:3000/';
+const games = ['redblue', 'zen', 'simonsays'];
 
 const timeBubble = function () {
   localTime = document.querySelector('.js-time');
@@ -46,6 +52,21 @@ const showLeaderboard = function (data) {
   listenToChosenGame();
 };
 
+const showGameChoice = function (gameData) {
+  try {
+    for (let game of gameData.games) {
+      if (game.name == currentGame) {
+        htmlGameTitle.innerHTML = game.name;
+        htmlGameDescription.innerHTML = game.description;
+        htmlGamePlayers.innerHTML = game.players;
+      }
+    }
+  } catch (ex) {
+    console.info(ex);
+  }
+  listenToArrows();
+};
+
 const showCountdown = function () {
   if (countdown != 0) {
     countdownTimer.innerHTML = countdown;
@@ -68,6 +89,39 @@ const listenToChosenGame = function () {
   }
 };
 
+const listenToArrows = function () {
+  for (let game of gameChoiseArrows) {
+    game.addEventListener('click', function () {
+      if (game.id == 'left') {
+        if (games.indexOf(currentGame) == 0) {
+          currentGame = games[games.length - 1];
+          if (currentGame != previousGame) {
+            getData(endpoint + `games`).then(showGameChoice);
+          }
+        } else {
+          currentGame = games[games.indexOf(currentGame) - 1];
+          if (currentGame != previousGame) {
+            getData(endpoint + `games`).then(showGameChoice);
+          }
+        }
+      } else if (game.id == 'right') {
+        if (games.indexOf(currentGame) == games.length - 1) {
+          currentGame = games[0];
+          if (currentGame != previousGame) {
+            getData(endpoint + `games`).then(showGameChoice);
+          }
+        } else {
+          currentGame = games[games.indexOf(currentGame) + 1];
+          if (currentGame != previousGame) {
+            getData(endpoint + `games`).then(showGameChoice);
+          }
+        }
+      }
+      previousGame = currentGame;
+    });
+  }
+};
+
 const getData = (endpoint) => {
   return fetch(endpoint)
     .then((r) => r.json())
@@ -79,12 +133,18 @@ const init = function (total) {
   selectedGame = document.querySelectorAll('.js-selectedGame');
   htmlLeaderboardVandaag = document.querySelector('.js-vandaag');
   htmlLeaderboardOoit = document.querySelector('.js-ooit');
+  htmlGameTitle = document.querySelector('.js-gameTitle');
+  htmlGameDescription = document.querySelector('.js-gameBeschrijving');
+  htmlGamePlayers = document.querySelector('.js-gameSpelers');
   countdownTimer = document.querySelector('.js-countdownTimer');
+  gameChoiseArrows = document.querySelectorAll('.js-buttonGameChoise');
 
   if (document.querySelector('.js-index')) {
     timeBubble();
   }
   if (document.querySelector('.js-gameChoice')) {
+    currentGame = 'redblue';
+    getData(endpoint + `games`).then(showGameChoice);
     timeBubble();
   }
   if (document.querySelector('.js-settings')) {
