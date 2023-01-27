@@ -1,3 +1,4 @@
+import json
 import threading
 import time
 from queue import Queue
@@ -108,6 +109,12 @@ class GameThread(threading.Thread):
                 assert isinstance(item, MQTTQueueItem)
                 print(item)
                 self.mqtt_client.publish(item.topic, item.payload)
+                self.socket_manager.emit("general",
+                    json.dumps({
+                        "topic": item.topic,
+                        "payload": item.payload
+                    })
+                )
             elif item.category == 'socket':
                 assert isinstance(item, SocketQueueItem)
                 self.socket_manager.emit(item.payload)

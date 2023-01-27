@@ -22,7 +22,8 @@ let localTime,
   countdown = 3;
 
 // const IP = '34.241.254.21';  // online
-const IP = '10.42.0.1';         // raspberry pi
+// const IP = '10.42.0.1';         // raspberry pi
+const IP = '0.0.0.0';         // local
 
 const endpoint = `http://${IP}:3000/`;
 
@@ -121,7 +122,7 @@ const showCountdown = function () {
   if (countdown > 0) {
     countdownTimer.innerHTML = countdown;
   } else {
-    window.location.replace('http://127.0.0.1:5501/frontend/during_game.html');
+    window.location.replace(`http://${IP}/during_game.html`);
     countdown = 3;
   }
   countdown -= 1;
@@ -257,32 +258,36 @@ const listenToSlider = function () {
 
 // #region mqtt stuff
 
+if (window.location.href.endsWith("during_game.html")) {
+  const socket = io(IP);
+  socket.on('connect', function () {
+    console.log("connected");
 
-const mqttURL = `mqtt://${IP}:1883`
+    socket.emit("confirm", "yow")
+  });
 
-const options = {
-  // Clean session
-  clean: true,
-  connectTimeout: 4000,
-  // Authentication
-  clientId: 'frontend',
-  // username: 'emqx_test',
-  // password: 'emqx_test',
-}
-
-
-const client  = mqtt.connect(mqttURL, options)
-client.on('connect', function () {
-  console.log('Connected')
-  // Subscribe to a topic
-  client.subscribe('test', function (err) {
-    if (!err) {
-      // Publish a message to a topic
-      client.publish('test', 'Hello mqtt')
-    }
+  socket.on('general', function (message) {
+    
   })
-})
 
+  socket.onopen = function (e) {
+    console.log("[open] Connection established");
+    console.log("Sending to server");
+    socket.send("My name is John");
+  };
+
+  const handleScoreNotification = function (message) {
+    console.log(`handling score message ${message}`);
+  }
+
+  const handleGeneralNotification = function (message) {
+    console.log(`handling general message ${message}`);
+  }
+
+  socket.onmessage = function (event) {
+    console.log(`[message] Data received from server: ${event.data}`);
+  };
+}
 // #endregion
 
 // #region ***  Init / DOMContentLoaded                  ***********
