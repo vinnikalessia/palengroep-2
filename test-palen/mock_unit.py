@@ -1,15 +1,21 @@
 import tkinter as tk
 import uuid
-
+import argparse
 from paho.mqtt.client import Client
 
 padding = dict(padx=10, pady=10)
 
 font_bold = dict(font="Helvetica 18 bold")
 font_default = dict(font="Helvetica 18")
+font_smaller = dict(font="Helvetica 14")
 widget_options = dict(**padding)
 
-mqtt_ip = "0.0.0.0"
+parser = argparse.ArgumentParser()
+parser.add_argument("--ip", type=str, default="10.42.0.1", help="IP address of the MQTT broker")
+
+args = parser.parse_args()
+
+mqtt_ip = args.ip
 
 
 class Runner:
@@ -28,14 +34,14 @@ class Runner:
 
     def init_tk(self):
         self.root = tk.Tk()
-        self.root.attributes('-type', 'dialog')
+        # self.root.attributes('-type', 'dialog')
         self.root.title("Label and Button Example")
         self.root.protocol("WM_DELETE_WINDOW", self.root.destroy)
 
         self.label_unit_number = tk.Label(self.root, text=f"Unit: {self.uuid}", **widget_options, **font_bold)
         self.label_unit_number.pack()
 
-        self.label_configured = tk.Label(self.root, text="Not configured", **widget_options, **font_default)
+        self.label_configured = tk.Label(self.root, text="Not configured", **widget_options, **font_smaller)
         self.label_configured.pack()
 
         self.label_led_status = tk.Label(self.root, text=f"LED status: {self.current_status}", **widget_options,
@@ -80,7 +86,7 @@ class Runner:
             self.label_led_status["text"] = "LED status: " + payload
 
             if payload == 'off':
-                self.label_led_status['bg'] = 'SystemButtonFace'
+                self.label_led_status['bg'] = '#d9d9d9'
             elif payload.startswith('on'):
                 _, r, g, b = payload.split(' ')
                 r, g, b = int(r), int(g), int(b)
@@ -98,6 +104,13 @@ class Runner:
         self.add_to_log("Button pressed")
 
         self.current_status = self.status_after_press(self.current_status)
+        if self.current_status == 'off':
+            self.label_led_status['bg'] = '#d9d9d9'
+        elif self.current_status.startswith('on'):
+            _, r, g, b = self.current_status.split(' ')
+            r, g, b = int(r), int(g), int(b)
+            hexcode = f'#{r:02x}{g:02x}{b:02x}'
+            self.label_led_status['bg'] = hexcode
         self.label_led_status["text"] = f"LED status: {self.current_status}"
 
     def run(self):
@@ -105,7 +118,8 @@ class Runner:
         self.mqtt.on_message = self.on_mqtt_message
         self.mqtt.connect(mqtt_ip)
         self.mqtt.subscribe("configure/#")
-        self.mqtt.subscribe("command/+/light")
+        self.mqtt.subscribe(f"command/{self.uuid}/light")
+        self.mqtt.subscribe(f"command/all/light")
         self.mqtt.subscribe("notification/general")
         self.mqtt.loop_start()
         self.root.mainloop()

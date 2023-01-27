@@ -55,9 +55,9 @@ class RestController:
     def setup_endpoints(self):
         self.__setup_socketio_endpoints()
 
-        @self.app.get("/leaderboard/{game}/{difficulty}")
-        def get_leaderboard(game: str, difficulty: str) -> LeaderboardResponse:
-            return LeaderboardResponse(leaderboard=self.game_service.get_leaderboard(game, difficulty))
+        @self.app.get("/leaderboard/{game}")
+        def get_leaderboard(game: str) -> LeaderboardResponse:
+            return LeaderboardResponse(leaderboard=self.game_service.get_leaderboard(game))
 
         @self.app.get("/score")
         def get_score() -> GameScore:

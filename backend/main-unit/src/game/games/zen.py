@@ -37,3 +37,4 @@ class ZenGame(Game):
         if not self.random_pole_on:
             self.set_pole_on(self.available_poles[self.current_pole])
             self.random_pole_on = True
+            self.mqtt_log("Pole " + str(self.current_pole) + " is on")

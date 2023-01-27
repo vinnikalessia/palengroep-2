@@ -6,7 +6,7 @@ from uvicorn.config import LOGGING_CONFIG
 from controllers.mqtt import MQTTController
 from controllers.rest import RestController
 from controllers.socketio import SocketIOController
-from repositories.games import GameRepository
+from repositories.game_repository import GameRepository
 
 from services.game_service import GameService
 
