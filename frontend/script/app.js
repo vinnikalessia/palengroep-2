@@ -20,7 +20,12 @@ let localTime,
   gameRedBlue,
   gameSimonSays,
   countdown = 3;
-const endpoint = 'http://34.241.254.21:3000/';
+
+// const IP = '34.241.254.21';  // online
+const IP = '10.42.0.1';         // raspberry pi
+
+const endpoint = `http://${IP}:3000/`;
+
 const games = ['redblue', 'zen', 'simonsays'];
 // #endregion
 
@@ -67,7 +72,7 @@ const showLeaderboard = function (data) {
 const showGameChoice = function (gameData) {
   try {
     for (let game of gameData.games) {
-      if (game.name == currentGame) {
+      if (game.name === currentGame) {
         let html = '';
         let htmlMap = '';
         htmlMap += `<a href="instellingen.html?id=${currentGame}">
@@ -103,7 +108,7 @@ const showSettingsPage = function (gameData) {
   let urlParams = new URLSearchParams(window.location.search);
   let currentGame = urlParams.get('id');
   for (let game of gameData.games) {
-    if (game.name == currentGame) {
+    if (game.name === currentGame) {
       htmlGameTitle.innerHTML = game.name;
       htmlGameDescription.innerHTML = game.description;
       htmlGamePlayers.innerHTML = game.players;
@@ -113,7 +118,7 @@ const showSettingsPage = function (gameData) {
 };
 
 const showCountdown = function () {
-  if (countdown != 0) {
+  if (countdown > 0) {
     countdownTimer.innerHTML = countdown;
   } else {
     window.location.replace('http://127.0.0.1:5501/frontend/during_game.html');
@@ -249,6 +254,37 @@ const listenToSlider = function () {
 };
 // #endregion
 
+
+// #region mqtt stuff
+
+
+const mqttURL = `mqtt://${IP}:1883`
+
+const options = {
+  // Clean session
+  clean: true,
+  connectTimeout: 4000,
+  // Authentication
+  clientId: 'frontend',
+  // username: 'emqx_test',
+  // password: 'emqx_test',
+}
+
+
+const client  = mqtt.connect(mqttURL, options)
+client.on('connect', function () {
+  console.log('Connected')
+  // Subscribe to a topic
+  client.subscribe('test', function (err) {
+    if (!err) {
+      // Publish a message to a topic
+      client.publish('test', 'Hello mqtt')
+    }
+  })
+})
+
+// #endregion
+
 // #region ***  Init / DOMContentLoaded                  ***********
 const init = function (total) {
   selectedGame = document.querySelectorAll('.js-selectedGame');
@@ -267,6 +303,7 @@ const init = function (total) {
   htmlSettingsButton = document.querySelector('.js-settingsButton');
   htmlSlider = document.querySelector('.js-slider');
   htmlSliderValue = document.querySelector('.js-sliderValue');
+
 
   if (document.querySelector('.js-index')) {
     timeBubble();
@@ -294,15 +331,15 @@ const init = function (total) {
   if (document.querySelector('.js-leaderboard')) {
     let urlParams = new URLSearchParams(window.location.search);
     let currentGame = urlParams.get('id');
-    if (currentGame == 'redblue') {
+    if (currentGame === 'redblue') {
       gameRedBlue.checked = true;
       gameZen.checked = false;
       gameSimonSays.checked = false;
-    } else if (currentGame == 'zen') {
+    } else if (currentGame === 'zen') {
       gameRedBlue.checked = false;
       gameZen.checked = true;
       gameSimonSays.checked = false;
-    } else if (currentGame == 'simonsays') {
+    } else if (currentGame === 'simonsays') {
       gameRedBlue.checked = false;
       gameZen.checked = false;
       gameSimonSays.checked = true;

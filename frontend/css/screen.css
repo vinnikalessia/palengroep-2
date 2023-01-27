@@ -26,6 +26,45 @@
     --global-margin: 0 0 1.5rem;
 }
 
+/*------------------------------------*\
+#FONTS
+\*------------------------------------*/
+
+/* normal */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/Poppins-Regular.ttf') format('truetype');
+}
+
+/* medium */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/Poppins-Medium.ttf");
+}
+
+/* semibold */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/Poppins-SemiBold.ttf") format('truetype');
+}
+
+/* bold */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/Poppins-Bold.ttf") format('truetype');
+}
 
 /*------------------------------------*\
 #GENERIC
