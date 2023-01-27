@@ -98,23 +98,33 @@ class Game:
             "finished": self.finished,
         }
 
+    def turn_all_poles_off(self):
+        self.send_mqtt_message("command/all/light", "off")
+
+    def on_pause(self):
+        self.turn_all_poles_off()
+
+    def on_stop(self):
+        self.turn_all_poles_off()
+
     def thread_step(self):
-        if not self.game_status == GameStatus.PAUSED:
+        if not self.paused:
             current_time = time.time()
             self.elapsed_time += current_time - self.current_time
 
-            if self.elapsed_time >= self.duration:
-                self.game_status = GameStatus.FINISHED
-                self.elapsed_time = self.duration
-                # async_print("Game finished, points:", self.get_scores())
-                self.send_mqtt_message("command/all/light", "off")
-                self.send_mqtt_message("notification/general", "Game finished")
+        if self.elapsed_time >= self.duration:
+            self.game_status = GameStatus.FINISHED
+            self.elapsed_time = self.duration
+            # async_print("Game finished, points:", self.get_scores())
+            self.turn_all_poles_off()
+            self.send_mqtt_message("notification/general", "Game finished")
 
         if self.game_status == GameStatus.STARTING:
             self.elapsed_time = 0
         self.current_time = time.time()
 
-        self.step()
+        if not self.paused:
+            self.step()
 
     def send_socket_message(self, message):
         self.__command_queue.put(SocketQueueItem(message))
@@ -132,12 +142,14 @@ class Game:
 
         if message == 'pause':
             self.game_status = GameStatus.PAUSED
+            self.on_pause()
         elif message == 'resume':
             self.game_status = GameStatus.RUNNING
         elif message == 'start':
             self.game_status = GameStatus.RUNNING
         elif message == 'stop':
             self.game_status = GameStatus.FINISHED
+            self.on_stop()
 
     def set_pole_on(self, pole_id, color: tuple = (255, 255, 255)):
         self.send_mqtt_message(f"command/{pole_id}/light", f"on {color[0]} {color[1]} {color[2]}")

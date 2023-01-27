@@ -12,7 +12,7 @@ USERNAME = os.getenv('MONGO_USERNAME')
 PASSWORD = os.getenv('MONGO_PASSWORD')
 
 MONGO_URI = f"mongodb://{USERNAME}:{PASSWORD}@database:27017"
-MONGO_DB = "datastore"
+MONGO_DB = "interactieve-palen"
 
 
 class GameRepository:
@@ -26,8 +26,8 @@ class GameRepository:
         games = self.db.games.find()
         return [GameModel(**game) for game in games]
 
-    def get_leaderboard(self, game: str, difficulty: str):
-        scores_for_game = self.db.scores.find({"game": game, "difficulty": difficulty})
+    def get_leaderboard(self, game: str):
+        scores_for_game = self.db.scores.find({"game": game})
 
         daily = []
         alltime = []
@@ -45,11 +45,11 @@ class GameRepository:
         daily = sorted(daily, key=lambda x: x.score, reverse=True)
         alltime = sorted(alltime, key=lambda x: x.score, reverse=True)
 
-        # limit to top 10
-        daily = daily[:10]
-        alltime = alltime[:10]
+        # limit to top 5
+        daily = daily[:5]
+        alltime = alltime[:5]
 
-        return Leaderboard(game=game, difficulty=difficulty, daily=daily, alltime=alltime)
+        return Leaderboard(game=game, daily=daily, alltime=alltime)
 
     def save_score(self, game: str, difficulty: str, team_name: str, score: int):
         self.db.scores.insert_one({"game": game,

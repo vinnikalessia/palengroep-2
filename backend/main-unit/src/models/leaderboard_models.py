@@ -10,7 +10,7 @@ class TeamScore(BaseModel):
 
 class Leaderboard(BaseModel):
     game: str
-    difficulty: str
+    # difficulty: str
     daily: List[TeamScore]
     alltime: List[TeamScore]
 
