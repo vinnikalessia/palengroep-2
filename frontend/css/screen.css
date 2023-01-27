@@ -324,10 +324,18 @@ button{
 /*
     Header met logo en huidige tijd
 */
-.c-header{
+.c-header--sm{
     height: 52px;
     display: flex;
     justify-content: end;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.c-header--md{
+    height: 52px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     padding-top: 30px;
 }
@@ -621,7 +629,7 @@ Scoreboard.html
 }
 
 .c-gamename{
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     width: 139px;
     height: 35px;
     text-align: center;
@@ -799,8 +807,8 @@ Scoreboard.html
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(254, 254, 254, 0.75);
-    position: absolute;
+    background-color: #7F2FDD;
+    position: fixed;
     top: 343px;
     left: 40px;
 }
@@ -815,10 +823,10 @@ Scoreboard.html
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(254, 254, 254, 0.75);
-    position: absolute;
+    background-color: #7F2FDD;
+    position: fixed;
     top: 343px;
-    left: 950px;
+    left: 924px;
 }
 
 /*
@@ -856,7 +864,7 @@ Scoreboard.html
 }
 
 .c-button__index {
-    margin-top: 300px;
+    margin-top: 250px;
 }
 
 .c-button__leaderboard{
@@ -947,17 +955,17 @@ Scoreboard.html
 /*
     game description => instellingen.html
 */
-.c-game__description {
+.c-game__description{
     width: 207px;
     height: 400px;
     color: #4D4D4D;
     position: absolute;
-    top: 247px;
+    top: 190px;
     left: 95px;
 
 }
 
-.c-game__description-title {
+.c-game__description-title{
     font-size: 28px;
     font-weight: 600;
     text-align: center;
@@ -972,6 +980,7 @@ Scoreboard.html
 }
 
 .c-game__description-text {
+    width: 207px;
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 16px;
@@ -1091,6 +1100,8 @@ input:checked+.slider:before {
     slider input => instellingen.html
 */
 .c-slider__input{
+    display: flex;
+    align-items: center;
     position: absolute;
     top: 130px;
     left: 15px;
@@ -1102,10 +1113,14 @@ input:checked+.slider:before {
     gap: 8px;
 }
 
+
 .c-slider{
-    color: var(--global-background-color-slider);
-    width: 250px;
-    height: 30px;
+    position: relative;
+    display: inline-block;
+    width: 224px;
+    height: 28px;
+    background-color: var(--global-background-color-slider);
+    transition: .4s;
 }
 
 /*
@@ -1253,75 +1268,38 @@ Scores
     color: var(--global-color-text);
 }
 
-.c-header2 {
-    position: absolute;
-    top: 1px;
-    height: 120px;
-    width: 1024px;
-    display: flex;
-    align-items: center;
-}
-
-.c-svg2 {
-    text-align: left;
-    padding-left: 3%;
-    padding-top: 0.5%;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-}
-
-.c-time2 {
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    text-align: right;
-    align-items: center;
-    justify-content: center;
-    width: 71px;
-    height: 71px;
-    border-width: 1.5px;
-    border-style: solid;
-    border-color: var(--global-color-white);
-    border-radius: 100%;
-    background-color: #D33B6C;
-    box-shadow: -10px -5px 15px rgb(211, 59, 108) inset;
-    position: absolute;
-    top: 40px;
-    left: 970px;
-}
-
-.c-vis1 {
-    position: absolute;
+.c-vis1{
+    position: fixed;
     top: 200px;
     left: 150px;
 }
 
-.c-vis2 {
-    position: absolute;
+.c-vis2{
+    position: fixed;
     top: 180px;
     left: 840px;
 }
 
-.c-zeester {
-    position: absolute;
-    top: 570px;
+.c-zeester{
+    position: fixed;
+    top: 510px;
     left: 280px;
 }
 
-.c-map {
+.c-map{
     position: absolute;
-    top: 170px;
+    top: 130px;
     left: 120px;
 }
 
-.c-map2 {
+.c-map2{
     position: absolute;
     top: 100px;
     left: 69px;
 }
 
-.c-title {
+.c-title{
+    color: #3B2E86;
     font-size: 56px;
     font-weight: bold;
     display: flex;
@@ -1329,20 +1307,26 @@ Scores
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 110px;
+    top: 48px;
     left: 340px;
 }
 
 .c-keuze {
-    position: absolute;
-    top: 290px;
-    left: 300px;
+    position: fixed;
+    top: 300px;
+    left: 290px;
     color: #3F3F3F;
 }
 
 .c-gametitle {
     font-size: 28px;
     font-weight: 600;
+}
+
+.c-underline__gamename{
+    width: 110px;
+    background: #8F84BC;
+    margin: 0;
 }
 
 .c-gametussentitel {
@@ -1357,12 +1341,21 @@ Scores
 }
 
 .c-leaderboard__button {
-    position: absolute;
-    top: 293px;
+    position: fixed;
+    top: 300px;
     left: 644px;
     font-size: 15px;
     font-weight: 300;
     color: #3F3F3F;
+}
+
+.c-leaderboard-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.c-leaderboard-icon__svg{
+    margin-right: 6px;
 }
 
 .c-svg__arrow {
@@ -1396,7 +1389,7 @@ Scores
     background-color: rgb(134, 230, 242, 0.8);
     border-radius: 8px;
     top: 144px;
-    left: 225px;
+    left: 161px;
 }
 
 .c-countdown__title {

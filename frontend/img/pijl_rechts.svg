@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
     <g id="ic_arrow_back" transform="translate(22 22) rotate(180)">
       <rect id="rectangle" width="22" height="22" fill="none"/>
-      <path id="path" d="M22.656,12.162H8.431L14.96,5.632,13.328,4,4,13.328l9.328,9.328,1.632-1.632L8.431,14.494H22.656V12.162Z" transform="translate(-2.304 -2.304)" fill-rule="evenodd" fill="#4D4D4D" opacity="0.54"/>
+      <path id="path" d="M22.656,12.162H8.431L14.96,5.632,13.328,4,4,13.328l9.328,9.328,1.632-1.632L8.431,14.494H22.656V12.162Z" transform="translate(-2.304 -2.304)" fill-rule="evenodd" fill="#ffffff" opacity="1"/>
     </g>
   </svg>
   
