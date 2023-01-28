@@ -1,11 +1,12 @@
 from typing import List
 
+from game.game import GameStatus
 from game.game_thread import GameThread
 from misc.queue import MessageQueue
 from misc.queue.item import QueueItem
 from misc.queue.pole_action import PoleActionQueueItem
 from misc.tools import async_print
-from models.game_models import GameModel, GameStatusResponse, GameConfigModel
+from models.game_models import GameModel, GameStatusResponse, GameConfigModel, CurrentGameStatus
 from models.leaderboard_models import LeaderboardResponse
 from repositories.game_repository import GameRepository
 
@@ -14,15 +15,9 @@ class GameService:
     def __init__(self, game_repository: GameRepository, client_queue: MessageQueue):
         self.game_repository = game_repository
         self.game_process: GameThread = None
-        self.socket_manager = None
         self.mqtt_client = None
 
         self.client_queue = client_queue
-
-        self.socket_manager = None
-
-    def set_socket_manager(self, socket_manager):
-        self.socket_manager = socket_manager
 
     def set_mqtt_client(self, mqtt_client):
         self.mqtt_client = mqtt_client
@@ -36,13 +31,25 @@ class GameService:
     def get_score(self):
         return self.game_process.get_score()
 
+    def get_current_game_status(self):
+        if self.game_process is None:
+            return CurrentGameStatus(
+                game="",
+                difficulty="",
+                scores={},
+                elapsed_time=0,
+                total_duration=0,
+                status=GameStatus.NONE.value
+
+            )
+        return self.game_process.get_game_status()
+
     def setup_game(self, game_setup: GameConfigModel) -> GameStatusResponse:
-        if self.game_process is not None and self.game_process.is_alive():
+        if self.game_process is not None:
             self.game_process.stop()
         self.game_process = None
 
         self.game_process = GameThread(game_config=game_setup,
-                                       socket_manager=self.socket_manager,
                                        mqtt_client=self.mqtt_client,
                                        client_queue=self.client_queue)
         self.game_process.start()
