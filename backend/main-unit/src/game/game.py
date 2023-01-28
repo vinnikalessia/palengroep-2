@@ -6,7 +6,7 @@ from misc.queue import MessageQueue
 from misc.queue.mqtt import MQTTQueueItem
 from misc.queue.socketio import SocketQueueItem
 from misc.tools import async_print
-from models.game_models import GameConfigModel
+from models.game_models import GameConfigModel, CurrentGameStatus
 
 
 class OnButtonPressConfig(enum.Enum):
@@ -20,10 +20,12 @@ class LedState(enum.Enum):
 
 
 class GameStatus(enum.Enum):
+    NONE = "none"  # before the game is created
     STARTING = "starting"  # before the game starts
     RUNNING = "running"  # during the game
     PAUSED = "paused"  # when the game is paused
     FINISHED = "finished"  # when the game is finished
+    NOT_ENOUGH_POLES = "not_enough_poles"  # when there are not enough poles to play the game
 
 
 class Game:
@@ -89,14 +91,14 @@ class Game:
         self.__command_queue.put(MQTTQueueItem(topic, message))
 
     def get_status(self):
-        return {
-            "game": self.game_name,
-            "duration": self.duration,
-            "current_time": self.current_time,
-            "scores": self.get_scores(),
-            "paused": self.paused,
-            "finished": self.finished,
-        }
+        return CurrentGameStatus(
+            game=self.game_name,
+            status=self.game_status.value,
+            elapsed_time=self.elapsed_time,
+            total_duration=self.duration,
+            difficulty=self.difficulty,
+            scores=self.get_scores()
+        )
 
     def turn_all_poles_off(self):
         self.send_mqtt_message("command/all/light", "off")
@@ -108,6 +110,10 @@ class Game:
         self.turn_all_poles_off()
 
     def thread_step(self):
+        if len(self.available_poles) == 0:
+            self.game_status = GameStatus.NOT_ENOUGH_POLES
+
+
         if not self.paused:
             current_time = time.time()
             self.elapsed_time += current_time - self.current_time

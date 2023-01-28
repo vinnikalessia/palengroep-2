@@ -138,25 +138,25 @@ const callbackSendData = function (
   teamName2,
   setDuration
 ) {
-  var myHeaders = new Headers();
+  let myHeaders = new Headers();
   myHeaders.append('accept', 'application/json');
   myHeaders.append('Content-Type', 'application/json');
 
-  var raw = JSON.stringify({
+  let raw = JSON.stringify({
     game: gameName,
     difficulty: difficultyState,
     teamNames: [teamName1, teamName2],
     duration: setDuration,
   });
 
-  var requestOptions = {
+  let requestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
     redirect: 'follow',
   };
 
-  fetch('http://34.241.254.21:3000/game/setup', requestOptions)
+  fetch(`${endpoint}game/setup`, requestOptions)
     .then((response) => response.json())
     .then((result) => console.log(result))
     .catch((error) => console.log('error', error));
@@ -232,7 +232,7 @@ const listenToSettingsButtonPage = function () {
     let teamName2 = document.querySelector('.js-team2Name').value;
     let setDuration = htmlSlider.value;
 
-    if (difficultyLevel == true) {
+    if (difficultyLevel) {
       difficultyState = 'Snel';
     } else {
       difficultyState = 'Traag';
@@ -258,36 +258,85 @@ const listenToSlider = function () {
 
 // #region mqtt stuff
 
-if (window.location.href.endsWith("during_game.html")) {
-  const socket = io(IP);
-  socket.on('connect', function () {
-    console.log("connected");
+// if (window.location.href.endsWith("during_game.html")) {
+let oldGameStatus = {};
 
-    socket.emit("confirm", "yow")
-  });
+const showTeamCard = function (team, teamName, teamScore) {
 
-  socket.on('general', function (message) {
-    
-  })
-
-  socket.onopen = function (e) {
-    console.log("[open] Connection established");
-    console.log("Sending to server");
-    socket.send("My name is John");
-  };
-
-  const handleScoreNotification = function (message) {
-    console.log(`handling score message ${message}`);
-  }
-
-  const handleGeneralNotification = function (message) {
-    console.log(`handling general message ${message}`);
-  }
-
-  socket.onmessage = function (event) {
-    console.log(`[message] Data received from server: ${event.data}`);
-  };
 }
+
+const showGameStatus = function (data) {
+  console.log(data);
+
+  // data looks like:
+//   {
+//   "game": "redblue",
+//   "status": "finished",
+//   "elapsed_time": 45,
+//   "total_duration": 45,
+//   "difficulty": "Traag",
+//   "scores": {
+//     "a": 13,
+//     "b": 14
+//   }
+// }
+
+
+  const teamNames = Object.keys(data.scores);
+  const teams = document.querySelector('.js-teams');
+
+  // check if teams are already there
+  if (teams.childElementCount === teamNames.length) {
+
+    // update scores
+    for (let teamName in data.scores) {
+      document.querySelector(`.js-score[data-team="${teamName}"]`).innerHTML = data.scores[teamName];
+    }
+  } else {
+    // remove old teams
+    teams.innerHTML = '';
+
+    // add new teams
+    for (let teamName in data.scores) {
+      const score = data.scores[teamName];
+      const index = teamNames.indexOf(teamName);
+      const color = index === 0 ? 'red' : 'blue';
+      const element = `
+      <div class="c-teamcard">
+          <div class="c-teamname js-teamname">${teamName}</div>
+          <div class="c-current-score">
+            <div class="c-svg__${color}score js-score" data-team="${teamName}">${score}</div>
+            <img class="c-svg__${color}chest" src="./img/${color}_chest_with_bubbels.svg" alt="${color}">
+          </div>
+        </div>`;
+
+      teams.insertAdjacentHTML('beforeend', element);
+    }
+  }
+}
+
+const getGameStatus = function () {
+  fetch(`${endpoint}game/status`)
+    .then((r) => r.json())
+    .then((data) => {
+      if (JSON.stringify(oldGameStatus) !== JSON.stringify(data)) {
+        oldGameStatus = data;
+        showGameStatus(data);
+      }
+
+      if (data.status !== "finished")
+        setTimeout(getGameStatus, 500);
+    });
+}
+
+const startGame = function () {
+  fetch(`${endpoint}sio/start_game`, {method: "PUT"})
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("start game", data);
+    });
+}
+// }
 // #endregion
 
 // #region ***  Init / DOMContentLoaded                  ***********
@@ -351,6 +400,13 @@ const init = function (total) {
     }
     getData(endpoint + `leaderboard/${currentGame}`).then(showLeaderboard);
     timeBubble();
+  }
+
+
+  if (document.location.href.endsWith("during_game.html")) {
+    startGame();
+
+    getGameStatus();
   }
 };
 
