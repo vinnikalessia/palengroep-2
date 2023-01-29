@@ -21,9 +21,9 @@ let localTime,
   gameSimonSays,
   countdown = 3;
 
-// const IP = '34.241.254.21';  // online
+const IP = '34.241.254.21';  // online
 // const IP = '10.42.0.1';         // raspberry pi
-const IP = '0.0.0.0';         // local
+// const IP = '0.0.0.0';         // local
 
 const endpoint = `http://${IP}:3000/`;
 
@@ -81,8 +81,8 @@ const showGameChoice = function (gameData) {
           alt="https://www.freepik.com/free-vector/cartoon-parchment-rolls-blank-scrolls-paper-banners_13100350.htm"
           width="814px" height="400px">
         <div class="c-keuze">
-          <hr class="c-underline__gamename">
-          <div class="c-gametitle js-gameTitle">${game.name}</div>
+        <div class="c-gametitle js-gameTitle">${game.name}</div>
+        <hr class="c-underline__gamename">
           <div class="c-gametussentitel">Beschrijving:</div>
           <div class="c-gametekst js-gameBeschrijving">${game.description}</div>
           <div class="c-gametussentitel">Aantal spelers:</div>
