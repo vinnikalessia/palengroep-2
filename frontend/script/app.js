@@ -137,7 +137,8 @@ const callbackSendData = function (
   difficultyState,
   teamName1,
   teamName2,
-  setDuration
+  setDuration,
+  goto
 ) {
   let myHeaders = new Headers();
   myHeaders.append('accept', 'application/json');
@@ -159,7 +160,12 @@ const callbackSendData = function (
 
   fetch(`${endpoint}game/setup`, requestOptions)
     .then((response) => response.json())
-    .then((result) => console.log(result))
+    .then((result) => {
+      console.log(result);
+      if (goto) {
+        window.location.href = goto;
+      }
+    })
     .catch((error) => console.log('error', error));
 };
 
@@ -222,7 +228,7 @@ const listenToArrows = function () {
   }
 };
 
-const getURLParam = function(param) {
+const getURLParam = function (param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 };
@@ -252,7 +258,8 @@ const listenToSettingsButtonPage = function () {
       difficultyState,
       teamName1,
       teamName2,
-      setDuration
+      setDuration,
+      `http://${IP}/countdown.html`
     );
   });
 };
@@ -268,7 +275,7 @@ const listenToSlider = function () {
 // #region mqtt stuff
 
 // if (window.location.href.endsWith("during_game.html")) {
-let oldGameStatus = {};
+let latestGameStatus = {};
 
 const showTeamCard = function (team, teamName, teamScore) {
 
@@ -327,13 +334,19 @@ const getGameStatus = function () {
   fetch(`${endpoint}game/status`)
     .then((r) => r.json())
     .then((data) => {
-      if (JSON.stringify(oldGameStatus) !== JSON.stringify(data)) {
-        oldGameStatus = data;
+      if (JSON.stringify(latestGameStatus) !== JSON.stringify(data)) {
+        latestGameStatus = data;
         showGameStatus(data);
+
+        console.log("game status", data)
       }
 
       if (data.status !== "finished")
-        setTimeout(getGameStatus, 500);
+        setTimeout(getGameStatus, 100);
+      else  {
+        console.log("game finished")
+        window.location.href = `http://${IP}/scoreboard.html`;
+      }
     });
 }
 
@@ -344,7 +357,46 @@ const startGame = function () {
       console.log("start game", data);
     });
 }
-// }
+
+const stopGame = function () {
+  fetch(`${endpoint}sio/stop_game`, {method: "PUT"})
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("stop game", data);
+    });
+}
+
+const pauseGame = function () {
+  fetch(`${endpoint}sio/pause_game`, {method: "PUT"})
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("pause game", data);
+    });
+}
+
+const resumeGame = function () {
+  fetch(`${endpoint}sio/resume_game`, {method: "PUT"})
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("resume game", data);
+    });
+}
+
+const onPausePress = function () {
+  console.log(latestGameStatus)
+  if (latestGameStatus.status === "running") {
+    pauseGame();
+  } else if (latestGameStatus.status === "paused") {
+    resumeGame();
+  }
+}
+
+
+const setupListeners = function () {
+  document.querySelector('.js-pause').addEventListener('click', onPausePress);
+  document.querySelector('.js-stop').addEventListener('click', stopGame);
+}
+
 // #endregion
 
 // #region ***  Init / DOMContentLoaded                  ***********
@@ -415,6 +467,7 @@ const init = function (total) {
     startGame();
 
     getGameStatus();
+    setupListeners();
   }
 };
 
