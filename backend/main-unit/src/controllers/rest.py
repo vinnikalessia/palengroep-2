@@ -38,19 +38,19 @@ class RestController:
         # handy for swagger
         @self.app.put("/sio/start_game", tags=["socketio"])
         def start_game_api():
-            self.game_service.start_game()
+            return self.game_service.start_game()
 
         @self.app.put("/sio/pause_game", tags=["socketio"])
         def pause_game_api():
-            self.game_service.pause_game()
+            return self.game_service.pause_game()
 
         @self.app.put("/sio/resume_game", tags=["socketio"])
         def resume_game_api():
-            self.game_service.resume_game()
+            return self.game_service.resume_game()
 
         @self.app.put("/sio/stop_game", tags=["socketio"])
         def stop_game_api():
-            self.game_service.stop_game()
+            return self.game_service.stop_game()
 
     def setup_endpoints(self):
         self.__setup_socketio_endpoints()

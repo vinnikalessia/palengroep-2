@@ -17,6 +17,8 @@ class GameService:
         self.game_process: GameThread = None
         self.mqtt_client = None
 
+        self.last_game_config = None
+
         self.client_queue = client_queue
 
     def set_mqtt_client(self, mqtt_client):
@@ -48,7 +50,7 @@ class GameService:
         if self.game_process is not None:
             self.game_process.stop()
         self.game_process = None
-
+        self.last_game_config = game_setup
         self.game_process = GameThread(game_config=game_setup,
                                        mqtt_client=self.mqtt_client,
                                        client_queue=self.client_queue)
@@ -58,10 +60,18 @@ class GameService:
 
     def start_game(self):
         async_print("starting game")
+
+        if self.game_process is None:
+            return "no game prepared"
+        else:
+            if self.game_process.game.finished or self.game_process.game.stopped:
+                self.setup_game(self.last_game_config)
+
         if self.game_process is not None and self.game_process.is_alive():
             self.client_queue.put_nowait(QueueItem("general", "start"))
         else:
-            async_print("no game prepared")
+            self.setup_game(self.last_game_config)
+            self.client_queue.put_nowait(QueueItem("general", "start"))
 
     def stop_game(self):
         if self.game_process is not None and self.game_process.is_alive():

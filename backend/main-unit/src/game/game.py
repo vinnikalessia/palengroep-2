@@ -20,7 +20,8 @@ class LedState(enum.Enum):
 
 
 class GameStatus(enum.Enum):
-    NONE = "none"  # before the game is created
+    NONE = "none"  # before the game is
+    STOPPED = "stopped"  # when the game is stopped
     STARTING = "starting"  # before the game starts
     RUNNING = "running"  # during the game
     PAUSED = "paused"  # when the game is paused
@@ -78,6 +79,10 @@ class Game:
         return self.game_status == GameStatus.FINISHED
 
     @property
+    def stopped(self):
+        return self.game_status == GameStatus.STOPPED
+
+    @property
     def running(self):
         return not self.paused and not self.finished
 
@@ -112,7 +117,6 @@ class Game:
     def thread_step(self):
         if len(self.available_poles) == 0:
             self.game_status = GameStatus.NOT_ENOUGH_POLES
-
 
         if not self.paused:
             current_time = time.time()
@@ -154,7 +158,7 @@ class Game:
         elif message == 'start':
             self.game_status = GameStatus.RUNNING
         elif message == 'stop':
-            self.game_status = GameStatus.FINISHED
+            self.game_status = GameStatus.STOPPED
             self.on_stop()
 
     def set_pole_on(self, pole_id, color: tuple = (255, 255, 255)):

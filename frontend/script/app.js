@@ -417,6 +417,16 @@ const getAfterGameStatus = function () {
   });
 }
 
+const checkFinishedGame = function (gameStatus) {
+  return new Promise((resolve, reject) => {
+    if (gameStatus.status === "finished") {
+      resolve(gameStatus);
+    } else {
+      reject("game not finished");
+    }
+  });
+}
+
 const fillScoreboard = function (gameStatus) {
 
   console.log("fillScoreboard", gameStatus);
@@ -432,7 +442,9 @@ const fillScoreboard = function (gameStatus) {
 
     const score = scores[team];
     scoreHtml += `
-    <span class="c-team">${team}</span> behaalde een<br>score van <span class="c-points">${score}</span> punten <br>
+    <div class="c-team-score">
+      <span class="c-team">${team}</span> behaalde een<br>score van <span class="c-points">${score}</span> punten.
+    </div>
     `
   }
 
@@ -516,7 +528,11 @@ const init = function (total) {
 
   if (document.location.href.endsWith("scoreboard.html")) {
     getAfterGameStatus()
-      .then(fillScoreboard);
+      .then(checkFinishedGame)
+      .then(fillScoreboard)
+      .catch(() => {
+        document.location.href = "during_game.html";
+      })
   }
 };
 

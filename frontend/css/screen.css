@@ -463,7 +463,11 @@ Scoreboard.html
     line-height: 1.2;
     font-weight: 400;
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 4rem; /*origineel 80px */
+}
+
+.c-team-score {
+    margin-bottom: 0.75rem;
 }
 
 .c-proficiat {
@@ -1226,6 +1230,8 @@ input:checked + .slider:before {
     left: 80px;
     background-color: transparent;
 }
+
+
 
 /*
     logo teamproject
