@@ -122,7 +122,7 @@ class Game:
             current_time = time.time()
             self.elapsed_time += current_time - self.current_time
 
-        if self.elapsed_time >= self.duration:
+        if self.elapsed_time >= self.duration and not self.stopped:
             self.game_status = GameStatus.FINISHED
             self.elapsed_time = self.duration
             # async_print("Game finished, points:", self.get_scores())

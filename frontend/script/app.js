@@ -44,6 +44,7 @@ const timeBubble = function () {
 
 const showLeaderboard = function (data) {
   try {
+    console.log(data);
     let htmlVandaag = '';
     let htmlOoit = '';
     let counter = 0;
@@ -342,8 +343,13 @@ const getDuringGameStatus = function () {
         console.log("game status", data)
       }
 
+      if (data.status === 'stopped') {
+        window.location.href = `http://${IP}/scoreboard.html`;
+      }
+
       if (data.status !== "finished")
         setTimeout(getDuringGameStatus, 100);
+
       else {
         console.log("game finished")
         window.location.href = `http://${IP}/scoreboard.html`;
@@ -422,9 +428,13 @@ const checkFinishedGame = function (gameStatus) {
     if (gameStatus.status === "finished") {
       resolve(gameStatus);
     } else {
-      reject("game not finished");
+      reject(gameStatus);
     }
   });
+}
+
+const setupScoreboardLinks = function (game) {
+  document.querySelector('.js-leaderboard-link').href = `http://${IP}/leaderboard.html?id=${game}`;
 }
 
 const fillScoreboard = function (gameStatus) {
@@ -449,7 +459,14 @@ const fillScoreboard = function (gameStatus) {
   }
 
   document.querySelector('.js-scores').innerHTML = scoreHtml;
-  document.querySelector('.js-leaderboard-link').href = `http://${IP}/leaderboard.html?game=${gameStatus.game}`;
+  setupScoreboardLinks(gameStatus.game);
+}
+
+const fillScoreBoardStopped = function (gameStatus) {
+  document.querySelector('.js-proficiat-text').innerHTML = "Gestopt!";
+  document.querySelector('.js-scores').innerHTML = "";
+
+  setupScoreboardLinks(gameStatus.game);
 }
 
 // #endregion
@@ -501,18 +518,22 @@ const init = function (total) {
   if (document.querySelector('.js-leaderboard')) {
     let urlParams = new URLSearchParams(window.location.search);
     let currentGame = urlParams.get('id');
-    if (currentGame === 'redblue') {
-      gameRedBlue.checked = true;
-      gameZen.checked = false;
-      gameSimonSays.checked = false;
-    } else if (currentGame === 'zen') {
-      gameRedBlue.checked = false;
-      gameZen.checked = true;
-      gameSimonSays.checked = false;
-    } else if (currentGame === 'simonsays') {
-      gameRedBlue.checked = false;
-      gameZen.checked = false;
-      gameSimonSays.checked = true;
+
+    if (document.location.href.includes("leaderboardkeuze.html")) {
+
+      if (currentGame === 'redblue') {
+        gameRedBlue.checked = true;
+        gameZen.checked = false;
+        gameSimonSays.checked = false;
+      } else if (currentGame === 'zen') {
+        gameRedBlue.checked = false;
+        gameZen.checked = true;
+        gameSimonSays.checked = false;
+      } else if (currentGame === 'simonsays') {
+        gameRedBlue.checked = false;
+        gameZen.checked = false;
+        gameSimonSays.checked = true;
+      }
     }
     getData(endpoint + `leaderboard/${currentGame}`).then(showLeaderboard);
     timeBubble();
@@ -530,8 +551,12 @@ const init = function (total) {
     getAfterGameStatus()
       .then(checkFinishedGame)
       .then(fillScoreboard)
-      .catch(() => {
-        document.location.href = "during_game.html";
+      .catch((gameData) => {
+        if (gameData.status === "stopped") {
+          fillScoreBoardStopped(gameData)
+        } else {
+          document.location.href = "during_game.html";
+        }
       })
   }
 };

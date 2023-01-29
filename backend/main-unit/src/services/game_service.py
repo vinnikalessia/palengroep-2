@@ -42,7 +42,6 @@ class GameService:
                 elapsed_time=0,
                 total_duration=0,
                 status=GameStatus.NONE.value
-
             )
         return self.game_process.get_game_status()
 

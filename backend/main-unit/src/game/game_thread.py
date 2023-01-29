@@ -54,6 +54,7 @@ class GameThread(threading.Thread):
             self.stopped = True
             self._log_mqtt("stopping game")
             self.game.on_stop()
+            self.game.game_status = GameStatus.STOPPED
         elif payload == 'pause':
             self.game.game_status = GameStatus.PAUSED
             self.game.on_pause()
