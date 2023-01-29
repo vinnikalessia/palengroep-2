@@ -2,116 +2,116 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="msapplication-TileColor" content="#cce7ff" />
+  <meta charset="utf-8"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="msapplication-TileColor" content="#cce7ff"/>
 
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/screen.css" />
-    <script src="./script/app.js"></script>
-    <title>Leaderboard</title>
+  <link rel="stylesheet" href="css/normalize.css"/>
+  <link rel="stylesheet" href="css/screen.css"/>
+  <script src="./script/app.js"></script>
+  <title>Leaderboard</title>
 </head>
 
 <body class="js-leaderboard">
-    <video autoplay loop muted>
-        <source src="./img/WaterLook02.mp4" type="video/mp4">
-    </video>
-    <div class="c-header--sm">
-        <div class="c-time js-time">11:24</div>
+<video autoplay loop muted>
+  <source src="./img/WaterLook02.mp4" type="video/mp4">
+</video>
+<div class="c-header--sm">
+  <div class="c-time js-time">11:24</div>
+</div>
+</div>
+<div class="c-logo">
+  <a href="game_choice.html">
+    <div class="c-back">
+      <img src="./img/back_arrow.svg" alt="https://fonts.google.com/icons?icon.query=arrow+back"/>
+      Terug
     </div>
+  </a>
+</div>
+<div class="c-mid">
+  <div class="c-leaderboard__games">
+    <div class="c-gamename__option--zen">
+      <input class="c-radiobutton js-selectedGame js-zen" type="radio" name="game" id="zen" hidden>
+      <label for="zen">Zen</label>
     </div>
-    <div class="c-logo">
-        <a href="game_choice.html">
-            <div class="c-back">
-                <img src="./img/back_arrow.svg" alt="https://fonts.google.com/icons?icon.query=arrow+back" />
-                Terug
-            </div>
-        </a>
+    <div class="c-gamename__option--rb">
+      <input class="c-radiobutton js-selectedGame js-redblue" type="radio" name="game" id="redblue" checked
+             hidden>
+      <label for="redblue">Red / Blue</label>
     </div>
-    <div class="c-mid">
-        <div class="c-leaderboard__games">
-            <div class="c-gamename__option--zen">
-                <input class="c-radiobutton js-selectedGame js-zen" type="radio" name="game" id="zen" hidden>
-                <label for="zen">Zen</label>
-            </div>
-            <div class="c-gamename__option--rb">
-                <input class="c-radiobutton js-selectedGame js-redblue" type="radio" name="game" id="redblue" checked
-                    hidden>
-                <label for="redblue">Red / Blue</label>
-            </div>
-            <div class="c-gamename__option--ss">
-                <input class="c-radiobutton js-selectedGame js-simonsays" type="radio" name="game" id="simonsays"
-                    hidden>
-                <label for="simonsays">Simon says</label>
-            </div>
+    <div class="c-gamename__option--ss">
+      <input class="c-radiobutton js-selectedGame js-simonsays" type="radio" name="game" id="simonsays"
+             hidden>
+      <label for="simonsays">Simon says</label>
+    </div>
+  </div>
+  <div class="c-contentcard">
+    <div class="c-content">
+      <div class="o-container c-layout">
+        <div class="u-1-of-3">
+          <div class="c-leaderboard__text">
+            <div class="c-best-scores">Beste scores</div>
+            <div class="c-date">vandaag</div>
+          </div>
+          <div class="c-underline">
+          </div>
+          <div class="c-grid__container js-vandaag">
+            <div class="c-grid__item">1</div>
+            <div class="c-grid__item">De Joskes</div>
+            <div class="c-grid__item">30</div>
+            <div class="c-grid__item">2</div>
+            <div class="c-grid__item">De Gilberkes</div>
+            <div class="c-grid__item">28</div>
+            <div class="c-grid__item">3</div>
+            <div class="c-grid__item">Howest</div>
+            <div class="c-grid__item">25</div>
+            <div class="c-grid__item">4</div>
+            <div class="c-grid__item">Kortrijk</div>
+            <div class="c-grid__item">20</div>
+            <div class="c-grid__item">5</div>
+            <div class="c-grid__item">Belgie</div>
+            <div class="c-grid__item">18</div>
+          </div>
         </div>
-        <div class="c-contentcard">
-            <div class="c-content">
-                <div class="o-container c-layout">
-                    <div class="u-1-of-3">
-                        <div class="c-leaderboard__text">
-                            <div class="c-best-scores">Beste scores</div>
-                            <div class="c-date">vandaag</div>
-                        </div>
-                        <div class="c-underline">
-                        </div>
-                        <div class="c-grid__container js-vandaag">
-                            <div class="c-grid__item">1</div>
-                            <div class="c-grid__item">De Joskes</div>
-                            <div class="c-grid__item">30</div>
-                            <div class="c-grid__item">2</div>
-                            <div class="c-grid__item">De Gilberkes</div>
-                            <div class="c-grid__item">28</div>
-                            <div class="c-grid__item">3</div>
-                            <div class="c-grid__item">Howest</div>
-                            <div class="c-grid__item">25</div>
-                            <div class="c-grid__item">4</div>
-                            <div class="c-grid__item">Kortrijk</div>
-                            <div class="c-grid__item">20</div>
-                            <div class="c-grid__item">5</div>
-                            <div class="c-grid__item">Belgie</div>
-                            <div class="c-grid__item">18</div>
-                        </div>
-                    </div>
-                    <div class="u-1-of-3">
-                        <div class="c-svg__logo">
-                            <img src="./img/trophee.svg"
-                                alt="https://www.freepik.com/free-vector/gold-cups-awards-flat-illustrations-set-collection-golden-trophies-medals-winners-isolated-white_20827758.htm#query=trophee&position=0&from_view=search&track=sph">
-                        </div>
-                    </div>
-                    <div class="u-1-of-3">
-                        <div class="c-leaderboard__text">
-                            <div class="c-best-scores">Beste scores</div>
-                            <div class="c-date">ooit</div>
-                        </div>
-                        <div class="c-underline">
-                        </div>
-                        <div class="c-grid__container js-ooit">
-                            <div class="c-grid__item">1</div>
-                            <div class="c-grid__item">De Joskes</div>
-                            <div class="c-grid__item">30</div>
-                            <div class="c-grid__item">2</div>
-                            <div class="c-grid__item">De Gilberkes</div>
-                            <div class="c-grid__item">28</div>
-                            <div class="c-grid__item">3</div>
-                            <div class="c-grid__item">Howest</div>
-                            <div class="c-grid__item">25</div>
-                            <div class="c-grid__item">4</div>
-                            <div class="c-grid__item">Kortrijk</div>
-                            <div class="c-grid__item">20</div>
-                            <div class="c-grid__item">5</div>
-                            <div class="c-grid__item">Belgie</div>
-                            <div class="c-grid__item">18</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="u-1-of-3">
+          <div class="c-svg__logo">
+            <img src="./img/trophee.svg"
+                 alt="https://www.freepik.com/free-vector/gold-cups-awards-flat-illustrations-set-collection-golden-trophies-medals-winners-isolated-white_20827758.htm#query=trophee&position=0&from_view=search&track=sph">
+          </div>
         </div>
+        <div class="u-1-of-3">
+          <div class="c-leaderboard__text">
+            <div class="c-best-scores">Beste scores</div>
+            <div class="c-date">ooit</div>
+          </div>
+          <div class="c-underline">
+          </div>
+          <div class="c-grid__container js-ooit">
+            <div class="c-grid__item">1</div>
+            <div class="c-grid__item">De Joskes</div>
+            <div class="c-grid__item">30</div>
+            <div class="c-grid__item">2</div>
+            <div class="c-grid__item">De Gilberkes</div>
+            <div class="c-grid__item">28</div>
+            <div class="c-grid__item">3</div>
+            <div class="c-grid__item">Howest</div>
+            <div class="c-grid__item">25</div>
+            <div class="c-grid__item">4</div>
+            <div class="c-grid__item">Kortrijk</div>
+            <div class="c-grid__item">20</div>
+            <div class="c-grid__item">5</div>
+            <div class="c-grid__item">Belgie</div>
+            <div class="c-grid__item">18</div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
 
-    </div>
+</div>
 </body>
 
 </html>
