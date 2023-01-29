@@ -20,7 +20,13 @@ let localTime,
   gameRedBlue,
   gameSimonSays,
   countdown = 3;
-const endpoint = 'http://34.241.254.21:3000/';
+
+// const IP = '34.241.254.21';  // online
+// const IP = '10.42.0.1';         // raspberry pi
+const IP = '0.0.0.0';         // local
+
+const endpoint = `http://${IP}:3000/`;
+
 const games = ['redblue', 'zen', 'simonsays'];
 // #endregion
 
@@ -67,7 +73,7 @@ const showLeaderboard = function (data) {
 const showGameChoice = function (gameData) {
   try {
     for (let game of gameData.games) {
-      if (game.name == currentGame) {
+      if (game.name === currentGame) {
         let html = '';
         let htmlMap = '';
         htmlMap += `<a href="instellingen.html?id=${currentGame}">
@@ -103,7 +109,7 @@ const showSettingsPage = function (gameData) {
   let urlParams = new URLSearchParams(window.location.search);
   let currentGame = urlParams.get('id');
   for (let game of gameData.games) {
-    if (game.name == currentGame) {
+    if (game.name === currentGame) {
       htmlGameTitle.innerHTML = game.name;
       htmlGameDescription.innerHTML = game.description;
       htmlGamePlayers.innerHTML = game.players;
@@ -113,10 +119,10 @@ const showSettingsPage = function (gameData) {
 };
 
 const showCountdown = function () {
-  if (countdown != 0) {
+  if (countdown > 0) {
     countdownTimer.innerHTML = countdown;
   } else {
-    window.location.replace('http://127.0.0.1:5501/frontend/during_game.html');
+    window.location.replace(`http://${IP}/during_game.html`);
     countdown = 3;
   }
   countdown -= 1;
@@ -132,25 +138,25 @@ const callbackSendData = function (
   teamName2,
   setDuration
 ) {
-  var myHeaders = new Headers();
+  let myHeaders = new Headers();
   myHeaders.append('accept', 'application/json');
   myHeaders.append('Content-Type', 'application/json');
 
-  var raw = JSON.stringify({
+  let raw = JSON.stringify({
     game: gameName,
     difficulty: difficultyState,
     teamNames: [teamName1, teamName2],
     duration: setDuration,
   });
 
-  var requestOptions = {
+  let requestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
     redirect: 'follow',
   };
 
-  fetch('http://34.241.254.21:3000/game/setup', requestOptions)
+  fetch(`${endpoint}game/setup`, requestOptions)
     .then((response) => response.json())
     .then((result) => console.log(result))
     .catch((error) => console.log('error', error));
@@ -226,7 +232,7 @@ const listenToSettingsButtonPage = function () {
     let teamName2 = document.querySelector('.js-team2Name').value;
     let setDuration = htmlSlider.value;
 
-    if (difficultyLevel == true) {
+    if (difficultyLevel) {
       difficultyState = 'Snel';
     } else {
       difficultyState = 'Traag';
@@ -249,6 +255,90 @@ const listenToSlider = function () {
 };
 // #endregion
 
+
+// #region mqtt stuff
+
+// if (window.location.href.endsWith("during_game.html")) {
+let oldGameStatus = {};
+
+const showTeamCard = function (team, teamName, teamScore) {
+
+}
+
+const showGameStatus = function (data) {
+  console.log(data);
+
+  // data looks like:
+//   {
+//   "game": "redblue",
+//   "status": "finished",
+//   "elapsed_time": 45,
+//   "total_duration": 45,
+//   "difficulty": "Traag",
+//   "scores": {
+//     "a": 13,
+//     "b": 14
+//   }
+// }
+
+
+  const teamNames = Object.keys(data.scores);
+  const teams = document.querySelector('.js-teams');
+
+  // check if teams are already there
+  if (teams.childElementCount === teamNames.length) {
+
+    // update scores
+    for (let teamName in data.scores) {
+      document.querySelector(`.js-score[data-team="${teamName}"]`).innerHTML = data.scores[teamName];
+    }
+  } else {
+    // remove old teams
+    teams.innerHTML = '';
+
+    // add new teams
+    for (let teamName in data.scores) {
+      const score = data.scores[teamName];
+      const index = teamNames.indexOf(teamName);
+      const color = index === 0 ? 'red' : 'blue';
+      const element = `
+      <div class="c-teamcard">
+          <div class="c-teamname js-teamname">${teamName}</div>
+          <div class="c-current-score">
+            <div class="c-svg__${color}score js-score" data-team="${teamName}">${score}</div>
+            <img class="c-svg__${color}chest" src="./img/${color}_chest_with_bubbels.svg" alt="${color}">
+          </div>
+        </div>`;
+
+      teams.insertAdjacentHTML('beforeend', element);
+    }
+  }
+}
+
+const getGameStatus = function () {
+  fetch(`${endpoint}game/status`)
+    .then((r) => r.json())
+    .then((data) => {
+      if (JSON.stringify(oldGameStatus) !== JSON.stringify(data)) {
+        oldGameStatus = data;
+        showGameStatus(data);
+      }
+
+      if (data.status !== "finished")
+        setTimeout(getGameStatus, 500);
+    });
+}
+
+const startGame = function () {
+  fetch(`${endpoint}sio/start_game`, {method: "PUT"})
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("start game", data);
+    });
+}
+// }
+// #endregion
+
 // #region ***  Init / DOMContentLoaded                  ***********
 const init = function (total) {
   selectedGame = document.querySelectorAll('.js-selectedGame');
@@ -267,6 +357,7 @@ const init = function (total) {
   htmlSettingsButton = document.querySelector('.js-settingsButton');
   htmlSlider = document.querySelector('.js-slider');
   htmlSliderValue = document.querySelector('.js-sliderValue');
+
 
   if (document.querySelector('.js-index')) {
     timeBubble();
@@ -294,21 +385,28 @@ const init = function (total) {
   if (document.querySelector('.js-leaderboard')) {
     let urlParams = new URLSearchParams(window.location.search);
     let currentGame = urlParams.get('id');
-    if (currentGame == 'redblue') {
+    if (currentGame === 'redblue') {
       gameRedBlue.checked = true;
       gameZen.checked = false;
       gameSimonSays.checked = false;
-    } else if (currentGame == 'zen') {
+    } else if (currentGame === 'zen') {
       gameRedBlue.checked = false;
       gameZen.checked = true;
       gameSimonSays.checked = false;
-    } else if (currentGame == 'simonsays') {
+    } else if (currentGame === 'simonsays') {
       gameRedBlue.checked = false;
       gameZen.checked = false;
       gameSimonSays.checked = true;
     }
     getData(endpoint + `leaderboard/${currentGame}`).then(showLeaderboard);
     timeBubble();
+  }
+
+
+  if (document.location.href.endsWith("during_game.html")) {
+    startGame();
+
+    getGameStatus();
   }
 };
 

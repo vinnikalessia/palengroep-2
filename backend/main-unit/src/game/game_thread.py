@@ -9,22 +9,22 @@ from misc.queue import MessageQueue
 from misc.queue.item import QueueItem
 from misc.queue.mqtt import MQTTQueueItem
 from misc.queue.pole_action import PoleActionQueueItem
-from misc.queue.socketio import SocketQueueItem
 from misc.tools import async_print
-from models.game_models import GameConfigModel, GameScore
+from models.game_models import GameConfigModel, GameScore, CurrentGameStatus
 from repositories.game_repository import GameRepository
 
 
 class GameThread(threading.Thread):
+
     def __init__(self,
                  game_config: GameConfigModel,
-                 socket_manager, mqtt_client,
+                 mqtt_client,
                  client_queue: MessageQueue):
+
         self.client_queue = client_queue
         self.game_repository = GameRepository()
         self.server_queue = Queue()
 
-        self.socket_manager = socket_manager
         self.mqtt_client: FastMQTT = mqtt_client
 
         self.stopped = False
@@ -108,9 +108,7 @@ class GameThread(threading.Thread):
                 assert isinstance(item, MQTTQueueItem)
                 print(item)
                 self.mqtt_client.publish(item.topic, item.payload)
-            elif item.category == 'socket':
-                assert isinstance(item, SocketQueueItem)
-                self.socket_manager.emit(item.payload)
+
             else:
                 self._log_mqtt(f"received message {item}")
                 async_print(item)
@@ -149,25 +147,38 @@ class GameThread(threading.Thread):
     def turn_off_lights(self):
         self.mqtt_client.publish('command/all/light', 'off')
 
+    def get_game_status(self) -> CurrentGameStatus:
+        if self.game is not None:
+            return self.game.get_status()
+        else:
+            return CurrentGameStatus(
+                game="",
+                difficulty="",
+                status=GameStatus.NONE.value,
+                elapsed_time=0,
+                total_duration=0,
+                scores={}
+            )
+
     def run(self):
+
         self.clear_client_queue()
 
         self.prepare_game()
         self._log_mqtt('ready to start game')
 
-        self.socket_manager.emit('game', "game ready")
-
         while self.game.starting:
             self.check_client_queue()
             time.sleep(0.01)
 
-        while not self.stopped and (self.game.running or self.game.paused):
+        while not self.stopped and (self.game.running or self.game.paused) \
+                and self.game.game_status != GameStatus.NOT_ENOUGH_POLES:
             self.check_client_queue()
             self.game.thread_step()
             self.check_server_queue()
             time.sleep(0.01)
 
-        if not self.stopped:
+        if not self.stopped and self.game.game_status != GameStatus.NOT_ENOUGH_POLES:
             self.save_game()
         else:
             self._log_mqtt("game stopped, not saving")

@@ -22,6 +22,20 @@ class GameStatusResponse(BaseModel):
     status: str = Field(..., example="starting", description="The status of the game")
 
 
+class CurrentGameStatus(BaseModel):
+    game: str
+    status: str
+    elapsed_time: int
+    total_duration: int
+    difficulty: str
+    scores: Dict[str, int] = Field(..., example={"team1": 100, "team2": 50},
+                                   description="The score of the game per team")
+
+    def __init__(self, game, difficulty, status, scores, elapsed_time, total_duration):
+        super().__init__(game=game, difficulty=difficulty, status=status, scores=scores, elapsed_time=elapsed_time,
+                         total_duration=total_duration)
+
+
 class GameScore(BaseModel):
     game: str = Field(..., example="redblue", description="The name of the game")
     difficulty: str = Field(..., example="traag", description="The difficulty of the game")

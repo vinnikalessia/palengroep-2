@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from models.game_models import GameScore, GameConfigModel, GameStatusResponse, GamesResponse
+from models.game_models import GameScore, GameConfigModel, GameStatusResponse, GamesResponse, CurrentGameStatus
 from models.leaderboard_models import LeaderboardResponse
 from routers.general import router as global_router
 from services.game_service import GameService
@@ -71,6 +71,10 @@ class RestController:
 
             current_game = self.game_service.setup_game(setup_config)
             return current_game
+
+        @self.app.get("/game/status")
+        def get_game_status() -> CurrentGameStatus:
+            return self.game_service.get_current_game_status()
 
         @self.app.get("/games", description="Get all games")
         def get_games() -> GamesResponse:
