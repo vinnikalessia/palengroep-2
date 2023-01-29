@@ -6,9 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./css/screen.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="./script/socket.io.min.js"></script>
   <script src="./script/app.js"></script>
   <title>During game</title>
 </head>
@@ -34,21 +33,21 @@
           </button>
         </div>
       </div>
-      <div class="c-during-game">
-        <div class="c-teamcard">
-          <div class="c-teamname">De Joskes</div>
+      <div class="c-during-game js-teams">
+        <!--<div class="c-teamcard">
+          <div class="c-teamname js-teamname">De Joskes</div>
           <div class="c-current-score">
-            <div class="c-svg__redscore">3</div>
+            <div class="c-svg__redscore js-score">3</div>
             <img class="c-svg__redchest" src="./img/red_chest_with_bubbels.svg" alt="red">
           </div>
         </div>
         <div class="c-teamcard">
           <div class="c-teamname">De Gilberkes</div>
           <div class="c-current-score">
-            <div class="c-svg__bluescore">0</div>
-            <img class="c-svg__bluechest" src="./img/blue_chest_with_bubbel.svg" alt="blue">
+            <div class="c-svg__bluescore js-score">0</div>
+            <img class="c-svg__bluechest" src="./img/blue_chest_with_bubbels.svg" alt="blue">
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>

@@ -9,11 +9,6 @@
 
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/screen.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="./script/app.js"></script>
     <title>Leaderboard</title>
 </head>
@@ -37,16 +32,17 @@
     <div class="c-mid">
         <div class="c-leaderboard__games">
             <div class="c-gamename__option--zen">
-                <input class="c-radiobutton js-selectedGame" type="radio" name="game" id="zen" hidden>
+                <input class="c-radiobutton js-selectedGame js-zen" type="radio" name="game" id="zen" hidden>
                 <label for="zen">Zen</label>
             </div>
             <div class="c-gamename__option--rb">
-                <input class="c-radiobutton js-selectedGame js-chosenGame" type="radio" name="game" id="redblue" checked
+                <input class="c-radiobutton js-selectedGame js-redblue" type="radio" name="game" id="redblue" checked
                     hidden>
                 <label for="redblue">Red / Blue</label>
             </div>
             <div class="c-gamename__option--ss">
-                <input class="c-radiobutton js-selectedGame" type="radio" name="game" id="simonsays" hidden>
+                <input class="c-radiobutton js-selectedGame js-simonsays" type="radio" name="game" id="simonsays"
+                    hidden>
                 <label for="simonsays">Simon says</label>
             </div>
         </div>
