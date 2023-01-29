@@ -1046,6 +1046,7 @@ Scoreboard.html
     text-align: center;
     margin-top: 4px;
     margin-bottom: 16px;
+    text-transform: capitalize;
 }
 
 .c-game__description-tussentitel {
@@ -1055,7 +1056,7 @@ Scoreboard.html
 }
 
 .c-game__description-text {
-    width: 207px;
+    width: 190px;
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 16px;
@@ -1432,16 +1433,17 @@ Scores
     left: 340px;
 }
 
-.c-keuze {
+.c-keuze{
     position: fixed;
     top: 300px;
     left: 290px;
     color: #3F3F3F;
 }
 
-.c-gametitle {
+.c-gametitle{
     font-size: 28px;
     font-weight: 600;
+    text-transform: capitalize;
 }
 
 .c-underline__gamename {
@@ -1459,7 +1461,7 @@ Scores
 .c-gametekst {
     font-size: 14px;
     font-weight: 400;
-    max-width: 520px;
+    width: 490px;
 }
 
 .c-leaderboard__button {
@@ -1586,9 +1588,9 @@ Scores
     animation-timing-function: cubic-bezier(.5, .5, .5, .5);
 }
 
-@keyframes paarsevis {
-    0% {
-        transform: translate(1100px, 0px);
+@keyframes paarsevis{
+    0%{
+        transform: translate(180px, 0px);
     }
     70% {
         transform: translate(-400px, 220px);

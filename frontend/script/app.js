@@ -21,9 +21,9 @@ let localTime,
   gameSimonSays,
   countdown = 3;
 
-// const IP = '34.241.254.21';  // online
+const IP = '34.241.254.21';  // online
 // const IP = '10.42.0.1';         // raspberry pi
-const IP = '0.0.0.0';         // local
+// const IP = '0.0.0.0';         // local
 
 const endpoint = `http://${IP}:3000/`;
 
