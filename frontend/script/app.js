@@ -193,9 +193,9 @@ const listenToChosenGame = function () {
 };
 
 const listenToArrows = function () {
-  for (let game of gameChoiceArrows) {
-    game.addEventListener('click', function () {
-      if (game.id == 'left') {
+  for (let arrow of gameChoiceArrows) {
+    arrow.addEventListener('click', function () {
+      if (arrow.id == 'left') {
         if (games.indexOf(currentGame) == 0) {
           currentGame = games[games.length - 1];
           if (currentGame != PrevCurrentGame) {
@@ -209,7 +209,7 @@ const listenToArrows = function () {
           }
           console.log(currentGame);
         }
-      } else if (game.id == 'right') {
+      } else if (arrow.id == 'right') {
         if (games.indexOf(currentGame) == games.length - 1) {
           currentGame = games[0];
           if (currentGame != PrevCurrentGame) {
