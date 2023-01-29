@@ -1,7 +1,7 @@
 // #region ***  DOM references                           ***********
 let localTime,
   selectedGame,
-  gameChoiseArrows,
+  gameChoiceArrows,
   htmlLeaderboardVandaag,
   htmlLeaderboardOoit,
   htmlGameUrl,
@@ -70,6 +70,7 @@ const showLeaderboard = function (data) {
   listenToChosenGame();
 };
 
+
 const showGameChoice = function (gameData) {
   try {
     for (let game of gameData.games) {
@@ -81,8 +82,8 @@ const showGameChoice = function (gameData) {
           alt="https://www.freepik.com/free-vector/cartoon-parchment-rolls-blank-scrolls-paper-banners_13100350.htm"
           width="814px" height="400px">
         <div class="c-keuze">
+          <div class="c-gametitle js-gameTitle">${game.display_name}</div>
           <hr class="c-underline__gamename">
-          <div class="c-gametitle js-gameTitle">${game.name}</div>
           <div class="c-gametussentitel">Beschrijving:</div>
           <div class="c-gametekst js-gameBeschrijving">${game.description}</div>
           <div class="c-gametussentitel">Aantal spelers:</div>
@@ -110,7 +111,7 @@ const showSettingsPage = function (gameData) {
   let currentGame = urlParams.get('id');
   for (let game of gameData.games) {
     if (game.name === currentGame) {
-      htmlGameTitle.innerHTML = game.name;
+      htmlGameTitle.innerHTML = game.display_name;
       htmlGameDescription.innerHTML = game.description;
       htmlGamePlayers.innerHTML = game.players;
     }
@@ -185,7 +186,7 @@ const listenToChosenGame = function () {
 };
 
 const listenToArrows = function () {
-  for (let game of gameChoiseArrows) {
+  for (let game of gameChoiceArrows) {
     game.addEventListener('click', function () {
       if (game.id == 'left') {
         if (games.indexOf(currentGame) == 0) {
@@ -221,10 +222,18 @@ const listenToArrows = function () {
   }
 };
 
+const getURLParam = function(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+};
+
 const listenToSettingsButtonPage = function () {
   htmlSettingsButton.addEventListener('click', function () {
     let difficultyState;
-    let gameName = document.querySelector('.js-gameTitle').innerHTML;
+    // let gameName = document.querySelector('.js-gameTitle').innerHTML;
+
+    const gameName = getURLParam('id');
+
     let difficultyLevel = document.querySelector(
       '.js-difficultyCheckbox'
     ).checked;
@@ -266,20 +275,19 @@ const showTeamCard = function (team, teamName, teamScore) {
 }
 
 const showGameStatus = function (data) {
-  console.log(data);
 
   // data looks like:
-//   {
-//   "game": "redblue",
-//   "status": "finished",
-//   "elapsed_time": 45,
-//   "total_duration": 45,
-//   "difficulty": "Traag",
-//   "scores": {
-//     "a": 13,
-//     "b": 14
-//   }
-// }
+  //   {
+  //   "game": "redblue",
+  //   "status": "finished",
+  //   "elapsed_time": 45,
+  //   "total_duration": 45,
+  //   "difficulty": "Traag",
+  //   "scores": {
+  //     "a": 13,
+  //     "b": 14
+  //   }
+  // }
 
 
   const teamNames = Object.keys(data.scores);
@@ -345,7 +353,7 @@ const init = function (total) {
   htmlLeaderboardVandaag = document.querySelector('.js-vandaag');
   htmlLeaderboardOoit = document.querySelector('.js-ooit');
   countdownTimer = document.querySelector('.js-countdownTimer');
-  gameChoiseArrows = document.querySelectorAll('.js-buttonGameChoise');
+  gameChoiceArrows = document.querySelectorAll('.js-buttonGameChoice');
   htmlGameUrl = document.querySelector('.js-gameUrl');
   gameRedBlue = document.querySelector('.js-redblue');
   gameZen = document.querySelector('.js-zen');
