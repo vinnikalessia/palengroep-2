@@ -1,6 +1,8 @@
+import random
 import tkinter as tk
 import uuid
 import argparse
+
 from paho.mqtt.client import Client
 
 padding = dict(padx=10, pady=10)
@@ -12,6 +14,7 @@ widget_options = dict(**padding)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", type=str, default="10.42.0.1", help="IP address of the MQTT broker")
+parser.add_argument("--dialog", action="store_true", help="Run in dialog mode", default=False)
 
 args = parser.parse_args()
 
@@ -29,12 +32,24 @@ class Runner:
         self.label_led_status = None
         self.button = None
         self.log_widget = None
+        self.cb_autopilot = None
+
+        self.autopilot_var = None
+
         self.status_after_press = lambda x: x
         self.current_status = "off"
 
+    def on_autopilot_change(self):
+
+        if self.autopilot_var.get():
+            self.add_to_log("Autopilot enabled")
+        else:
+            self.add_to_log("Autopilot disabled")
+
     def init_tk(self):
         self.root = tk.Tk()
-        # self.root.attributes('-type', 'dialog')
+        if args.dialog:
+            self.root.attributes('-type', 'dialog')
         self.root.title("Label and Button Example")
         self.root.protocol("WM_DELETE_WINDOW", self.root.destroy)
 
@@ -47,6 +62,13 @@ class Runner:
         self.label_led_status = tk.Label(self.root, text=f"LED status: {self.current_status}", **widget_options,
                                          **font_default)
         self.label_led_status.pack()
+
+        self.autopilot_var = tk.BooleanVar()
+
+        self.cb_autopilot = tk.Checkbutton(self.root, text="Autopilot", command=self.on_autopilot_change,
+                                           variable=self.autopilot_var, onvalue=True, offvalue=False,
+                                           **widget_options, **font_smaller)
+        self.cb_autopilot.pack()
 
         self.button = tk.Button(self.root, text="Druk op de paal",
                                 command=self.on_button_press, **widget_options,
@@ -92,6 +114,11 @@ class Runner:
                 r, g, b = int(r), int(g), int(b)
                 hexcode = f'#{r:02x}{g:02x}{b:02x}'
                 self.label_led_status['bg'] = hexcode
+
+                if self.autopilot_var.get():
+                    random_interval = random.randint(1000, 5000)
+                    self.add_to_log(f"Autopilot is enabled, sending button press in {random_interval // 1000:.2f} s")
+                    self.root.after(random_interval, self.on_button_press)
 
         elif topic == "notification/general":
             self.add_to_log(f"Received notification: {payload}")
