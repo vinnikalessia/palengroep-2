@@ -36,6 +36,7 @@ const timeBubble = function () {
   localTime.innerHTML = new Date().toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
+    hourCycle: 'h24',
   });
 
   setTimeout(timeBubble, 1000);
@@ -330,7 +331,7 @@ const showGameStatus = function (data) {
   }
 }
 
-const getGameStatus = function () {
+const getDuringGameStatus = function () {
   fetch(`${endpoint}game/status`)
     .then((r) => r.json())
     .then((data) => {
@@ -342,8 +343,8 @@ const getGameStatus = function () {
       }
 
       if (data.status !== "finished")
-        setTimeout(getGameStatus, 100);
-      else  {
+        setTimeout(getDuringGameStatus, 100);
+      else {
         console.log("game finished")
         window.location.href = `http://${IP}/scoreboard.html`;
       }
@@ -392,12 +393,55 @@ const onPausePress = function () {
 }
 
 
-const setupListeners = function () {
+const setupDuringGameListeners = function () {
   document.querySelector('.js-pause').addEventListener('click', onPausePress);
   document.querySelector('.js-stop').addEventListener('click', stopGame);
 }
 
 // #endregion
+
+// #region scoreboard
+
+let finishedGameStatus;
+
+const getAfterGameStatus = function () {
+  return new Promise((resolve, reject) => {
+    fetch(`${endpoint}game/status`)
+      .then((r) => r.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+const fillScoreboard = function (gameStatus) {
+
+  console.log("fillScoreboard", gameStatus);
+
+  const scores = gameStatus.scores;
+
+  const teamNames = Object.keys(scores);
+
+  let scoreHtml = '';
+
+
+  for (const team of teamNames) {
+
+    const score = scores[team];
+    scoreHtml += `
+    <span class="c-team">${team}</span> behaalde een<br>score van <span class="c-points">${score}</span> punten <br>
+    `
+  }
+
+  document.querySelector('.js-scores').innerHTML = scoreHtml;
+  document.querySelector('.js-leaderboard-link').href = `http://${IP}/leaderboard.html?game=${gameStatus.game}`;
+}
+
+// #endregion
+
 
 // #region ***  Init / DOMContentLoaded                  ***********
 const init = function (total) {
@@ -466,8 +510,13 @@ const init = function (total) {
   if (document.location.href.endsWith("during_game.html")) {
     startGame();
 
-    getGameStatus();
-    setupListeners();
+    getDuringGameStatus();
+    setupDuringGameListeners();
+  }
+
+  if (document.location.href.endsWith("scoreboard.html")) {
+    getAfterGameStatus()
+      .then(fillScoreboard);
   }
 };
 
