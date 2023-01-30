@@ -137,8 +137,7 @@ const showCountdown = function () {
 const callbackSendData = function (
   gameName,
   difficultyState,
-  teamName1,
-  teamName2,
+  teamNames,
   setDuration,
   goto
 ) {
@@ -149,7 +148,7 @@ const callbackSendData = function (
   let raw = JSON.stringify({
     game: gameName,
     difficulty: difficultyState,
-    teamNames: [teamName1, teamName2],
+    teamNames: teamNames,
     duration: setDuration,
   });
 
@@ -245,8 +244,10 @@ const listenToSettingsButtonPage = function () {
     let difficultyLevel = document.querySelector(
       '.js-difficultyCheckbox'
     ).checked;
-    let teamName1 = document.querySelector('.js-team1Name').value;
-    let teamName2 = document.querySelector('.js-team2Name').value;
+    let teamnames = [document.querySelector('.js-team1Name').value]
+    if (document.querySelector('.js-team2Name')) {
+      teamnames.push(document.querySelector('.js-team2Name').value)
+    }
     let setDuration = htmlSlider.value;
 
     if (difficultyLevel) {
@@ -258,8 +259,7 @@ const listenToSettingsButtonPage = function () {
     callbackSendData(
       gameName,
       difficultyState,
-      teamName1,
-      teamName2,
+      teamnames,
       setDuration,
       `http://${IP}/countdown.html`
     );
@@ -558,6 +558,15 @@ const init = function (total) {
           document.location.href = "during_game.html";
         }
       })
+  }
+
+  if (document.location.href.includes("instellingen.html")) {
+    let urlParams = new URLSearchParams(window.location.search);
+    let currentGame = urlParams.get('id');
+
+    if (currentGame !== 'redblue') {
+      document.querySelector('.c-teamblauw').remove();
+    }
   }
 };
 
