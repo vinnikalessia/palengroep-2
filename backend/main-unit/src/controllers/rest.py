@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from models.game_models import GameScore, GameConfigModel, GameStatusResponse, GamesResponse
+from models.game_models import GameScore, GameConfigModel, GameStatusResponse, GamesResponse, CurrentGameStatus
 from models.leaderboard_models import LeaderboardResponse
 from routers.general import router as global_router
 from services.game_service import GameService
@@ -38,26 +38,26 @@ class RestController:
         # handy for swagger
         @self.app.put("/sio/start_game", tags=["socketio"])
         def start_game_api():
-            self.game_service.start_game()
+            return self.game_service.start_game()
 
         @self.app.put("/sio/pause_game", tags=["socketio"])
         def pause_game_api():
-            self.game_service.pause_game()
+            return self.game_service.pause_game()
 
         @self.app.put("/sio/resume_game", tags=["socketio"])
         def resume_game_api():
-            self.game_service.resume_game()
+            return self.game_service.resume_game()
 
         @self.app.put("/sio/stop_game", tags=["socketio"])
         def stop_game_api():
-            self.game_service.stop_game()
+            return self.game_service.stop_game()
 
     def setup_endpoints(self):
         self.__setup_socketio_endpoints()
 
-        @self.app.get("/leaderboard/{game}/{difficulty}")
-        def get_leaderboard(game: str, difficulty: str) -> LeaderboardResponse:
-            return LeaderboardResponse(leaderboard=self.game_service.get_leaderboard(game, difficulty))
+        @self.app.get("/leaderboard/{game}")
+        def get_leaderboard(game: str) -> LeaderboardResponse:
+            return LeaderboardResponse(leaderboard=self.game_service.get_leaderboard(game))
 
         @self.app.get("/score")
         def get_score() -> GameScore:
@@ -71,6 +71,10 @@ class RestController:
 
             current_game = self.game_service.setup_game(setup_config)
             return current_game
+
+        @self.app.get("/game/status")
+        def get_game_status() -> CurrentGameStatus:
+            return self.game_service.get_current_game_status()
 
         @self.app.get("/games", description="Get all games")
         def get_games() -> GamesResponse:

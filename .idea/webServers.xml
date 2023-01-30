@@ -16,6 +16,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="9979e395-b74f-44f2-b72f-db75dc866318" name="rpi interactieve palen - home">
+        <fileTransfer rootFolder="/home/pi/palengroep-2" accessType="SFTP" host="192.168.0.124" port="22" sshConfigId="ea72cb9d-c309-4d44-9b63-00e61fe20943" sshConfig="pi@192.168.0.124:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

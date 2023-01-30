@@ -5,7 +5,6 @@ from uvicorn.config import LOGGING_CONFIG
 
 from controllers.mqtt import MQTTController
 from controllers.rest import RestController
-from controllers.socketio import SocketIOController
 from repositories.game_repository import GameRepository
 
 from services.game_service import GameService
@@ -19,13 +18,10 @@ game_service = GameService(GameRepository(), client_queue)
 rest_controller = RestController(game_service)
 app = rest_controller.setup_endpoints()
 
-socketio_controller = SocketIOController(app, game_service)
-sio = socketio_controller.setup_endpoints()
 
 mqtt_controller = MQTTController(game_service, client_queue)
 mqtt = mqtt_controller.setup_endpoints()
 
-game_service.set_socket_manager(socketio_controller.sio)
 game_service.set_mqtt_client(mqtt)
 
 mqtt.init_app(app)

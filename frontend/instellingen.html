@@ -1,76 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="msapplication-TileColor" content="#cce7ff" />
 
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/screen.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E" />
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <script src="./script/datahandler.js"></script>
-    <script src="./script/app.js"></script>
-  </head>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="msapplication-TileColor" content="#cce7ff"/>
 
-  <body>
-    <div class="c-header">
-      <div class="c-svg u-1-of-6">
-        <a href="index.html">
-          <img src="./img/logo.svg" alt="Sport & Innovatie Campus" />
-        </a>
-      </div>
-      <div class="c-time u-5-of-6">11:24</div>
-    </div>
-    <div class="c-logo">
-      <a href="game_choice.html">
-        <img src="./img/pijl_links.svg" alt="terug" />
+  <link rel="stylesheet" href="css/normalize.css"/>
+  <link rel="stylesheet" href="css/screen.css"/>
+  <script src="./script/app.js"></script>
+</head>
+
+<body class="js-settings">
+<video autoplay loop muted>
+  <source src="./img/WaterLook02.mp4" type="video/mp4">
+</video>
+<div class="c-header--md">
+  <div class="c-logo">
+    <a href="game_choice.html">
+      <div class="c-back">
+        <img src="./img/back_arrow.svg" alt="terug"/>
         Terug
-      </a>
-    </div>
-    <selection class="o-row o-row--lg o-row--instellingen">
-      <div class="o-container">
-        <div class="c-game__description">
-          <div class="c-game__description-title">Red / Blue</div>
-          <div class="c-game__description-subtitle">Beschrijving:</div>
-          <div class="c-game__description-text">het rode en het blauwe team strijden tegen elkaar. Het team dat in 30 seconden het meeste aantal punten heeft, wint het spel.</div>
-          <div class="c-game__description-subtitle">Aantal spelers:</div>
-          <div class="c-game__description-text">Minstens 2 spelers</div>
-        </div>
-        <div class="c-verticalline"></div>
-        <div class="c-difficulty">
-          Moeilijkheidsgraad:
-          <label class="c-toggleswitch__difficulty">
-            <input type="checkbox" />
-            <span class="slider round"></span>
-            <div class="c-text__slow">Traag</div>
-            <div class="c-text__fast">Snel</div>
-          </label>
-        </div>
-        <div class="c-slider__input">
-          <img class="c-svg__tijdsduur" src="./img/timer.svg" alt="tijdsduur" />
-          Tijdsduur:
-          <input type="range" min="30" max="60" value="45" step="5" class="c-slider" />
-          <p class="c-tijdsduur__text">45s</p>
-        </div>
-        <div class="c-teamrood">
-          Team rood naam:
-          <input type="text" id="fname" name="fname" class="c-textinput" />
-        </div>
-        <div class="c-teamblauw">
-          Team blauw naam:
-          <input type="text" id="fname" name="fname" class="c-textinput" />
-        </div>
-        <a href="countdown.html">
-          <div class="c-button c-button__start c-button__instellingen">
-            <button class="o-button-reset" type="submit">Start</button>
-          </div>
-        </a>
       </div>
-    </selection>
-  </body>
+    </a>
+  </div>
+  <div class="c-time js-time">
+    11:24
+  </div>
+</div>
+<img src="./img/kaart_verticaal.png"
+     alt="https://www.freepik.com/free-vector/cartoon-parchment-rolls-blank-scrolls-paper-banners_13100350.htm"
+     width="308px" height="457px" class="c-map2">
+<selection class="o-row o-row--lg o-row--index">
+  <div class="o-container u-max-width-xs">
+    <div class="c-game__description">
+      <div class="c-game__description-title js-gameTitle">
+        Red / Blue
+      </div>
+      <div class="c-game__description-tussentitel">
+        Beschrijving:
+      </div>
+      <div class="c-game__description-text js-gameDescription">
+        het rode en het blauwe team strijden tegen elkaar. Het team dat in 30 seconden het meeste aantal punten
+        heeft,
+        wint het spel.
+      </div>
+      <div class="c-game__description-tussentitel">
+        Aantal spelers:
+      </div>
+      <div class="c-game__description-text js-gamePlayers">
+        Minstens 2 spelers
+      </div>
+    </div>
+    <div class="c-settings__background">
+      <div class="c-difficulty">
+        Moeilijkheidsgraad:
+        <label class="c-toggleswitch__difficulty">
+          <input type="checkbox" class="js-difficultyCheckbox">
+          <span class="slider round"></span>
+          <div class="c-text__slow">Traag</div>
+          <div class="c-text__fast">Snel</div>
+        </label>
+      </div>
+      <div class="c-slider__input">
+        <img class="c-svg__tijdsduur" src="./img/timer.svg" alt="">
+        Tijdsduur:
+        <input type="range" min="30" max="60" value="45" step="5" class="c-slider js-slider">
+        <p class="c-tijdsduur__text js-sliderValue">45s</p>
+      </div>
+      <div class="c-teamrood">
+        Team 1:
+        <input type="text" class="c-textinput js-team1Name">
+      </div>
+      <div class="c-teamblauw">
+        Team 2:
+        <input type="text" class="c-textinput js-team2Name">
+      </div>
+      <!--        <a href="countdown.html">-->
+      <div class="c-button c-button__start c-button__instellingen js-settingsButton">
+        <button class="o-button-reset " type="submit">
+          Start
+        </button>
+      </div>
+      <!--        </a>-->
+    </div>
+  </div>
+</selection>
+</body>
+
 </html>

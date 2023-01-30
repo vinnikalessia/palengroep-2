@@ -15,6 +15,18 @@
           </excludedPaths>
         </serverdata>
       </paths>
+      <paths name="rpi interactieve palen - home">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/venv" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/backend/unit" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
       <paths name="rpi interactieve palen - howest net">
         <serverdata>
           <mappings>
