@@ -310,8 +310,14 @@ const showGameStatus = function (data) {
   const teamNames = Object.keys(data.scores);
   const teams = document.querySelector('.js-teams');
 
+  let shouldCreateCards = false;
+
+  for (let teamName in data.scores) {
+    shouldCreateCards |= !document.querySelector(`.js-score[data-team="${teamName}"]`);
+  }
+
   // check if teams are already there
-  if (teams.childElementCount === teamNames.length) {
+  if (!shouldCreateCards) {
 
     // update scores
     for (let teamName in data.scores) {
@@ -355,8 +361,20 @@ const getDuringGameStatus = function () {
         window.location.href = `http://${IP}/scoreboard.html`;
       }
 
-      if (data.status !== "finished")
+      if (data.status !== "finished") {
         setTimeout(getDuringGameStatus, 100);
+
+        const time_left = data.total_duration - data.elapsed_time;
+        let minutes = Math.floor(time_left / 60);
+        let seconds = time_left % 60;
+
+        if (seconds < 10) {
+          seconds = `0${seconds}`;
+        }
+
+        document.querySelector('.js-time-left').innerHTML = `${minutes}:${seconds}`;
+      }
+
 
       else {
         console.log("game finished")

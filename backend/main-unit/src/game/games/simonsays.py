@@ -51,7 +51,7 @@ class SimonSaysGame(Game):
 
     def reset_timer(self):
         self.elapsed_time = 0
-        self.duration = self.timeout_seconds + 1
+        self.duration = self.timeout_seconds
 
     def done_good_sequence(self):
         # if the player has done the sequence correctly,
@@ -81,6 +81,8 @@ class SimonSaysGame(Game):
 
     def step(self):
         if time.time() < self.continue_after:
+            if "light off" in self.scheduled_events:
+                self.reset_timer() # dirtyyyy
             return
 
         if len(self.scheduled_events) > 0:
@@ -103,10 +105,10 @@ class SimonSaysGame(Game):
 
         if self.current_turn == "simon":
             self.turn_all_poles_off()
+            self.reset_timer()
             if self.current_index == len(self.sequence):
                 self.current_turn = "player"
                 self.current_index = 0
-                self.reset_timer()
             else:
                 color_index = self.current_index % len(COLOR_CYCLE)
                 self.set_pole_on(self.sequence[self.current_index], COLOR_CYCLE[color_index])

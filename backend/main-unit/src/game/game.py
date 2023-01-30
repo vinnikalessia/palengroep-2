@@ -65,7 +65,7 @@ class Game:
             from game.games.redblue import RedBlueGame
             return RedBlueGame(command_queue, game_config)
         elif game_config.game == 'simonsays':
-            from game.games.simonsaysgame import SimonSaysGame
+            from game.games.simonsays import SimonSaysGame
             return SimonSaysGame(command_queue, game_config)
         else:
             return cls(command_queue, game_config)
