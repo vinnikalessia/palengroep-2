@@ -553,7 +553,7 @@ Scoreboard.html
 } */
 
 /*voor zen*/
-.c-lefttime{
+.c-lefttime {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -694,7 +694,7 @@ Scoreboard.html
     left: 132px;;
 }
 
-.c-layout{
+.c-layout {
     display: flex;
     width: 760px;
     height: 402px;
@@ -705,7 +705,7 @@ Scoreboard.html
     margin-top: 40px;
 }
 
-.c-leaderboard__text{
+.c-leaderboard__text {
     display: flex;
     justify-content: space-between;
     font-size: 23px;
@@ -714,17 +714,17 @@ Scoreboard.html
     color: #3B2E86;
 }
 
-.c-best-scores{
+.c-best-scores {
     color: #3B2E86;
     font-weight: 400;
 }
 
-.c-date{
+.c-date {
     color: #3B2E86;
     font-weight: 600;
 }
 
-.c-underline{
+.c-underline {
     margin: auto;
     width: 271px;
     height: 2px;
@@ -734,7 +734,7 @@ Scoreboard.html
 /*
     spelnaam in leaderboardkeuze.html
 */
-.c-leaderboard__games{
+.c-leaderboard__games {
     display: flex;
     justify-content: center;
 }
@@ -1041,7 +1041,7 @@ Scoreboard.html
 /*
     onze logo
 */
-.c-leaderboardlogo{
+.c-leaderboardlogo {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1260,7 +1260,7 @@ input:checked + .slider:before {
     font-size: 18px;
     position: absolute;
     left: 20px;
-    top: 280px;  /*was 300px, changed for better virtual keyboard position*/
+    top: 280px; /*was 300px, changed for better virtual keyboard position*/
 }
 
 .c-textinput {
@@ -1274,7 +1274,6 @@ input:checked + .slider:before {
     left: 80px;
     background-color: transparent;
 }
-
 
 
 /*
@@ -1320,13 +1319,13 @@ input:checked + .slider:before {
     margin-right: 32px;
 }
 
-.c-pauze__img{
+.c-pauze__img {
     width: 30px;
     height: 32px;
     margin-left: 5px;
 }
 
-.c-play__img{
+.c-play__img {
     width: 30px;
     height: 32px;
     margin-left: 5px;
@@ -1483,14 +1482,14 @@ Scores
     left: 340px;
 }
 
-.c-keuze{
+.c-keuze {
     position: fixed;
     top: 300px;
     left: 290px;
     color: #3F3F3F;
 }
 
-.c-gametitle{
+.c-gametitle {
     font-size: 28px;
     font-weight: 600;
     text-transform: capitalize;
@@ -1638,8 +1637,8 @@ Scores
     animation-timing-function: cubic-bezier(.5, .5, .5, .5);
 }
 
-@keyframes paarsevis{
-    0%{
+@keyframes paarsevis {
+    0% {
         transform: translate(180px, 0px);
     }
     70% {
@@ -1660,7 +1659,7 @@ Scores
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.6);
-    z-index: 2;
+    z-index: 99999;
     cursor: pointer;
 }
 
