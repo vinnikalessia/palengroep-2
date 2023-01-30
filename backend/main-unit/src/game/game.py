@@ -64,6 +64,9 @@ class Game:
         elif game_config.game == 'redblue':
             from game.games.redblue import RedBlueGame
             return RedBlueGame(command_queue, game_config)
+        elif game_config.game == 'simonsays':
+            from game.games.simonsaysgame import SimonSaysGame
+            return SimonSaysGame(command_queue, game_config)
         else:
             return cls(command_queue, game_config)
 
@@ -164,6 +167,9 @@ class Game:
 
     def set_pole_on(self, pole_id, color: tuple = (255, 255, 255)):
         self.send_mqtt_message(f"command/{pole_id}/light", f"on {color[0]} {color[1]} {color[2]}")
+
+    def set_pole_off(self, pole_id):
+        self.send_mqtt_message(f"command/{pole_id}/light", "off")
 
     def set_poles_off(self):
         self.send_mqtt_message(f'command/all/light', 'off')

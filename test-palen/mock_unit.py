@@ -142,9 +142,20 @@ class Runner:
             self.label_led_status['bg'] = hexcode
         self.label_led_status["text"] = f"LED status: {self.current_status}"
 
+    def on_mqtt_disconnect(self, client, userdata, rc):
+        self.add_to_log("MQTT disconnected, reconnecting...")
+        self.mqtt.reconnect()
+        self.add_to_log("MQTT reconnected")
+
+    def on_mqtt_connect(self, client, userdata, flags, rc):
+        self.add_to_log("MQTT connected")
+
     def run(self):
         self.init_tk()
         self.mqtt.on_message = self.on_mqtt_message
+        self.mqtt.on_disconnect = self.on_mqtt_disconnect
+        self.mqtt.on_connect = self.on_mqtt_connect
+
         self.mqtt.connect(mqtt_ip)
         self.mqtt.subscribe("configure/#")
         self.mqtt.subscribe(f"command/{self.uuid}/light")
