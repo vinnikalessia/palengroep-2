@@ -484,6 +484,25 @@ const fillScoreBoardStopped = function (gameStatus) {
 // #endregion
 
 
+// #region inactivity
+
+const inactivityTime = function () {
+  let time;
+  window.onload = resetTimer;
+  document.onmousemove = resetTimer;
+  document.onclick = resetTimer;
+
+  function resetTimer() {
+    clearTimeout(time);
+    time = setTimeout(gohome, 30000);
+  }
+
+  function gohome() {
+    window.location.href = `http://${IP}/index.html`;
+  }
+}
+
+
 // #region ***  Init / DOMContentLoaded                  ***********
 const init = function (total) {
   selectedGame = document.querySelectorAll('.js-selectedGame');
@@ -580,6 +599,10 @@ const init = function (total) {
       document.querySelector('.c-teamblauw').remove();
       document.querySelector('.c-teamrood .js-teamname-label').innerHTML = "Naam:";
     }
+  }
+
+  if (!document.location.href.includes("during_game.html") && !document.location.href.includes("index.html")) {
+    inactivityTime();
   }
 };
 
