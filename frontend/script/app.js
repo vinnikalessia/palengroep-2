@@ -49,6 +49,14 @@ const showLeaderboard = function (data) {
     let htmlOoit = '';
     let counter = 0;
 
+    while (data.leaderboard.daily.length < 5) {
+      data.leaderboard.daily.push({team_name: '---', score: '-'});
+    }
+
+    while (data.leaderboard.alltime.length < 5) {
+      data.leaderboard.alltime.push({team_name: '---', score: '-'});
+    }
+
     for (let person of data.leaderboard.daily) {
       counter += 1;
       htmlVandaag += `<div class="c-grid__item">${counter}</div>
@@ -566,7 +574,7 @@ const init = function (total) {
 
     if (currentGame !== 'redblue') {
       document.querySelector('.c-teamblauw').remove();
-      document.querySelector('.c-teamrood').innerText = "Team";
+      document.querySelector('.c-teamrood .js-teamname-label').innerHTML = "Naam:";
     }
   }
 };
