@@ -541,6 +541,40 @@ Scoreboard.html
     margin-bottom: 30px;
 }
 
+/* .c-lefttime{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 100%;
+    height: 120px;
+    padding: 10px;
+    background-color: #98b4f1;
+} */
+
+/*voor zen*/
+.c-lefttime{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    position: absolute;
+    left: 455px;
+    top: 130px;
+
+    border-radius: 50px;
+    height: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #98b4f1;
+}
+
+.c-lefttime__time {
+    font-size: 28px;
+    font-weight: 700;
+    color: #504490;
+}
+
 .c-during-game {
     display: flex;
 }
