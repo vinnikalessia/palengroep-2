@@ -386,14 +386,17 @@ const pauseGame = function () {
     .then((r) => r.json())
     .then((data) => {
       console.log("pause game", data);
+      document.getElementById("overlay").style.display = "block";
     });
 }
+
 
 const resumeGame = function () {
   fetch(`${endpoint}sio/resume_game`, {method: "PUT"})
     .then((r) => r.json())
     .then((data) => {
       console.log("resume game", data);
+      document.getElementById("overlay").style.display = "none";
     });
 }
 
@@ -410,6 +413,7 @@ const onPausePress = function () {
 const setupDuringGameListeners = function () {
   document.querySelector('.js-pause').addEventListener('click', onPausePress);
   document.querySelector('.js-stop').addEventListener('click', stopGame);
+  document.querySelector('.js-pause-overlay').addEventListener('click', resumeGame);
 }
 
 // #endregion
