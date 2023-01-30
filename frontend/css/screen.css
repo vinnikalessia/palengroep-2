@@ -1318,10 +1318,17 @@ input:checked + .slider:before {
     margin-right: 32px;
 }
 
-.c-pauze__img {
+.c-pauze__img{
     width: 30px;
     height: 32px;
     margin-left: 5px;
+}
+
+.c-play__img{
+    width: 30px;
+    height: 32px;
+    margin-left: 5px;
+    margin-top: 12px;
 }
 
 /*
