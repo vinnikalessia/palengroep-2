@@ -15,7 +15,7 @@
 <video autoplay loop muted>
   <source src="./img/WaterLook02.mp4" type="video/mp4"/>
 </video>
-<div class="c-overlay" id="overlay" onclick="off()">
+<div class="c-overlay js-pause-overlay" id="overlay">
   <div class="c-overlay__text" id="text">Het spel is gepauzeerd <br> <br> tik op het scherm om verder te spelen</div>
 </div>
 <div class="c-header--sm">
@@ -25,7 +25,7 @@
   <div class="c-container">
     <div class="c-top">
       <div class="c-game-buttons">
-        <button class="c-button c-pauze js-pause" onclick="on()">
+        <button class="c-button c-pauze js-pause">
           <img class="c-pauze__img" src="./img/pauze.svg" alt="pauzeer het spel"/>
           pauze
         </button>
@@ -56,13 +56,7 @@
 </div>
 
 <script>
-function on() {
-  document.getElementById("overlay").style.display = "block";
-}
 
-function off() {
-  document.getElementById("overlay").style.display = "none";
-}
 </script>
 
 </body>
