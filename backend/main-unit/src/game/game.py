@@ -38,6 +38,7 @@ class Game:
                  ):
 
         self.game_name = game_config.game
+        self.game_config = game_config
 
         self.duration = game_config.duration
         self.difficulty = game_config.difficulty
@@ -166,6 +167,9 @@ class Game:
 
     def set_poles_off(self):
         self.send_mqtt_message(f'command/all/light', 'off')
+
+    def set_poles_on(self, color: tuple = (255, 255, 255)):
+        self.send_mqtt_message(f'command/all/light', f'on {color[0]} {color[1]} {color[2]}')
 
     def prepare(self):
         pass
