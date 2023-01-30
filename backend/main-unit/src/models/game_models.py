@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 
 class GameModel(BaseModel):
     name: str
+    display_name: str
     description: str
     players: str
     num_teams: int

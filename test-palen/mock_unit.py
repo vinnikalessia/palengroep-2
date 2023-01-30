@@ -15,6 +15,7 @@ widget_options = dict(**padding)
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", type=str, default="10.42.0.1", help="IP address of the MQTT broker")
 parser.add_argument("--dialog", action="store_true", help="Run in dialog mode", default=False)
+parser.add_argument("--autopilot", action="store_true", help="Enable autopilot", default=False)
 
 args = parser.parse_args()
 
@@ -63,10 +64,11 @@ class Runner:
                                          **font_default)
         self.label_led_status.pack()
 
-        self.autopilot_var = tk.BooleanVar()
+        self.autopilot_var = tk.BooleanVar(value=args.autopilot)
 
         self.cb_autopilot = tk.Checkbutton(self.root, text="Autopilot", command=self.on_autopilot_change,
                                            variable=self.autopilot_var, onvalue=True, offvalue=False,
+
                                            **widget_options, **font_smaller)
         self.cb_autopilot.pack()
 

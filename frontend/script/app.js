@@ -1,7 +1,7 @@
 // #region ***  DOM references                           ***********
 let localTime,
   selectedGame,
-  gameChoiseArrows,
+  gameChoiceArrows,
   htmlLeaderboardVandaag,
   htmlLeaderboardOoit,
   htmlGameUrl,
@@ -21,9 +21,9 @@ let localTime,
   gameSimonSays,
   countdown = 3;
 
-// const IP = '34.241.254.21';  // online
+const IP = '34.241.254.21';  // online
 // const IP = '10.42.0.1';         // raspberry pi
-const IP = '0.0.0.0';         // local
+// const IP = '0.0.0.0';         // local
 
 const endpoint = `http://${IP}:3000/`;
 
@@ -36,6 +36,7 @@ const timeBubble = function () {
   localTime.innerHTML = new Date().toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
+    hourCycle: 'h24',
   });
 
   setTimeout(timeBubble, 1000);
@@ -43,6 +44,7 @@ const timeBubble = function () {
 
 const showLeaderboard = function (data) {
   try {
+    console.log(data);
     let htmlVandaag = '';
     let htmlOoit = '';
     let counter = 0;
@@ -70,6 +72,7 @@ const showLeaderboard = function (data) {
   listenToChosenGame();
 };
 
+
 const showGameChoice = function (gameData) {
   try {
     for (let game of gameData.games) {
@@ -81,8 +84,8 @@ const showGameChoice = function (gameData) {
           alt="https://www.freepik.com/free-vector/cartoon-parchment-rolls-blank-scrolls-paper-banners_13100350.htm"
           width="814px" height="400px">
         <div class="c-keuze">
+          <div class="c-gametitle js-gameTitle">${game.display_name}</div>
           <hr class="c-underline__gamename">
-          <div class="c-gametitle js-gameTitle">${game.name}</div>
           <div class="c-gametussentitel">Beschrijving:</div>
           <div class="c-gametekst js-gameBeschrijving">${game.description}</div>
           <div class="c-gametussentitel">Aantal spelers:</div>
@@ -110,7 +113,7 @@ const showSettingsPage = function (gameData) {
   let currentGame = urlParams.get('id');
   for (let game of gameData.games) {
     if (game.name === currentGame) {
-      htmlGameTitle.innerHTML = game.name;
+      htmlGameTitle.innerHTML = game.display_name;
       htmlGameDescription.innerHTML = game.description;
       htmlGamePlayers.innerHTML = game.players;
     }
@@ -136,7 +139,8 @@ const callbackSendData = function (
   difficultyState,
   teamName1,
   teamName2,
-  setDuration
+  setDuration,
+  goto
 ) {
   let myHeaders = new Headers();
   myHeaders.append('accept', 'application/json');
@@ -158,7 +162,12 @@ const callbackSendData = function (
 
   fetch(`${endpoint}game/setup`, requestOptions)
     .then((response) => response.json())
-    .then((result) => console.log(result))
+    .then((result) => {
+      console.log(result);
+      if (goto) {
+        window.location.href = goto;
+      }
+    })
     .catch((error) => console.log('error', error));
 };
 
@@ -185,9 +194,9 @@ const listenToChosenGame = function () {
 };
 
 const listenToArrows = function () {
-  for (let game of gameChoiseArrows) {
-    game.addEventListener('click', function () {
-      if (game.id == 'left') {
+  for (let arrow of gameChoiceArrows) {
+    arrow.addEventListener('click', function () {
+      if (arrow.id == 'left') {
         if (games.indexOf(currentGame) == 0) {
           currentGame = games[games.length - 1];
           if (currentGame != PrevCurrentGame) {
@@ -201,7 +210,7 @@ const listenToArrows = function () {
           }
           console.log(currentGame);
         }
-      } else if (game.id == 'right') {
+      } else if (arrow.id == 'right') {
         if (games.indexOf(currentGame) == games.length - 1) {
           currentGame = games[0];
           if (currentGame != PrevCurrentGame) {
@@ -221,10 +230,18 @@ const listenToArrows = function () {
   }
 };
 
+const getURLParam = function (param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+};
+
 const listenToSettingsButtonPage = function () {
   htmlSettingsButton.addEventListener('click', function () {
     let difficultyState;
-    let gameName = document.querySelector('.js-gameTitle').innerHTML;
+    // let gameName = document.querySelector('.js-gameTitle').innerHTML;
+
+    const gameName = getURLParam('id');
+
     let difficultyLevel = document.querySelector(
       '.js-difficultyCheckbox'
     ).checked;
@@ -243,7 +260,8 @@ const listenToSettingsButtonPage = function () {
       difficultyState,
       teamName1,
       teamName2,
-      setDuration
+      setDuration,
+      `http://${IP}/countdown.html`
     );
   });
 };
@@ -259,27 +277,26 @@ const listenToSlider = function () {
 // #region mqtt stuff
 
 // if (window.location.href.endsWith("during_game.html")) {
-let oldGameStatus = {};
+let latestGameStatus = {};
 
 const showTeamCard = function (team, teamName, teamScore) {
 
 }
 
 const showGameStatus = function (data) {
-  console.log(data);
 
   // data looks like:
-//   {
-//   "game": "redblue",
-//   "status": "finished",
-//   "elapsed_time": 45,
-//   "total_duration": 45,
-//   "difficulty": "Traag",
-//   "scores": {
-//     "a": 13,
-//     "b": 14
-//   }
-// }
+  //   {
+  //   "game": "redblue",
+  //   "status": "finished",
+  //   "elapsed_time": 45,
+  //   "total_duration": 45,
+  //   "difficulty": "Traag",
+  //   "scores": {
+  //     "a": 13,
+  //     "b": 14
+  //   }
+  // }
 
 
   const teamNames = Object.keys(data.scores);
@@ -315,17 +332,28 @@ const showGameStatus = function (data) {
   }
 }
 
-const getGameStatus = function () {
+const getDuringGameStatus = function () {
   fetch(`${endpoint}game/status`)
     .then((r) => r.json())
     .then((data) => {
-      if (JSON.stringify(oldGameStatus) !== JSON.stringify(data)) {
-        oldGameStatus = data;
+      if (JSON.stringify(latestGameStatus) !== JSON.stringify(data)) {
+        latestGameStatus = data;
         showGameStatus(data);
+
+        console.log("game status", data)
+      }
+
+      if (data.status === 'stopped') {
+        window.location.href = `http://${IP}/scoreboard.html`;
       }
 
       if (data.status !== "finished")
-        setTimeout(getGameStatus, 500);
+        setTimeout(getDuringGameStatus, 100);
+
+      else {
+        console.log("game finished")
+        window.location.href = `http://${IP}/scoreboard.html`;
+      }
     });
 }
 
@@ -336,8 +364,113 @@ const startGame = function () {
       console.log("start game", data);
     });
 }
-// }
+
+const stopGame = function () {
+  fetch(`${endpoint}sio/stop_game`, {method: "PUT"})
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("stop game", data);
+    });
+}
+
+const pauseGame = function () {
+  fetch(`${endpoint}sio/pause_game`, {method: "PUT"})
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("pause game", data);
+    });
+}
+
+const resumeGame = function () {
+  fetch(`${endpoint}sio/resume_game`, {method: "PUT"})
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("resume game", data);
+    });
+}
+
+const onPausePress = function () {
+  console.log(latestGameStatus)
+  if (latestGameStatus.status === "running") {
+    pauseGame();
+  } else if (latestGameStatus.status === "paused") {
+    resumeGame();
+  }
+}
+
+
+const setupDuringGameListeners = function () {
+  document.querySelector('.js-pause').addEventListener('click', onPausePress);
+  document.querySelector('.js-stop').addEventListener('click', stopGame);
+}
+
 // #endregion
+
+// #region scoreboard
+
+let finishedGameStatus;
+
+const getAfterGameStatus = function () {
+  return new Promise((resolve, reject) => {
+    fetch(`${endpoint}game/status`)
+      .then((r) => r.json())
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+const checkFinishedGame = function (gameStatus) {
+  return new Promise((resolve, reject) => {
+    if (gameStatus.status === "finished") {
+      resolve(gameStatus);
+    } else {
+      reject(gameStatus);
+    }
+  });
+}
+
+const setupScoreboardLinks = function (game) {
+  document.querySelector('.js-leaderboard-link').href = `http://${IP}/leaderboard.html?id=${game}`;
+}
+
+const fillScoreboard = function (gameStatus) {
+
+  console.log("fillScoreboard", gameStatus);
+
+  const scores = gameStatus.scores;
+
+  const teamNames = Object.keys(scores);
+
+  let scoreHtml = '';
+
+
+  for (const team of teamNames) {
+
+    const score = scores[team];
+    scoreHtml += `
+    <div class="c-team-score">
+      <span class="c-team">${team}</span> behaalde een<br>score van <span class="c-points">${score}</span> punten.
+    </div>
+    `
+  }
+
+  document.querySelector('.js-scores').innerHTML = scoreHtml;
+  setupScoreboardLinks(gameStatus.game);
+}
+
+const fillScoreBoardStopped = function (gameStatus) {
+  document.querySelector('.js-proficiat-text').innerHTML = "Gestopt!";
+  document.querySelector('.js-scores').innerHTML = "";
+
+  setupScoreboardLinks(gameStatus.game);
+}
+
+// #endregion
+
 
 // #region ***  Init / DOMContentLoaded                  ***********
 const init = function (total) {
@@ -345,7 +478,7 @@ const init = function (total) {
   htmlLeaderboardVandaag = document.querySelector('.js-vandaag');
   htmlLeaderboardOoit = document.querySelector('.js-ooit');
   countdownTimer = document.querySelector('.js-countdownTimer');
-  gameChoiseArrows = document.querySelectorAll('.js-buttonGameChoise');
+  gameChoiceArrows = document.querySelectorAll('.js-buttonGameChoice');
   htmlGameUrl = document.querySelector('.js-gameUrl');
   gameRedBlue = document.querySelector('.js-redblue');
   gameZen = document.querySelector('.js-zen');
@@ -385,18 +518,22 @@ const init = function (total) {
   if (document.querySelector('.js-leaderboard')) {
     let urlParams = new URLSearchParams(window.location.search);
     let currentGame = urlParams.get('id');
-    if (currentGame === 'redblue') {
-      gameRedBlue.checked = true;
-      gameZen.checked = false;
-      gameSimonSays.checked = false;
-    } else if (currentGame === 'zen') {
-      gameRedBlue.checked = false;
-      gameZen.checked = true;
-      gameSimonSays.checked = false;
-    } else if (currentGame === 'simonsays') {
-      gameRedBlue.checked = false;
-      gameZen.checked = false;
-      gameSimonSays.checked = true;
+
+    if (document.location.href.includes("leaderboardkeuze.html")) {
+
+      if (currentGame === 'redblue') {
+        gameRedBlue.checked = true;
+        gameZen.checked = false;
+        gameSimonSays.checked = false;
+      } else if (currentGame === 'zen') {
+        gameRedBlue.checked = false;
+        gameZen.checked = true;
+        gameSimonSays.checked = false;
+      } else if (currentGame === 'simonsays') {
+        gameRedBlue.checked = false;
+        gameZen.checked = false;
+        gameSimonSays.checked = true;
+      }
     }
     getData(endpoint + `leaderboard/${currentGame}`).then(showLeaderboard);
     timeBubble();
@@ -406,7 +543,21 @@ const init = function (total) {
   if (document.location.href.endsWith("during_game.html")) {
     startGame();
 
-    getGameStatus();
+    getDuringGameStatus();
+    setupDuringGameListeners();
+  }
+
+  if (document.location.href.endsWith("scoreboard.html")) {
+    getAfterGameStatus()
+      .then(checkFinishedGame)
+      .then(fillScoreboard)
+      .catch((gameData) => {
+        if (gameData.status === "stopped") {
+          fillScoreBoardStopped(gameData)
+        } else {
+          document.location.href = "during_game.html";
+        }
+      })
   }
 };
 
