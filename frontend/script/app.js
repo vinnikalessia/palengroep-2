@@ -566,6 +566,7 @@ const init = function (total) {
 
     if (currentGame !== 'redblue') {
       document.querySelector('.c-teamblauw').remove();
+      document.querySelector('.c-teamrood').innerText = "Team";
     }
   }
 };
