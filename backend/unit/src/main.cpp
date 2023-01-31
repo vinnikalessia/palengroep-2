@@ -2,10 +2,9 @@
 #include <WiFiClient.h>
 #include <WiFi.h>
 
-#include "neopixel.h"
 #include "PubSubClient.h"
 
-#define ESP_ID          String(ESP.getEfuseMac(), HEX)
+#define ESP_ID          String("oranjevisjes")
 
 #define ESP_TOPIC       ("unit/" + ESP_ID)
 
@@ -16,9 +15,9 @@
 #define MQTT_PORT       1883
 
 #define PIN_NEO_PIXEL   4
-#define NUM_PIXELS      10
+#define NUM_PIXELS      12
 
-#define PIN_BUTTON      15
+#define PIN_BUTTON      17
 
 
 const char *wifi_ssid = WIFI_SSID;
@@ -29,7 +28,6 @@ int mqtt_port = MQTT_PORT;
 WiFiClient wifi;
 PubSubClient mqttClient(wifi);
 
-NeoPixel neoPixel(NUM_PIXELS, PIN_NEO_PIXEL);
 
 enum class OnPress {
     ON,
@@ -37,7 +35,28 @@ enum class OnPress {
     CONTINUE
 };
 
-OnPress onPress = OnPress::CONTINUE;
+OnPress onPress = OnPress::ON;
+Adafruit_NeoPixel neoPixel = Adafruit_NeoPixel(NUM_PIXELS, PIN_NEO_PIXEL, NEO_BRG + NEO_KHZ400);
+
+void turnOn(int red, int green, int blue) {
+    unsigned int color = neoPixel.Color(red, green, blue);
+
+    for (int pixel = 0; pixel < NUM_PIXELS; pixel++) {
+        if ((pixel % 2) == 0) {
+            neoPixel.setPixelColor(pixel, color);
+        }
+    }
+//    neoPixel.fill(color, 0, 10);
+
+    neoPixel.show();
+
+
+}
+
+void turnOff() {
+    neoPixel.clear();
+    neoPixel.show();
+}
 
 void splitCommandStringToRGB(const String &rgb, int &r, int &g, int &b) {
     // receives in format "on 255 255 255"
@@ -50,6 +69,13 @@ void splitCommandStringToRGB(const String &rgb, int &r, int &g, int &b) {
     r = rgb.substring(firstSpace + 1, secondSpace).toInt();
     g = rgb.substring(secondSpace + 1, thirdSpace).toInt();
     b = rgb.substring(thirdSpace + 1).toInt();
+
+    if (r > 255)
+        r = 255;
+    if (g > 255)
+        g = 255;
+    if (b > 255)
+        b = 255;
 }
 
 
@@ -73,13 +99,14 @@ void log(const String &message) {
 void handleCommandMessage(const String &topic, const String &command) {
     if (topic.endsWith("/light")) {
         if (command.startsWith("off")) {
-            neoPixel.turnOff();
+            turnOff();
             log("set light to off");
         } else if (command.startsWith("on")) {
+            log("HEREEE");
             int r, g, b;
             splitCommandStringToRGB(command, r, g, b);
-            neoPixel.turnOn(r, g, b);
             log("set light to on with rgb: " + String(r) + " " + String(g) + " " + String(b));
+            turnOn(r, g, b);
         }
     }
 }
@@ -188,9 +215,11 @@ void reconnectMQTT() {
 
 void onBtnPress() {
     if (onPress == OnPress::ON) {
-        neoPixel.turnOn(255,255,255);
+        turnOn(255,105,180);
     } else if (onPress == OnPress::OFF) {
-        neoPixel.turnOff();
+        turnOff();
+    } else {
+
     }
 
     sendMQTTMessage(ESP_TOPIC + "/action", "button pressed");
@@ -202,24 +231,47 @@ void setup() {
     Serial.print("ESP MAC: ");
     Serial.println(ESP_ID);
 
-    setupMQTT();
 
+    pinMode(PIN_BUTTON, INPUT_PULLUP);
+
+    Serial.println("im here");
+    neoPixel.begin();
+//    neoPixel.setBrightness(10);
+    neoPixel.clear();
+    neoPixel.show();
+    Serial.println("fml");
+
+    setupMQTT();
     delay(1000);
 }
 
+int btnPrevState = 0;
+
+
+bool a = 0;
+
 void loop() {
+
     if (!mqttClient.connected()) {
+        turnOn(0, 0, 128);
         reconnectMQTT();
     }
     mqttClient.loop();
 
 //    NeoPixel.clear(); // set all pixel colors to 'off'. It only takes effect if pixels.show() is called
 //
-//    if (btnPrevState == 0) {
-//        setNeoPixelLeds(255, 0, 0);
-//    } else {
-//        NeoPixel.clear();
-//        NeoPixel.show();
-//    }
+
+    int currentBtnState = digitalRead(PIN_BUTTON);
+
+
+    if (btnPrevState == 1 && currentBtnState == 0) {
+        Serial.println("neopixel on");
+        onBtnPress();
+    } else {
+//        neoPixel.turnOff();
+    }
+
+    btnPrevState = currentBtnState;
+//    delay(10);
 
 }

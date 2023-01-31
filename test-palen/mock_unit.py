@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--ip", type=str, default="10.42.0.1", help="IP address of the MQTT broker")
 parser.add_argument("--dialog", action="store_true", help="Run in dialog mode", default=False)
 parser.add_argument("--autopilot", action="store_true", help="Enable autopilot", default=False)
-
+parser.add_argument("--id", type=str, default=None)
 args = parser.parse_args()
 
 mqtt_ip = args.ip
@@ -24,7 +24,7 @@ mqtt_ip = args.ip
 
 class Runner:
     def __init__(self):
-        self.uuid = str(uuid.uuid4())[0:8]
+        self.uuid = str(uuid.uuid4())[0:8] if args.id is None else args.id
         self.mqtt = Client()
 
         self.root = None
@@ -105,6 +105,8 @@ class Runner:
                     self.status_after_press = lambda x: "on"
                 elif payload == "led_continue":
                     self.status_after_press = lambda x: x
+        elif topic.startswith("unit/"):
+            self.on_button_press(publish=False)
 
         elif topic.startswith("command/") and topic.endswith("/light"):
             self.label_led_status["text"] = "LED status: " + payload
@@ -128,8 +130,9 @@ class Runner:
             if payload == "GAME_START_NOTIFICATION":
                 self.mqtt.publish(f"unit/{self.uuid}/alive", self.uuid)
 
-    def on_button_press(self):
-        self.mqtt.publish(f"unit/{self.uuid}/action", "button pressed")
+    def on_button_press(self, publish=True):
+        if publish:
+            self.mqtt.publish(f"unit/{self.uuid}/action", "button pressed")
         self.add_to_log("Button pressed")
 
         self.current_status = self.status_after_press(self.current_status)
@@ -159,8 +162,10 @@ class Runner:
         self.mqtt.connect(mqtt_ip)
         self.mqtt.subscribe("configure/#")
         self.mqtt.subscribe(f"command/{self.uuid}/light")
+        self.mqtt.subscribe(f"unit/{self.uuid}/action")
         self.mqtt.subscribe(f"command/all/light")
         self.mqtt.subscribe("notification/general")
+
         self.mqtt.loop_start()
         self.root.mainloop()
 
