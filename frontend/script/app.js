@@ -256,7 +256,7 @@ const listenToSettingsButtonPage = function () {
     if (document.querySelector('.js-team2Name')) {
       teamnames.push(document.querySelector('.js-team2Name').value)
     }
-    let setDuration = htmlSlider.value;
+    let setDuration = htmlSlider ? htmlSlider.value : 45;
 
     if (difficultyLevel) {
       difficultyState = 'Snel';
@@ -275,9 +275,10 @@ const listenToSettingsButtonPage = function () {
 };
 
 const listenToSlider = function () {
-  htmlSlider.oninput = function () {
-    htmlSliderValue.innerHTML = `${this.value}s`;
-  };
+  if (htmlSlider)
+    htmlSlider.oninput = function () {
+      htmlSliderValue.innerHTML = `${this.value}s`;
+    };
 };
 // #endregion
 
@@ -373,10 +374,7 @@ const getDuringGameStatus = function () {
         }
 
         document.querySelector('.js-time-left').innerHTML = `${minutes}:${seconds}`;
-      }
-
-
-      else {
+      } else {
         console.log("game finished")
         window.location.href = `http://${IP}/scoreboard.html`;
       }
@@ -616,6 +614,12 @@ const init = function (total) {
     if (currentGame !== 'redblue') {
       document.querySelector('.c-teamblauw').remove();
       document.querySelector('.c-teamrood .js-teamname-label').innerHTML = "Naam:";
+    } else {
+      document.querySelector('body').classList.add('c-redblue-game');
+    }
+
+    if (currentGame === 'simonsays') {
+      document.querySelector('.js-slider-container').remove();
     }
   }
 
