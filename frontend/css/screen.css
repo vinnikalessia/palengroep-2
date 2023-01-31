@@ -575,6 +575,7 @@ Scoreboard.html
     color: #504490;
 
     width: 3ch;
+    text-align: center;
 }
 
 .c-during-game {
@@ -618,8 +619,11 @@ Scoreboard.html
     position: absolute;
     margin-top: -30px;
     z-index: 2;
-    left: 133px;
+    left: calc( 133px - 0.5ch);
     top: 45px;
+
+    width: 2ch;
+    text-align: center;
 }
 
 .c-svg__redchest {
@@ -1379,7 +1383,8 @@ input:checked + .slider:before {
 .c-pauze__img {
     width: 30px;
     height: 32px;
-    margin-left: 5px;
+    /*margin-left: 5px;*/
+    margin-right: 5px;
 }
 
 .c-play__img {
