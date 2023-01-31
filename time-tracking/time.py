@@ -30,6 +30,13 @@ x = [
 
     date2num(dt.datetime(2023, 1, 23)),
     date2num(dt.datetime(2023, 1, 24)),
+    date2num(dt.datetime(2023, 1, 25)),
+    date2num(dt.datetime(2023, 1, 26)),
+    date2num(dt.datetime(2023, 1, 27)),
+    date2num(dt.datetime(2023, 1, 28)),
+    date2num(dt.datetime(2023, 1, 29)),
+    date2num(dt.datetime(2023, 1, 30)),
+    date2num(dt.datetime(2023, 1, 31))
 ]
 
 x_week1 = [
@@ -55,6 +62,13 @@ x_week2 = [
 x_week3 = [
     date2num(dt.datetime(2023, 1, 23)),
     date2num(dt.datetime(2023, 1, 24)),
+    date2num(dt.datetime(2023, 1, 25)),
+    date2num(dt.datetime(2023, 1, 26)),
+    date2num(dt.datetime(2023, 1, 27)),
+    date2num(dt.datetime(2023, 1, 28)),
+    date2num(dt.datetime(2023, 1, 29)),
+    date2num(dt.datetime(2023, 1, 30)),
+    date2num(dt.datetime(2023, 1, 31)),
 ]
 
 # Senne
@@ -79,7 +93,14 @@ uren_S = [
     (0, 0),
 
     (7, 17),
-    (6, 5)
+    (6, 5),
+    (8, 40),
+    (7, 46),
+    (6, 16),
+    (7, 41),
+    (0, 0),
+    (6, 41),
+    (8, 17)
 ]
 S = [x[0] + round(x[1] / 60, 3) for x in uren_S]
 
@@ -105,7 +126,14 @@ uren_M = [
     (3, 2),
 
     (8, 53),
-    (7, 55)
+    (7, 55),
+    (10, 2),
+    (10, 9),
+    (8, 14),
+    (8, 34),
+    (0, 0),
+    (1, 49),
+    (7, 44)
 ]
 M = [x[0] + round(x[1] / 60, 3) for x in uren_M]
 
@@ -131,7 +159,14 @@ uren_J = [
     (1, 15),
 
     (5, 37),
-    (7, 0)
+    (7, 0),
+    (7, 46),
+    (7, 17),
+    (5, 0),
+    (0, 0),
+    (4, 0),
+    (7, 0),
+    (5, 23)
 ]
 J = [x[0] + round(x[1] / 60, 3) for x in uren_J]
 
@@ -157,7 +192,14 @@ uren_A = [
     (0, 0),
 
     (5, 9),
-    (4, 54)
+    (4, 54),
+    (6, 17),
+    (8, 33),
+    (3, 9),
+    (0, 0),
+    (1, 59),
+    (2, 26),
+    (5, 23)
 ]
 A = [x[0] + round(x[1] / 60, 3) for x in uren_A]
 
@@ -227,14 +269,14 @@ y_week3_M = [x[0] + round(x[1] / 60, 3) for x in week3_M]
 
 week1_J = [(3, 0), (6, 41), (8, 30), (5, 14), (3, 9), (0, 0), (0, 0)]
 week2_J = [(7, 38), (6, 3), (6, 13), (3, 40), (5, 22), (0, 44), (1, 15)]
-week3_J = [(5, 37), (7, 0)]
+week3_J = [(5, 37), (7, 0), (7, 46), (7, 17), (5, 0), (0, 0), (4, 0)]
 y_week1_J = [x[0] + round(x[1] / 60, 3) for x in week1_J]
 y_week2_J = [x[0] + round(x[1] / 60, 3) for x in week2_J]
 y_week3_J = [x[0] + round(x[1] / 60, 3) for x in week3_J]
 
 week1_A = [(0, 0), (3, 20), (8, 00), (4, 49), (4, 10), (0, 0), (0, 0)]
 week2_A = [(6, 00), (4, 42), (10, 44), (2, 53), (2, 17), (2, 40), (0, 0)]
-week3_A = [(5, 9), (4, 54)]
+week3_A = [(5, 9), (4, 54), (6, 17), (8, 33), (3, 9), (0, 0), (1, 59)]
 y_week1_A = [x[0] + round(x[1] / 60, 3) for x in week1_A]
 y_week2_A = [x[0] + round(x[1] / 60, 3) for x in week2_A]
 y_week3_A = [x[0] + round(x[1] / 60, 3) for x in week3_A]
@@ -245,7 +287,7 @@ y_week3_A = [x[0] + round(x[1] / 60, 3) for x in week3_A]
 teller = 1
 
 while teller == 1:
-    keuze_1 = input(f"Wat wil je zien?\n1. Grafiek\n2. Cijfers\n3. Quit\n\t->")
+    keuze_1 = input(f"Wat wil je zien?\n1. Grafiek\n2. Cijfers\n3. Quit\n\t-> ")
     if(keuze_1 == "1"):
         keuze_2 = input(f"Welke grafieken wil je zien?\n1. Alle leden samen\n2. Per lid\n\t")
         if(keuze_2 == "1"):
@@ -345,10 +387,10 @@ while teller == 1:
         keuze_2 = input(f"Wat wil je van cijfers zien?\n1. Gemiddelde uren\n2. Totaal gewerkte uren\n3. Gewerkte uren voor het project\n\t->")
         if(keuze_2 == "1"):
             print(f"\nGemiddelde uren:")
-            print(f"\tGemiddelde gewerkte uren van Senne: {avgS}\n\tGemiddelde gewerkte uren van Milan: {avgM}\n\tGemiddelde gewerkte uren van Jari: {avgJ}\n\tGemiddelde gewerkte uren van Aléssia: {avgA}")
+            print(f"\tGemiddelde gewerkte uren van Senne: {avgS}\n\tGemiddelde gewerkte uren van Milan: {avgM}\n\tGemiddelde gewerkte uren van Jari: {avgJ}\n\tGemiddelde gewerkte uren van Aléssia: {avgA}\n")
         elif(keuze_2 == "2"):
             print(f"\nTotaal uren:")
-            print(f"\tTotaal gewerkte uren van Senne: {totS}\n\tTotaal gewerkte uren van Milan: {totM}\n\tTotaal gewerkte uren van Jari: {totJ}\n\tTotaal gewerkte uren van Aléssia: {totA}")
+            print(f"\tTotaal gewerkte uren van Senne: {totS}\n\tTotaal gewerkte uren van Milan: {totM}\n\tTotaal gewerkte uren van Jari: {totJ}\n\tTotaal gewerkte uren van Aléssia: {totA}\n")
         elif(keuze_2 == "3"):
             print(f"\nTotaal uren voor het project:")
             print(f"\n\tTotaal gewerkte uren voor het project: {totaal}\n")
